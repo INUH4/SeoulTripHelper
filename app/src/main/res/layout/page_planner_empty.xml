@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="검색하여 등록"
+        android:id="@+id/btn_submit_search"
+        android:layout_above="@+id/btn_submit_bucket"
+        android:layout_alignRight="@+id/btn_submit_bucket"
+        android:layout_alignEnd="@+id/btn_submit_bucket"
+        android:layout_alignLeft="@+id/btn_submit_bucket"
+        android:layout_alignStart="@+id/btn_submit_bucket" />
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="버킷 리스트에서 등록"
+        android:id="@+id/btn_submit_bucket"
+        android:layout_marginBottom="208dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />
+</RelativeLayout>

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="별점 &amp; 리뷰"
+        android:id="@+id/page_name"
+        android:textSize="30dp"
+        android:textColor="#000"
+        android:layout_marginLeft="20dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <RatingBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/ratingBar"
+        android:layout_alignLeft="@+id/page_name"
+        android:layout_alignStart="@+id/page_name"
+        android:layout_below="@+id/page_name" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/currentStar"
+        android:text="1.0"
+        android:textSize="30dp"
+        android:layout_marginTop="9dp"
+        android:layout_alignTop="@+id/ratingBar"
+        android:layout_toRightOf="@+id/ratingBar"
+        android:layout_toEndOf="@+id/ratingBar" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="/ 5.0"
+        android:id="@+id/textView2"
+        android:textSize="30dp"
+        android:layout_alignTop="@+id/currentStar"
+        android:layout_toRightOf="@+id/currentStar"
+        android:layout_toEndOf="@+id/currentStar"
+        android:layout_marginLeft="11dp"
+        android:layout_marginStart="11dp" />
+
+    <ListView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/listView"
+        android:layout_below="@+id/ratingBar"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"/>
+
+</RelativeLayout>

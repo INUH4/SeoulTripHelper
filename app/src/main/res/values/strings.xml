@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">서울여행</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="no_prefer">저장된 성향이 없습니다.</string>
+    <string name="detail_prefer">당신은 정은지타입!</string>
+
+    <string name="no_bucket">담긴 목록이 없습니다.</string>
+</resources>

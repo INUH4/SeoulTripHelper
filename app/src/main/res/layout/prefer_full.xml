@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:weightSum="1">
+
+    <Button
+        android:layout_width="128dp"
+        android:layout_height="50dp"
+        android:text="추천 여행지"
+        android:id="@+id/bt_recommend"
+        android:layout_gravity="top|left|center_vertical"
+        android:textSize="20dp"
+        android:layout_centerVertical="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="40dp" />
+
+    <TextView
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/detail_prefer"
+        android:id="@+id/t_no_bucket"
+        android:layout_gravity="center_horizontal"
+        android:textSize="25dp"
+        android:layout_above="@+id/bt_recommend"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:layout_width="128dp"
+        android:layout_height="50dp"
+        android:text="재검사"
+        android:id="@+id/bt_re"
+        android:layout_gravity="top|right"
+        android:textSize="20dp"
+        android:layout_alignTop="@+id/bt_recommend"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginRight="40dp" />
+
+</RelativeLayout>

@@ -18,6 +18,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".PagePreferEmptyActivity"/>
+        <activity android:name=".PagePreferExistActivity"/>
+        <activity android:name=".PageBucketEmptyActivity"/>
+        <activity android:name=".PageBucketExistActivity"/>
+        <activity android:name=".PagePlannerEmptyActivity"/>
+        <activity android:name=".PagePlannerExistActivity"/>
+        <activity android:name=".PageSearchActivity"/>
+        <activity android:name=".PagePlannerDetailActivity"/>
+        <activity android:name=".PageSightDetailActivity"/>
     </application>
 
 </manifest>

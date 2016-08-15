@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:weightSum="1">
 
@@ -20,10 +22,11 @@
         android:layout_width="200dp"
         android:layout_height="50dp"
         android:text="내 성향 알아보기"
-        android:id="@+id/bt_prefer"
+        android:id="@+id/btn_test_prefer"
         android:layout_gravity="center_horizontal"
         android:textSize="20dp"
         android:layout_below="@+id/txt_no_prefer"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="30dp" />
+
 </RelativeLayout>

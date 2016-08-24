@@ -9,24 +9,14 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".PageHomeActivity"
+            android:name=".MainActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".PagePreferEmptyActivity"/>
-        <activity android:name=".PagePreferExistActivity"/>
-        <activity android:name=".PageBucketEmptyActivity"/>
-        <activity android:name=".PageBucketExistActivity"/>
-        <activity android:name=".PagePlannerEmptyActivity"/>
-        <activity android:name=".PagePlannerExistActivity"/>
-        <activity android:name=".PageSearchActivity"/>
-        <activity android:name=".PagePlannerDetailActivity"/>
-        <activity android:name=".PageSightDetailActivity"/>
     </application>
 
 </manifest>

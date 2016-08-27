@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context="com.inu.h4.seoultriphelper.PageHomeFragment">
+    tools:context="com.inu.h4.seoultriphelper.Home.PageHomeFragment">
 
     <com.ogaclejapan.smarttablayout.SmartTabLayout
         android:id="@+id/home_viewpagertab"

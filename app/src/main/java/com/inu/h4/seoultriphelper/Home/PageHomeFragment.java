@@ -1,4 +1,4 @@
-package com.inu.h4.seoultriphelper;
+package com.inu.h4.seoultriphelper.Home;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.inu.h4.seoultriphelper.R;
 import com.ogaclejapan.smarttablayout.SmartTabLayout;
 
 import java.util.ArrayList;

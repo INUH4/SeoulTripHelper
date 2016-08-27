@@ -1,4 +1,4 @@
-package com.inu.h4.seoultriphelper;
+package com.inu.h4.seoultriphelper.Home;
 
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -11,11 +11,24 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
+import com.inu.h4.seoultriphelper.Bucket.PageBucketEmptyFragment;
+import com.inu.h4.seoultriphelper.Bucket.PageBucketExistFragment;
+import com.inu.h4.seoultriphelper.Planner.PagePlannerEmptyFragment;
+import com.inu.h4.seoultriphelper.Planner.PagePlannerExistFragment;
+import com.inu.h4.seoultriphelper.R;
+import com.inu.h4.seoultriphelper.Prefer.PagePreferEmptyFragment;
+import com.inu.h4.seoultriphelper.Prefer.PagePreferExistFragment;
+
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     Fragment pageHomeFragment;
     Fragment pagePreferEmptyFragment;
+    Fragment pagePreferExistFragment;
+    Fragment pageBucketEmptyFragment;
+    Fragment pageBucketExistFragment;
+    Fragment pagePlannerEmptyFragment;
+    Fragment pagePlannerExistFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +38,11 @@ public class MainActivity extends AppCompatActivity
         // 각 페이지에 해당하는 Fragment 초기화
         pageHomeFragment = new PageHomeFragment();
         pagePreferEmptyFragment = new PagePreferEmptyFragment();
+        pagePreferExistFragment = new PagePreferExistFragment();
+        pageBucketEmptyFragment = new PageBucketEmptyFragment();
+        pageBucketExistFragment = new PageBucketExistFragment();
+        pagePlannerEmptyFragment = new PagePlannerEmptyFragment();
+        pagePlannerExistFragment = new PagePlannerExistFragment();
 
         // 초기 화면으로 사용할 fragment 설정
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
@@ -54,24 +72,24 @@ public class MainActivity extends AppCompatActivity
         if (id == R.id.nav_home) {
             transaction.replace(R.id.container, pageHomeFragment);
         } else if (id == R.id.nav_tag) {
-
+            //transaction.replace(R.id.container, ???);
         } else if (id == R.id.nav_prefer) {
             if(true) {          // 설문 결과가 없을 경우
                 transaction.replace(R.id.container, pagePreferEmptyFragment);
             } else {            // 설문 결과가 있을 경우
-
+                transaction.replace(R.id.container, pagePreferExistFragment);
             }
         } else if (id == R.id.nav_bucket) {
             if(true) {          // 장바구니가 비어있을 경우
-
+                transaction.replace(R.id.container, pageBucketEmptyFragment);
             } else {            // 장바구니가 비어있지 않은 경우
-
+                transaction.replace(R.id.container, pageBucketExistFragment);
             }
         } else if (id == R.id.nav_planner) {
             if(true) {          // 플래너가 비어있을 경우
-
+                transaction.replace(R.id.container, pagePlannerEmptyFragment);
             } else {            // 플래너가 비어있지 않은 경우
-
+                transaction.replace(R.id.container, pagePlannerExistFragment);
             }
 
         } else if (id == R.id.nav_map) {

@@ -9,15 +9,16 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.view.MenuItem;
 
 import com.inu.h4.seoultriphelper.Bucket.PageBucketEmptyFragment;
 import com.inu.h4.seoultriphelper.Bucket.PageBucketExistFragment;
 import com.inu.h4.seoultriphelper.Planner.PagePlannerEmptyFragment;
 import com.inu.h4.seoultriphelper.Planner.PagePlannerExistFragment;
-import com.inu.h4.seoultriphelper.R;
 import com.inu.h4.seoultriphelper.Prefer.PagePreferEmptyFragment;
 import com.inu.h4.seoultriphelper.Prefer.PagePreferExistFragment;
+import com.inu.h4.seoultriphelper.R;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -53,14 +54,31 @@ public class MainActivity extends AppCompatActivity
         // 앱 최상단에 메뉴, 검색버튼과 화면 이름을 출력하는 툴바를 생성
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
 
+        // 좌측 메뉴를 생성하는 drawer layout
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         toggle.syncState();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch(item.getItemId()) {
+            case R.id.action_search:
+                //
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override

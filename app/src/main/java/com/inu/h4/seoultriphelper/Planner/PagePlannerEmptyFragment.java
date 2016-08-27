@@ -44,6 +44,7 @@ public class PagePlannerEmptyFragment extends Fragment {
     }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        getActivity().setTitle("여행 플래너");
         return inflater.inflate(R.layout.page_planner_empty, container, false);
     }
 }

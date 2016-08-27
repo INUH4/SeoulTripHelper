@@ -52,10 +52,7 @@ public class HomeRankingFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
-        // getActivity().setTitle("사용자 성향");
-
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.prefer_empty, container, false);
+        return inflater.inflate(R.layout.home_monthly_ranking, container, false);
     }
 }

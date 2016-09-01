@@ -10,4 +10,11 @@
         android:dividerHeight="1.5dp"
         android:choiceMode="singleChoice"
     />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="87dp"
+        android:text="다음"
+        android:id="@+id/btn_prefer_test_ok"
+        android:layout_gravity="center_horizontal" />
 </LinearLayout>

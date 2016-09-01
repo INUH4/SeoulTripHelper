@@ -5,6 +5,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ListView;
 import com.inu.h4.seoultriphelper.R;
 import java.io.BufferedReader;
@@ -14,6 +15,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 public class PagePreferTestFragment extends Fragment {
+    Button PreferTestOkButton;
     private ListView listView;                  // 출력을 위한 리스트 뷰 객체
     private ArrayList<String> data;             //  파일로부터 설문내용을 받아옴
     private PreferTestListViewAdapter adapter;      // 리스트 뷰 어댑터
@@ -29,6 +31,14 @@ public class PagePreferTestFragment extends Fragment {
 
         loadTestText();
         addListViewItem();
+
+        PreferTestOkButton = (Button) getView().findViewById(R.id.btn_prefer_test_ok);
+        PreferTestOkButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
     }
 
     @Override
@@ -62,5 +72,9 @@ public class PagePreferTestFragment extends Fragment {
         for(int i=0;i<data.size();i++) {
             adapter.addItem(data.get(i));
         }
+    }
+
+    public boolean isFilledOut() {
+        return true;
     }
 }

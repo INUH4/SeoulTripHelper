@@ -1,6 +1,8 @@
 package com.inu.h4.seoultriphelper.Home;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.preference.PreferenceFragment;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -9,9 +11,11 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.inu.h4.seoultriphelper.BackPressCloseSystem;
 import com.inu.h4.seoultriphelper.Bucket.PageBucketEmptyFragment;
 import com.inu.h4.seoultriphelper.Bucket.PageBucketExistFragment;
 import com.inu.h4.seoultriphelper.Planner.PagePlannerEmptyFragment;
@@ -19,6 +23,7 @@ import com.inu.h4.seoultriphelper.Planner.PagePlannerExistFragment;
 import com.inu.h4.seoultriphelper.Prefer.PagePreferEmptyFragment;
 import com.inu.h4.seoultriphelper.Prefer.PagePreferExistFragment;
 import com.inu.h4.seoultriphelper.R;
+import com.inu.h4.seoultriphelper.Setting.SettingActivity;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -31,10 +36,21 @@ public class MainActivity extends AppCompatActivity
     Fragment pagePlannerEmptyFragment;
     Fragment pagePlannerExistFragment;
 
+    FragmentTransaction transaction;
+
+    private BackPressCloseSystem backPressCloseSystem;
+    @Override
+    public void onBackPressed() {
+        backPressCloseSystem.onBackPressed();
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // 뒤로가기 버튼 이벤트 등록
+        backPressCloseSystem = new BackPressCloseSystem(this);
 
         // 각 페이지에 해당하는 Fragment 초기화
         pageHomeFragment = new PageHomeFragment();
@@ -46,7 +62,7 @@ public class MainActivity extends AppCompatActivity
         pagePlannerExistFragment = new PagePlannerExistFragment();
 
         // 초기 화면으로 사용할 fragment 설정
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction = getSupportFragmentManager().beginTransaction();
         transaction.add(R.id.container, pageHomeFragment);
         transaction.addToBackStack(null);
         transaction.commit();
@@ -85,7 +101,7 @@ public class MainActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         int id=item.getItemId();
 
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction = getSupportFragmentManager().beginTransaction();
 
         if (id == R.id.nav_home) {
             transaction.replace(R.id.container, pageHomeFragment);
@@ -109,13 +125,14 @@ public class MainActivity extends AppCompatActivity
             } else {            // 플래너가 비어있지 않은 경우
                 transaction.replace(R.id.container, pagePlannerExistFragment);
             }
-
         } else if (id == R.id.nav_map) {
 
         } else if (id == R.id.nav_setting) {
-
+            Intent intent = new Intent(MainActivity.this, SettingActivity.class);
+            startActivity(intent);
         }
 
+        transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE);
         transaction.addToBackStack(null);
         transaction.commit();
 

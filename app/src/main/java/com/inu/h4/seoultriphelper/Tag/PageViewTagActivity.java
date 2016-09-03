@@ -1,4 +1,4 @@
-package com.inu.h4.seoultriphelper.ViewTag;
+package com.inu.h4.seoultriphelper.Tag;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;

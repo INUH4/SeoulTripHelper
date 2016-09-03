@@ -2,6 +2,7 @@ package com.inu.h4.seoultriphelper.Home;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +20,8 @@ public class HomeWeeklyRankingFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
+
+        Log.d("aaa", "Weekly - onStart()");
 
         adapter = new HomeRankingListViewAdapter();
 

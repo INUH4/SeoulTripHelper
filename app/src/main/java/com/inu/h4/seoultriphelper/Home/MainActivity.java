@@ -14,6 +14,7 @@ import android.view.MenuItem;
 
 import com.inu.h4.seoultriphelper.Bucket.PageBucketEmptyFragment;
 import com.inu.h4.seoultriphelper.Bucket.PageBucketExistFragment;
+import com.inu.h4.seoultriphelper.Map.PageMapViewFragment;
 import com.inu.h4.seoultriphelper.Planner.PagePlannerEmptyFragment;
 import com.inu.h4.seoultriphelper.Planner.PagePlannerExistFragment;
 import com.inu.h4.seoultriphelper.Prefer.PagePreferEmptyFragment;
@@ -30,6 +31,7 @@ public class MainActivity extends AppCompatActivity
     Fragment pageBucketExistFragment;
     Fragment pagePlannerEmptyFragment;
     Fragment pagePlannerExistFragment;
+    Fragment pageMapViewFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +46,7 @@ public class MainActivity extends AppCompatActivity
         pageBucketExistFragment = new PageBucketExistFragment();
         pagePlannerEmptyFragment = new PagePlannerEmptyFragment();
         pagePlannerExistFragment = new PagePlannerExistFragment();
+        pageMapViewFragment = new PageMapViewFragment();
 
         // 초기 화면으로 사용할 fragment 설정
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
@@ -111,7 +114,7 @@ public class MainActivity extends AppCompatActivity
             }
 
         } else if (id == R.id.nav_map) {
-
+            transaction.replace(R.id.container, pageMapViewFragment);
         } else if (id == R.id.nav_setting) {
 
         }

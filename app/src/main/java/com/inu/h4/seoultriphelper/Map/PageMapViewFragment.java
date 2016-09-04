@@ -33,25 +33,43 @@ public class PageMapViewFragment extends Fragment {
         mapView.setDaumMapApiKey("753615f093d763e50b6a87a0a0f25f05");
 
 
-
         LinearLayout mapViewContainer = (LinearLayout) layout.findViewById(R.id.mapViewContainer);
         mapViewContainer.addView(mapView);
-       // mapView.setMapCenterPoint(MapPoint.mapPointWithCONGCoord(37.5780,126.9768),true);
+        //초기 화면위치, 스케일 지정
+        //mapView.setMapCenterPoint(MapPoint.mapPointWithGeoCoord(37.5446907, 126.9887732), true);
+        mapView.setZoomLevel(4, true);
 
 
-        MapPOIItem marker = new MapPOIItem();
-        marker.setItemName("test");
-        marker.setMapPoint(MapPoint.mapPointWithCONGCoord(40,126));
-        marker.setMarkerType(MapPOIItem.MarkerType.BluePin);
-        mapView.addPOIItem(marker);
+        int i;
+        final double x = 37.5651791;
+        final double y = 126.9779692;
+
+        // 마커를 배열로 생성할때.
+        MapPOIItem[] markers = new MapPOIItem[5];
+        for (i = 0; i < 5; i++) {
+            markers[i] = new MapPOIItem();
+        }
+
+        for (i = 0; i < 5; i++) {
+            markers[i].setItemName(i+"번");
+            markers[i].setMapPoint(MapPoint.mapPointWithGeoCoord(x + i * 0.001, y + i * 0.001));
+            markers[i].setMarkerType(MapPOIItem.MarkerType.BluePin);
+        }
+        mapView.addPOIItems(markers);
+
+
 
         return layout;
     }
 
 
+     @Override
+      public void onStart() {
+          super.onStart();
+     }
 
     @Override
-    public void onStart() {
-        super.onStart();
+    public void onPause(){
+        super.onPause();
     }
 }

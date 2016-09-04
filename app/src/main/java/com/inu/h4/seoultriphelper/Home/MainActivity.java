@@ -76,7 +76,7 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch(item.getItemId()) {
+        switch (item.getItemId()) {
             case R.id.action_search:
                 //
                 return true;
@@ -86,28 +86,31 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        int id=item.getItemId();
+        int id = item.getItemId();
 
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+
+
+
 
         if (id == R.id.nav_home) {
             transaction.replace(R.id.container, pageHomeFragment);
         } else if (id == R.id.nav_tag) {
             //transaction.replace(R.id.container, ???);
         } else if (id == R.id.nav_prefer) {
-            if(true) {          // 설문 결과가 없을 경우
+            if (true) {          // 설문 결과가 없을 경우
                 transaction.replace(R.id.container, pagePreferEmptyFragment);
             } else {            // 설문 결과가 있을 경우
                 transaction.replace(R.id.container, pagePreferExistFragment);
             }
         } else if (id == R.id.nav_bucket) {
-            if(true) {          // 장바구니가 비어있을 경우
+            if (true) {          // 장바구니가 비어있을 경우
                 transaction.replace(R.id.container, pageBucketEmptyFragment);
             } else {            // 장바구니가 비어있지 않은 경우
                 transaction.replace(R.id.container, pageBucketExistFragment);
             }
         } else if (id == R.id.nav_planner) {
-            if(true) {          // 플래너가 비어있을 경우
+            if (true) {          // 플래너가 비어있을 경우
                 transaction.replace(R.id.container, pagePlannerEmptyFragment);
             } else {            // 플래너가 비어있지 않은 경우
                 transaction.replace(R.id.container, pagePlannerExistFragment);

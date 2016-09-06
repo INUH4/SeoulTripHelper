@@ -64,7 +64,7 @@ public class MainActivity extends AppCompatActivity
         // 초기 화면으로 사용할 fragment 설정
         transaction = getSupportFragmentManager().beginTransaction();
         transaction.add(R.id.container, pageHomeFragment);
-        transaction.addToBackStack(null);
+        //transaction.addToBackStack(null);
         transaction.commit();
 
         // 앱 최상단에 메뉴, 검색버튼과 화면 이름을 출력하는 툴바를 생성

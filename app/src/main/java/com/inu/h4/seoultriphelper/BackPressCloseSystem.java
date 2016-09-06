@@ -15,9 +15,8 @@ public class BackPressCloseSystem {
     }
 
     public void onBackPressed() {
-        // 안됨. 해결해야함.
         // 뒤로 갈 프래그먼트가 존재할 경우
-        if(activity.getSupportFragmentManager().getBackStackEntryCount() > 1){
+        if(activity.getSupportFragmentManager().getBackStackEntryCount() > 0){
             activity.getSupportFragmentManager().popBackStack();
         }else {        // 존재하지 않을 경우
 
@@ -40,12 +39,12 @@ public class BackPressCloseSystem {
         }
     }
 
-    private Boolean isAfter2Seconds() {
+    private boolean isAfter2Seconds() {
         return System.currentTimeMillis() > backKeyPressedTime + 2000;
         // 2초 지났을 경우
     }
 
-    private Boolean isBefore2Seconds() {
+    private boolean isBefore2Seconds() {
         return System.currentTimeMillis() <= backKeyPressedTime + 2000;
         // 2초가 지나지 않았을 경우
     }

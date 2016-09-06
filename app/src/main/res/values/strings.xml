@@ -10,4 +10,7 @@
     <string name="no_bucket">담긴 목록이 없습니다.</string>
 
     <string name="action_search">검색</string>
+
+    <string name="tab_title_month">월간</string>
+    <string name="tab_title_week">주간</string>
 </resources>

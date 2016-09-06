@@ -20,22 +20,24 @@ public class HomeMonthlyRankingFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-
-        adapter = new HomeRankingListViewAdapter();
-
-        listView = (ListView) getActivity().findViewById(R.id.home_monthly_ranking_list_view);
-        listView.setAdapter(adapter);
-        listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
-
-        loadData();
-        addListViewItem();
+        Log.d("LOG/MONTH", "onStart()");
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.home_monthly_ranking, container, false);
+        Log.d("LOG/MONTH", "onViewCreated()");
+        View layout = inflater.inflate(R.layout.home_monthly_ranking, container, false);
+        adapter = new HomeRankingListViewAdapter();
+
+        listView = (ListView) layout.findViewById(R.id.home_monthly_ranking_list_view);
+        listView.setAdapter(adapter);
+        listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+
+        loadData();
+        addListViewItem();
+        return layout;
     }
 
     public void loadData() {
@@ -62,5 +64,65 @@ public class HomeMonthlyRankingFragment extends Fragment {
         for(int i=0;i<data.size();i++) {
             adapter.addItem(data.get(i));
         }
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        Log.d("LOG/MONTH", "onCreate()");
+    }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        Log.d("LOG/MONTH", "onViewCreated()");
+        super.onViewCreated(view, savedInstanceState);
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        Log.d("LOG/MONTH", "onActivityCreated()");
+        super.onActivityCreated(savedInstanceState);
+    }
+
+    @Override
+    public void onResume() {
+        Log.d("LOG/MONTH", "onResume()");
+        super.onResume();
+    }
+
+    @Override
+    public void onPause() {
+        Log.d("LOG/MONTH", "onPause()");
+        super.onPause();
+    }
+
+    @Override
+    public void onStop() {
+        Log.d("LOG/MONTH", "onStop()");
+        super.onStop();
+    }
+
+    @Override
+    public void onDestroyView() {
+        Log.d("LOG/MONTH", "onDestroyView()");
+        super.onDestroyView();
+    }
+
+    @Override
+    public void onDestroy() {
+        Log.d("LOG/MONTH", "onDestroy()");
+        super.onDestroy();
+    }
+
+    @Override
+    public void onDetach() {
+        Log.d("LOG/MONTH", "onDetach()");
+        super.onDetach();
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        Log.d("LOG/MONTH", "onSaveInstanceState()");
+        super.onSaveInstanceState(outState);
     }
 }

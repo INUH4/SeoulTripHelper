@@ -27,7 +27,7 @@ public class PageHomeFragment extends Fragment {
         View layout = inflater.inflate(R.layout.page_home, container, false);
 
         FragmentStatePagerItemAdapter adapter = new FragmentStatePagerItemAdapter(
-                getFragmentManager(), FragmentPagerItems.with(getActivity())
+                getChildFragmentManager(), FragmentPagerItems.with(getActivity())
                 .add(R.string.tab_title_month, HomeMonthlyRankingFragment.class)
                 .add(R.string.tab_title_week, HomeWeeklyRankingFragment.class)
                 .create());

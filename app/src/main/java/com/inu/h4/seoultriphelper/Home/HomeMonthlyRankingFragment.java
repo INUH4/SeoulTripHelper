@@ -27,7 +27,7 @@ public class HomeMonthlyRankingFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        Log.d("LOG/MONTH", "onViewCreated()");
+        Log.d("LOG/MONTH", "onCreatedView()");
         View layout = inflater.inflate(R.layout.home_monthly_ranking, container, false);
         adapter = new HomeRankingListViewAdapter();
 

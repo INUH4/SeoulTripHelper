@@ -32,6 +32,8 @@ public class MainActivity extends AppCompatActivity
     Fragment pageHomeFragment;
     FragmentTransaction transaction;
 
+    int previousStateId;
+    int currentStateId;
     private BackPressCloseSystem backPressCloseSystem;
 
     @Override
@@ -42,8 +44,9 @@ public class MainActivity extends AppCompatActivity
         if (this.drawer.isDrawerOpen(GravityCompat.START)) {
             this.drawer.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
             backPressCloseSystem.onBackPressed();
+            currentStateId = previousStateId;
+            // TODO 뒤로가기 시 동일한 fragment가 다시 켜지는 버그 수정해야 함
         }
     }
 
@@ -63,9 +66,12 @@ public class MainActivity extends AppCompatActivity
 
         // 초기 화면으로 사용할 fragment 설정
         transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.container, pageHomeFragment);
-        transaction.addToBackStack(null);
+        transaction.add(R.id.container, pageHomeFragment);
+        //transaction.addToBackStack("page_home");
         transaction.commit();
+
+        previousStateId = -1;
+        currentStateId = -1;
 
         // 앱 최상단에 메뉴, 검색버튼과 화면 이름을 출력하는 툴바를 생성
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -93,7 +99,7 @@ public class MainActivity extends AppCompatActivity
         Log.d("LOG/MAIN", "onOptionSelected()");
         switch(item.getItemId()) {
             case R.id.action_search:
-                //
+                // TODO 돋보기 버튼 동작 삽입
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -102,40 +108,58 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         Log.d("LOG/MAIN", "onNavigationItemSelected()");
+
+        if(this.previousStateId == -1)
+            this.previousStateId = item.getItemId();
+
+        if(this.currentStateId == -1)
+            this.currentStateId = item.getItemId();
+
+        previousStateId = currentStateId;
+
         int id = item.getItemId();
 
-        Fragment fragment;
+        if(this.currentStateId == id) {
+            if (this.drawer.isDrawerOpen(GravityCompat.START)) {
+                this.drawer.closeDrawer(GravityCompat.START);
+            }
+            return true;
+        }
+
+        String tag = "";
+
+        Fragment fragment = null;
         transaction = getSupportFragmentManager().beginTransaction();
 
         if (id == R.id.nav_home) {
             fragment = new PageHomeFragment();
-            transaction.replace(R.id.container, fragment);
+            tag = "page_home";
         } else if (id == R.id.nav_tag) {
             //fragment = new ??();
-            //transaction.replace(R.id.container, fragment);
+            //tag = "page_tag";
         } else if (id == R.id.nav_prefer) {
             if(true) {          // 설문 결과가 없을 경우
                 fragment = new PagePreferEmptyFragment();
-                transaction.replace(R.id.container, fragment);
+                tag = "page_prefer_empty";
             } else {            // 설문 결과가 있을 경우
                 fragment = new PagePreferExistFragment();
-                transaction.replace(R.id.container, fragment);
+                tag = "page_prefer_exist";
             }
         } else if (id == R.id.nav_bucket) {
             if(true) {          // 장바구니가 비어있을 경우
                 fragment = new PageBucketEmptyFragment();
-                transaction.replace(R.id.container, fragment);
+                tag = "page_bucket_empty";
             } else {            // 장바구니가 비어있지 않은 경우
                 fragment = new PageBucketExistFragment();
-                transaction.replace(R.id.container, fragment);
+                tag = "page_bucket_exist";
             }
         } else if (id == R.id.nav_planner) {
             if(true) {          // 플래너가 비어있을 경우
                 fragment = new PagePlannerEmptyFragment();
-                transaction.replace(R.id.container, fragment);
+                tag = "page_planner_empty";
             } else {            // 플래너가 비어있지 않은 경우
                 fragment = new PagePlannerExistFragment();
-                transaction.replace(R.id.container, fragment);
+                tag = "page_planner_exist";
             }
         } else if (id == R.id.nav_map) {
 
@@ -144,14 +168,19 @@ public class MainActivity extends AppCompatActivity
             startActivity(intent);
         }
 
+        if(fragment == null)
+            return true;
+
+        transaction.replace(R.id.container, fragment, tag);
+        transaction.addToBackStack(tag);
         transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE);
-        transaction.addToBackStack(null);
         transaction.commitAllowingStateLoss();
         //transaction.commit();
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
 
+        this.currentStateId = item.getItemId();
         return true;
     }
 

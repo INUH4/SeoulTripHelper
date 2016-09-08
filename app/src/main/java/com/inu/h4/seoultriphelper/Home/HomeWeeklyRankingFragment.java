@@ -20,23 +20,24 @@ public class HomeWeeklyRankingFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-
-        Log.d("aaa", "Weekly - onStart()");
-
-        adapter = new HomeRankingListViewAdapter();
-
-        listView = (ListView) getActivity().findViewById(R.id.home_weekly_ranking_list_view);
-        listView.setAdapter(adapter);
-
-        loadData();
-        addListViewItem();
+        Log.d("LOG/WEEK", "onStart()");
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.home_weekly_ranking, container, false);
+        Log.d("LOG/WEEK", "onCreateView()");
+        View layout = inflater.inflate(R.layout.home_weekly_ranking, container, false);
+        adapter = new HomeRankingListViewAdapter();
+
+        listView = (ListView) layout.findViewById(R.id.home_weekly_ranking_list_view);
+        listView.setAdapter(adapter);
+        listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+
+        loadData();
+        addListViewItem();
+        return layout;
     }
 
     public void loadData() {

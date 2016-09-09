@@ -1,7 +1,6 @@
 package com.inu.h4.seoultriphelper;
 
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.widget.Toast;
 
 public class BackPressCloseSystem {
@@ -16,7 +15,7 @@ public class BackPressCloseSystem {
 
     public void onBackPressed() {
         // 뒤로 갈 프래그먼트가 존재할 경우
-        if(activity.getSupportFragmentManager().getBackStackEntryCount() > 0){
+        if(activity.getSupportFragmentManager().getBackStackEntryCount() > 1){
             activity.getSupportFragmentManager().popBackStack();
         }else {        // 존재하지 않을 경우
 

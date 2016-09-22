@@ -1,67 +1,130 @@
 package com.inu.h4.seoultriphelper.Prefer;
 
+
 import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
+
 import com.inu.h4.seoultriphelper.R;
+
 import java.util.ArrayList;
 
-
 public class PreferTestListViewAdapter extends BaseAdapter {
-    // Adapter에 추가된 데이터를 저장하기 위한 ArrayList
-    private ArrayList<PreferTestListViewItem> listViewItemList = new ArrayList<PreferTestListViewItem>() ;
+    private ArrayList<PreferTestListViewItem> mListData = new ArrayList<PreferTestListViewItem>();
+    private ArrayList<Integer> checker = new ArrayList<Integer>();
+    private ArrayList<Integer> radioValueList = new ArrayList<Integer>();
 
-    // Adapter에 사용되는 데이터의 개수를 리턴. : 필수 구현
+    public void setSubList() {
+        for(int i=0; i<mListData.size(); i++) {
+            checker.add(i,0);
+            radioValueList.add(i,0);
+        }
+    }
+
     @Override
     public int getCount() {
-        return listViewItemList.size() ;
-    }
-
-    // position에 위치한 데이터를 화면에 출력하는데 사용될 View를 리턴. : 필수 구현
-    @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        final int pos = position;
-        final Context context = parent.getContext();
-
-        // "listview_item" Layout을 inflate하여 convertView 참조 획득.
-        if (convertView == null) {
-            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = inflater.inflate(R.layout.page_prefer_test_item, parent, false);
-        }
-
-        // 화면에 표시될 View(Layout이 inflate된)으로부터 위젯에 대한 참조 획득
-        TextView tv = (TextView) convertView.findViewById(R.id.prefer_test_text) ;
-
-        // Data Set(listViewItemList)에서 position에 위치한 데이터 참조 획득
-        PreferTestListViewItem listViewItem = listViewItemList.get(position);
-
-        // 아이템 내 각 위젯에 데이터 반영
-        tv.setText(listViewItem.getText());
-
-        return convertView;
-    }
-
-    // 지정한 위치(position)에 있는 데이터와 관계된 아이템(row)의 ID를 리턴. : 필수 구현
-    @Override
-    public long getItemId(int position) {
-        return position ;
+        return mListData.size();
     }
 
     // 지정한 위치(position)에 있는 데이터 리턴 : 필수 구현
     @Override
     public Object getItem(int position) {
-        return listViewItemList.get(position) ;
+        return mListData.get(position) ;
     }
 
-    // 아이템 데이터 추가를 위한 함수. 개발자가 원하는대로 작성 가능.
-    public void addItem(String text) {
-        PreferTestListViewItem item = new PreferTestListViewItem();
-        item.setText(text);
+    @Override
+    public long getItemId(int position) {
+        return position;
+    }
 
-        listViewItemList.add(item);
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent) {
+        final int pos = position;
+        final Context context = parent.getContext();
+
+        if (convertView == null) {
+            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            convertView = inflater.inflate(R.layout.page_prefer_test_item, null);
+        }
+
+        View.OnClickListener listener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                switch (v.getId()) {
+                    case R.id.prefer_test_very_yes:
+                        radioValueList.set(pos, 1);
+                        break;
+                    case R.id.prefer_test_little_yes:
+                        radioValueList.set(pos, 2);
+                        break;
+                    case R.id.prefer_test_soso:
+                        radioValueList.set(pos, 3);
+                        break;
+                    case R.id.prefer_test_little_no:
+                        radioValueList.set(pos, 4);
+                        break;
+                    case R.id.prefer_test_very_no:
+                        radioValueList.set(pos, 5);
+                        break;
+                }
+                checker.set(pos, v.getId());
+            }
+        };
+
+        TextView tv = (TextView) convertView.findViewById(R.id.prefer_test_text);
+        RadioGroup rg = (RadioGroup) convertView.findViewById(R.id.radio_group);
+        RadioButton rb1 = (RadioButton) convertView.findViewById(R.id.prefer_test_very_yes);
+        rb1.setOnClickListener(listener);
+
+        RadioButton rb2 = (RadioButton) convertView.findViewById(R.id.prefer_test_little_yes);
+        rb2.setOnClickListener(listener);
+
+        RadioButton rb3 = (RadioButton) convertView.findViewById(R.id.prefer_test_soso);
+        rb3.setOnClickListener(listener);
+
+        RadioButton rb4 = (RadioButton) convertView.findViewById(R.id.prefer_test_little_no);
+        rb4.setOnClickListener(listener);
+
+        RadioButton rb5 = (RadioButton) convertView.findViewById(R.id.prefer_test_very_no);
+        rb5.setOnClickListener(listener);
+
+        PreferTestListViewItem mData = mListData.get(pos);
+
+        tv.setText(mData.getText());
+
+        if(checker.get(pos) != 0)
+            rg.check(checker.get(pos));
+        else
+            rg.clearCheck();
+
+        return convertView;
+    }
+
+    public void addItem(String text){
+        PreferTestListViewItem addInfo = new PreferTestListViewItem();
+        addInfo.setText(text);
+
+        mListData.add(addInfo);
+    }
+
+    public int getRadioValues() {
+        int sum = 0;
+        for(int i=0;i<radioValueList.size();i++) {
+            sum += radioValueList.get(i);
+        }
+        return sum;
+    }
+    public void clearRadio() {
+        for(int i=0; i<mListData.size(); i++) {
+            checker.set(i,0);
+            radioValueList.set(i,0);
+        }
+        notifyDataSetChanged();
     }
 }

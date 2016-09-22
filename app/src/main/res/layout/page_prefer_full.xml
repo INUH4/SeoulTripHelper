@@ -31,7 +31,7 @@
         android:layout_width="128dp"
         android:layout_height="50dp"
         android:text="재검사"
-        android:id="@+id/bt_re"
+        android:id="@+id/btn_prefer_reexamine"
         android:layout_gravity="top|right"
         android:textSize="20dp"
         android:layout_alignTop="@+id/bt_recommend"

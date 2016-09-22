@@ -59,6 +59,7 @@ public class HomeMonthlyRankingFragment extends Fragment {
         item.setRanking(3);
         item.setImage(R.drawable.page_search_icon);
         data.add(item);
+
     }
     public void addListViewItem() {
         for(int i=0;i<data.size();i++) {

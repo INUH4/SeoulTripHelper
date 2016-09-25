@@ -1,4 +1,4 @@
-package com.inu.h4.seoultriphelper.Home;
+package com.inu.h4.seoultriphelper;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,14 +14,13 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.inu.h4.seoultriphelper.BackPressCloseSystem;
 import com.inu.h4.seoultriphelper.Bucket.PageBucketEmptyFragment;
 import com.inu.h4.seoultriphelper.Bucket.PageBucketExistFragment;
+import com.inu.h4.seoultriphelper.Home.PageHomeFragment;
 import com.inu.h4.seoultriphelper.Planner.PagePlannerEmptyFragment;
 import com.inu.h4.seoultriphelper.Planner.PagePlannerExistFragment;
 import com.inu.h4.seoultriphelper.Prefer.PagePreferEmptyFragment;
 import com.inu.h4.seoultriphelper.Prefer.PagePreferExistFragment;
-import com.inu.h4.seoultriphelper.R;
 import com.inu.h4.seoultriphelper.Setting.SettingActivity;
 
 public class MainActivity extends AppCompatActivity
@@ -58,7 +57,6 @@ public class MainActivity extends AppCompatActivity
 
         // 각 페이지에 해당하는 Fragment 초기화
         initFragment = new PageHomeFragment();
-
 
         // 초기 화면으로 사용할 fragment 설정
         transaction = getSupportFragmentManager().beginTransaction();

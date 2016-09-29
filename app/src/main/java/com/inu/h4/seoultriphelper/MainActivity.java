@@ -124,7 +124,7 @@ public class MainActivity extends AppCompatActivity
             }
         } else if (id == R.id.nav_bucket) {
             if(true) {          // 장바구니가 비어있을 경우
-                targetFragment = new PageBucketEmptyFragment();
+                targetFragment = new PageBucketExistFragment();
                 tag = "page_bucket_empty";
             } else {            // 장바구니가 비어있지 않은 경우
                 targetFragment = new PageBucketExistFragment();

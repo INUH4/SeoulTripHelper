@@ -28,7 +28,7 @@ public class PageBucketEmptyFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        getActivity().setTitle("사용자 성향");
+        getActivity().setTitle("버킷리스트");
 
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.bucket_empty, container, false);

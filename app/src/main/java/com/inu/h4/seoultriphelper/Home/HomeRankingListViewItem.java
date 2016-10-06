@@ -6,12 +6,17 @@ import android.net.Uri;
 
 public class HomeRankingListViewItem {
     private int image;
+    private int placeid;
     private int ranking;
     private String sightName;
     private Button getBucketButton;
     private Button recommendButton;
     private Button moreInfoButton;
 
+
+
+    public int getPlaceid(){ return placeid;}
+    public void setPlaceid(int placeid){this.placeid = placeid;}
     public int getImage() {
         return image;
     }

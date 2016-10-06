@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.inu.h4.seoultriphelper.InnerDBHelper;
 import com.inu.h4.seoultriphelper.R;
 import java.util.ArrayList;
 
@@ -30,6 +31,10 @@ public class HomeRankingListViewAdapter extends BaseAdapter {
         final int pos = position;
         final Context context = parent.getContext();
 
+        //디비호출
+        final InnerDBHelper dbHelper = new InnerDBHelper(context, "BUCKETDB.db",null,1);
+
+
         // "listview_item" Layout을 inflate하여 convertView 참조 획득.
         if (convertView == null) {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -43,6 +48,14 @@ public class HomeRankingListViewAdapter extends BaseAdapter {
         Button getBucketButton = (Button) convertView.findViewById(R.id.btn_home_get_bucket);
         Button recommendButton = (Button) convertView.findViewById(R.id.btn_home_recommend);
         Button moreInfoButton = (Button) convertView.findViewById(R.id.btn_home_more_info);
+
+        //담기 버튼
+        getBucketButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+            }
+
+        });
 
         // Data Set(listViewItemList)에서 position에 위치한 데이터 참조 획득
         HomeRankingListViewItem listViewItem = listViewItemList.get(position);

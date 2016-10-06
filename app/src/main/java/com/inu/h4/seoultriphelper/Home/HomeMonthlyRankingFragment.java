@@ -44,18 +44,21 @@ public class HomeMonthlyRankingFragment extends Fragment {
         data = new ArrayList<>();
         HomeRankingListViewItem item = new HomeRankingListViewItem();
         item.setSightName("하하하");
+        item.setPlaceid(6666);
         item.setRanking(1);
         item.setImage(R.drawable.page_search_icon);
         data.add(item);
 
         item = new HomeRankingListViewItem();
         item.setSightName("호호호");
+        item.setPlaceid(5555);
         item.setRanking(2);
         item.setImage(R.drawable.page_search_icon);
         data.add(item);
 
         item = new HomeRankingListViewItem();
         item.setSightName("후후후");
+        item.setPlaceid(4444);
         item.setRanking(3);
         item.setImage(R.drawable.page_search_icon);
         data.add(item);

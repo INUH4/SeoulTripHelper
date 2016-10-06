@@ -45,18 +45,21 @@ public class HomeWeeklyRankingFragment extends Fragment {
 
         HomeRankingListViewItem item = new HomeRankingListViewItem();
         item.setSightName("감자");
+        item.setPlaceid(9999);
         item.setRanking(1);
         item.setImage(R.drawable.page_search_icon);
         data.add(item);
 
         item = new HomeRankingListViewItem();
         item.setSightName("고구마");
+        item.setPlaceid(8888);
         item.setRanking(2);
         item.setImage(R.drawable.page_search_icon);
         data.add(item);
 
         item = new HomeRankingListViewItem();
         item.setSightName("럭셔리");
+        item.setPlaceid(7777);
         item.setRanking(3);
         item.setImage(R.drawable.page_search_icon);
         data.add(item);

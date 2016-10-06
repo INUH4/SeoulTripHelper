@@ -12,6 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.inu.h4.seoultriphelper.Bucket.BucketGridViewItem;
+import com.inu.h4.seoultriphelper.PageSearchFragment;
 import com.inu.h4.seoultriphelper.R;
 
 import java.util.ArrayList;
@@ -58,6 +59,7 @@ public class BucketGridViewAdapter extends BaseAdapter {
         sightName.setText(GridViewItem.getSightName());
         sightImage.setImageResource(GridViewItem.getImage());
         //버튼 클릭하면 삭제
+
         removeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -67,6 +69,7 @@ public class BucketGridViewAdapter extends BaseAdapter {
             }
 
         });
+
 
 
         return convertView;

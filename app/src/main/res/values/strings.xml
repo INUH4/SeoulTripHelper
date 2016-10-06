@@ -13,4 +13,6 @@
 
     <string name="tab_title_month">월간</string>
     <string name="tab_title_week">주간</string>
+
+    <string name="add_tag">Add Tag</string>
 </resources>

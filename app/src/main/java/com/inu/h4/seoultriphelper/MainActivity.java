@@ -14,7 +14,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.inu.h4.seoultriphelper.Bucket.PageBucketEmptyFragment;
 import com.inu.h4.seoultriphelper.Bucket.PageBucketExistFragment;
 import com.inu.h4.seoultriphelper.Home.PageHomeFragment;
 import com.inu.h4.seoultriphelper.Planner.PagePlannerEmptyFragment;
@@ -22,14 +21,15 @@ import com.inu.h4.seoultriphelper.Planner.PagePlannerExistFragment;
 import com.inu.h4.seoultriphelper.Prefer.PagePreferEmptyFragment;
 import com.inu.h4.seoultriphelper.Prefer.PagePreferExistFragment;
 import com.inu.h4.seoultriphelper.Setting.SettingActivity;
+import com.inu.h4.seoultriphelper.Tag.PageTagFragment;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    DrawerLayout drawer;
+    private DrawerLayout drawer;
 
-    Fragment initFragment;
-    FragmentTransaction transaction;
+    private Fragment initFragment;
+    private FragmentTransaction transaction;
 
     private BackPressCloseSystem backPressCloseSystem;
 
@@ -112,8 +112,8 @@ public class MainActivity extends AppCompatActivity
             targetFragment = new PageHomeFragment();
             tag = "page_home";
         } else if (id == R.id.nav_tag) {
-            //targetFragment = new ??();
-            //tag = "page_tag";
+            targetFragment = new PageTagFragment();
+            tag = "page_tag";
         } else if (id == R.id.nav_prefer) {
             if(true) {          // 설문 결과가 없을 경우
                 targetFragment = new PagePreferEmptyFragment();
@@ -145,12 +145,11 @@ public class MainActivity extends AppCompatActivity
             startActivity(intent);
         }
 
+        // 현재 띄워진 Fragment의 tag를 받아옴.
         currentFragmentTag = getSupportFragmentManager().getBackStackEntryAt(getSupportFragmentManager()
                 .getBackStackEntryCount() - 1).getName();
 
-        Log.d("LOG/MAIN", currentFragmentTag + " -> " + tag);
-
-        // tag를 통해 fragment를 구분하고 바뀔 페이지가 같은 것이면 아무 동작도 하지 않는다.
+        // tag를 통해 Fragment를 구분하고 바뀔 페이지가 같은 것이면 아무 동작도 하지 않는다.
         if(tag == currentFragmentTag) {
             if (this.drawer.isDrawerOpen(GravityCompat.START)) {
                 this.drawer.closeDrawer(GravityCompat.START);
@@ -158,6 +157,8 @@ public class MainActivity extends AppCompatActivity
             Log.d("LOG/MAIN", "not replace");
             return true;
         }
+
+        Log.d("LOG/MAIN", currentFragmentTag + " -> " + tag);
 
         if(targetFragment == null) {
             if (this.drawer.isDrawerOpen(GravityCompat.START)) {

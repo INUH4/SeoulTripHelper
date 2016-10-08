@@ -7,20 +7,20 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-import com.inu.h4.seoultriphelper.PageSearchFragment;
+import com.inu.h4.seoultriphelper.SearchFragment;
 import com.inu.h4.seoultriphelper.R;
 
-public class PageBucketEmptyFragment extends Fragment {
+public class BucketEmptyFragment extends Fragment {
     Button AddBucketWithSearchButton;
     @Override
     public void onStart() {
         super.onStart();
 
-        AddBucketWithSearchButton = (Button) getView().findViewById(R.id.bt_bucket);
+        AddBucketWithSearchButton = (Button) getActivity().findViewById(R.id.bt_bucket);
         AddBucketWithSearchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container, new PageSearchFragment()).addToBackStack(null).commit();
+                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container, new SearchFragment()).addToBackStack(null).commit();
             }
         });
     }

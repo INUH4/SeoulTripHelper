@@ -13,7 +13,7 @@ import com.inu.h4.seoultriphelper.SmartTabLayoutLibrary.FragmentPagerItems;
 import com.inu.h4.seoultriphelper.SmartTabLayoutLibrary.FragmentStatePagerItemAdapter;
 import com.ogaclejapan.smarttablayout.SmartTabLayout;
 
-public class PageHomeFragment extends Fragment {
+public class HomeFragment extends Fragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -24,7 +24,7 @@ public class PageHomeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         Log.d("LOG/PAGE_HOME", "onCreateView()");
-        View layout = inflater.inflate(R.layout.page_home, container, false);
+        View layout = inflater.inflate(R.layout.home, container, false);
 
         FragmentStatePagerItemAdapter adapter = new FragmentStatePagerItemAdapter(
                 getChildFragmentManager(), FragmentPagerItems.with(getActivity())

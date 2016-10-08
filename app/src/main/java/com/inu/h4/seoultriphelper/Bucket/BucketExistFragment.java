@@ -1,25 +1,20 @@
 package com.inu.h4.seoultriphelper.Bucket;
 
 import android.os.Bundle;
-import android.provider.Settings;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
-import android.widget.ListView;
-import android.widget.RelativeLayout;
 
-import com.inu.h4.seoultriphelper.Home.HomeRankingListViewAdapter;
-import com.inu.h4.seoultriphelper.PageSearchFragment;
+import com.inu.h4.seoultriphelper.SearchFragment;
 import com.inu.h4.seoultriphelper.R;
 
 
 import java.util.ArrayList;
 
-public class PageBucketExistFragment extends Fragment {
+public class BucketExistFragment extends Fragment {
     private GridView GridView;
     private ArrayList<BucketGridViewItem> data;
     private BucketGridViewAdapter adapter;
@@ -47,7 +42,7 @@ public class PageBucketExistFragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
                 getActivity().getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.container, new PageSearchFragment())
+                        .replace(R.id.container, new SearchFragment())
                         .addToBackStack(null)
                         .commit();
             }

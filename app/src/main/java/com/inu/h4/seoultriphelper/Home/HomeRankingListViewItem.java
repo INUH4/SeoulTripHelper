@@ -9,10 +9,6 @@ public class HomeRankingListViewItem {
     private int placeid;
     private int ranking;
     private String sightName;
-    private Button getBucketButton;
-    private Button recommendButton;
-    private Button moreInfoButton;
-
 
 
     public int getPlaceid(){ return placeid;}
@@ -34,23 +30,5 @@ public class HomeRankingListViewItem {
     }
     public void setSightName(String sightName) {
         this.sightName = sightName;
-    }
-    public Button getGetBucketButton() {
-        return getBucketButton;
-    }
-    public void setGetBucketButton(Button getBucketButton) {
-        this.getBucketButton = getBucketButton;
-    }
-    public Button getRecommendButton() {
-        return recommendButton;
-    }
-    public void setRecommendButton(Button recommendButton) {
-        this.recommendButton = recommendButton;
-    }
-    public Button getMoreInfoButton() {
-        return moreInfoButton;
-    }
-    public void setMoreInfoButton(Button moreInfoButton) {
-        this.moreInfoButton = moreInfoButton;
     }
 }

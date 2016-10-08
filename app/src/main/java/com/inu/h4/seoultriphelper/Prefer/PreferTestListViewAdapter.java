@@ -2,7 +2,6 @@ package com.inu.h4.seoultriphelper.Prefer;
 
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,11 +15,11 @@ import com.inu.h4.seoultriphelper.R;
 import java.util.ArrayList;
 
 public class PreferTestListViewAdapter extends BaseAdapter {
-    private ArrayList<PreferTestListViewItem> mListData = new ArrayList<PreferTestListViewItem>();
-    private ArrayList<Integer> checker = new ArrayList<Integer>();
-    private ArrayList<Integer> radioValueList = new ArrayList<Integer>();
+    private ArrayList<PreferTestListViewItem> mListData = new ArrayList<>();
+    private ArrayList<Integer> checker = new ArrayList<>();
+    private ArrayList<Integer> radioValueList = new ArrayList<>();
 
-    public void setSubList() {
+    public void initSubList() {
         for(int i=0; i<mListData.size(); i++) {
             checker.add(i,0);
             radioValueList.add(i,0);
@@ -50,7 +49,7 @@ public class PreferTestListViewAdapter extends BaseAdapter {
 
         if (convertView == null) {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = inflater.inflate(R.layout.page_prefer_test_item, null);
+            convertView = inflater.inflate(R.layout.prefer_test_item, null);
         }
 
         View.OnClickListener listener = new View.OnClickListener() {
@@ -58,19 +57,19 @@ public class PreferTestListViewAdapter extends BaseAdapter {
             public void onClick(View v) {
                 switch (v.getId()) {
                     case R.id.prefer_test_very_yes:
-                        radioValueList.set(pos, 1);
+                        radioValueList.set(pos, 5);
                         break;
                     case R.id.prefer_test_little_yes:
-                        radioValueList.set(pos, 2);
+                        radioValueList.set(pos, 4);
                         break;
                     case R.id.prefer_test_soso:
                         radioValueList.set(pos, 3);
                         break;
                     case R.id.prefer_test_little_no:
-                        radioValueList.set(pos, 4);
+                        radioValueList.set(pos, 2);
                         break;
                     case R.id.prefer_test_very_no:
-                        radioValueList.set(pos, 5);
+                        radioValueList.set(pos, 1);
                         break;
                 }
                 checker.set(pos, v.getId());
@@ -113,6 +112,7 @@ public class PreferTestListViewAdapter extends BaseAdapter {
         mListData.add(addInfo);
     }
 
+    // 선택된 radioButton들의 값을 합산.
     public int getRadioValues() {
         int sum = 0;
         for(int i=0;i<radioValueList.size();i++) {
@@ -120,11 +120,22 @@ public class PreferTestListViewAdapter extends BaseAdapter {
         }
         return sum;
     }
+
+    // 선택된 radioButton들을 모두 초기화시킴.
     public void clearRadio() {
         for(int i=0; i<mListData.size(); i++) {
             checker.set(i,0);
             radioValueList.set(i,0);
         }
         notifyDataSetChanged();
+    }
+
+    // radioButton을 전부 선택했는지 확인.
+    public boolean isFilledOut() {
+        for(int i=0; i<radioValueList.size(); i++) {
+            if(radioValueList.get(i) == 0)
+                return true;
+        }
+        return true;
     }
 }

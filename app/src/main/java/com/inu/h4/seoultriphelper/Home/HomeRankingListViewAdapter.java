@@ -17,7 +17,7 @@ import java.util.ArrayList;
 
 public class HomeRankingListViewAdapter extends BaseAdapter {
     // Adapter에 추가된 데이터를 저장하기 위한 ArrayList
-    private ArrayList<HomeRankingListViewItem> listViewItemList = new ArrayList<HomeRankingListViewItem>() ;
+    private ArrayList<HomeRankingListViewItem> listViewItemList = new ArrayList<>() ;
 
     // Adapter에 사용되는 데이터의 개수를 리턴. : 필수 구현
     @Override
@@ -38,7 +38,7 @@ public class HomeRankingListViewAdapter extends BaseAdapter {
         // "listview_item" Layout을 inflate하여 convertView 참조 획득.
         if (convertView == null) {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = inflater.inflate(R.layout.page_home_item, parent, false);
+            convertView = inflater.inflate(R.layout.home_item, parent, false);
         }
 
         // 화면에 표시될 View(Layout이 inflate된)으로부터 위젯에 대한 참조 획득
@@ -64,9 +64,6 @@ public class HomeRankingListViewAdapter extends BaseAdapter {
         ranking.setText(String.valueOf(listViewItem.getRanking()+"위"));
         sightName.setText(listViewItem.getSightName());
         sightImage.setImageResource(listViewItem.getImage());
-        getBucketButton = listViewItem.getGetBucketButton();
-        recommendButton = listViewItem.getRecommendButton();
-        moreInfoButton = listViewItem.getMoreInfoButton();
 
         return convertView;
     }

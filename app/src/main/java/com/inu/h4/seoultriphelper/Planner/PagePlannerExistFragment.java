@@ -15,7 +15,7 @@ public class PagePlannerExistFragment extends Fragment {
     public void onStart() {
         super.onStart();
 
-        tempButton = (Button) getView().findViewById(R.id.btn_temp);
+        tempButton = (Button) getActivity().findViewById(R.id.btn_temp);
         tempButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -26,6 +26,6 @@ public class PagePlannerExistFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         getActivity().setTitle("여행 플래너");
-        return inflater.inflate(R.layout.page_planner, container, false);
+        return inflater.inflate(R.layout.planner, container, false);
     }
 }

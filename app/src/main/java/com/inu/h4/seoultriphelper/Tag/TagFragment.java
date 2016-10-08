@@ -17,7 +17,7 @@ import com.inu.h4.seoultriphelper.R;
 
 import java.util.ArrayList;
 
-public class PageTagFragment extends Fragment implements View.OnClickListener {
+public class TagFragment extends Fragment implements View.OnClickListener {
 
     // TODO : 나중에 지역 태그 변수 이름 바꿔주세요. 불필요하다면 안 해도 됌. (예시 : tag1 -> tag_palace)
     // 지역 태그 관련

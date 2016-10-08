@@ -1,8 +1,5 @@
 package com.inu.h4.seoultriphelper;
 
-/**
- * Created by MIN on 2016-09-25.
- */
 
 import android.app.Activity;
 import android.content.Intent;
@@ -16,7 +13,7 @@ public class IntroActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.page_intro);
+        setContentView(R.layout.intro);
         h = new Handler();
         h.postDelayed(mrun, 2000); // 2초 지연을 위한 핸들러 생성
     }

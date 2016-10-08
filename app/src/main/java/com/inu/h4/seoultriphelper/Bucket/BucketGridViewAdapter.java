@@ -5,26 +5,20 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.inu.h4.seoultriphelper.Bucket.BucketGridViewItem;
-import com.inu.h4.seoultriphelper.PageSearchFragment;
 import com.inu.h4.seoultriphelper.R;
 
 import java.util.ArrayList;
 
-/**
- * Created by yuk on 2016-09-27.
- */
 public class BucketGridViewAdapter extends BaseAdapter {
     BucketGridViewAdapter adapter = this;
 
     // Adapter에 추가된 데이터를 저장하기 위한 ArrayList
-    private ArrayList<BucketGridViewItem> GridViewItemList = new ArrayList<BucketGridViewItem>();
+    private ArrayList<BucketGridViewItem> GridViewItemList = new ArrayList<>();
 
     // Adapter에 사용되는 데이터의 개수를 리턴. : 필수 구현
     @Override

@@ -4,8 +4,24 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
+    <!--Prefer Page-->
+    <string name="test_prefer">내 성향 알아보기</string>
     <string name="no_prefer">저장된 성향이 없습니다.</string>
     <string name="detail_prefer">당신은 정은지타입!</string>
+
+    <string name="check_prefer_sight">추천 여행지!</string>
+    <string name="restart_prefer_test">재검사</string>
+    <string name="clear_prefer_test">다시 작성</string>
+    <string name="next_prefer_test">다음 문항 이동</string>
+
+    <string name="complete_prefer_test">작성 완료</string>
+
+    <string name="radio_very_yes">매우 그렇다.</string>
+    <string name="radio_little_yes">조금 그렇다.</string>
+    <string name="radio_soso">보통</string>
+    <string name="radio_little_no">조금 아니다.</string>
+    <string name="radio_very_no">매우 아니다.</string>
+
 
     <string name="no_bucket">담긴 목록이 없습니다.</string>
 
@@ -14,5 +30,5 @@
     <string name="tab_title_month">월간</string>
     <string name="tab_title_week">주간</string>
 
-    <string name="add_tag">Add Tag</string>
+    <string name="add_tag">Add tag</string>
 </resources>

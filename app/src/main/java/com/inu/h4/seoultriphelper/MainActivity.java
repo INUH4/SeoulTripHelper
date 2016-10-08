@@ -14,22 +14,23 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.inu.h4.seoultriphelper.Bucket.PageBucketExistFragment;
-import com.inu.h4.seoultriphelper.Home.PageHomeFragment;
+import com.inu.h4.seoultriphelper.Bucket.BucketEmptyFragment;
+import com.inu.h4.seoultriphelper.Bucket.BucketExistFragment;
+import com.inu.h4.seoultriphelper.Home.HomeFragment;
 import com.inu.h4.seoultriphelper.Planner.PagePlannerEmptyFragment;
 import com.inu.h4.seoultriphelper.Planner.PagePlannerExistFragment;
-import com.inu.h4.seoultriphelper.Prefer.PagePreferEmptyFragment;
-import com.inu.h4.seoultriphelper.Prefer.PagePreferExistFragment;
+import com.inu.h4.seoultriphelper.Prefer.PreferEmptyFragment;
+import com.inu.h4.seoultriphelper.Prefer.PreferExistFragment;
 import com.inu.h4.seoultriphelper.Setting.SettingActivity;
-import com.inu.h4.seoultriphelper.Tag.PageTagFragment;
+import com.inu.h4.seoultriphelper.Tag.TagFragment;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    private DrawerLayout drawer;
+    DrawerLayout drawer;
 
-    private Fragment initFragment;
-    private FragmentTransaction transaction;
+    Fragment initFragment;
+    FragmentTransaction transaction;
 
     private BackPressCloseSystem backPressCloseSystem;
 
@@ -56,7 +57,7 @@ public class MainActivity extends AppCompatActivity
         backPressCloseSystem = new BackPressCloseSystem(this);
 
         // 각 페이지에 해당하는 Fragment 초기화
-        initFragment = new PageHomeFragment();
+        initFragment = new HomeFragment();
 
         // 초기 화면으로 사용할 fragment 설정
         transaction = getSupportFragmentManager().beginTransaction();
@@ -109,25 +110,25 @@ public class MainActivity extends AppCompatActivity
         transaction = getSupportFragmentManager().beginTransaction();
 
         if (id == R.id.nav_home) {
-            targetFragment = new PageHomeFragment();
+            targetFragment = new HomeFragment();
             tag = "page_home";
         } else if (id == R.id.nav_tag) {
-            targetFragment = new PageTagFragment();
+            targetFragment = new TagFragment();
             tag = "page_tag";
         } else if (id == R.id.nav_prefer) {
-            if(true) {          // 설문 결과가 없을 경우
-                targetFragment = new PagePreferEmptyFragment();
+            if(DataRepository.preferIndex == null) {          // 설문 결과가 없을 경우
+                targetFragment = new PreferEmptyFragment();
                 tag = "page_prefer_empty";
             } else {            // 설문 결과가 있을 경우
-                targetFragment = new PagePreferExistFragment();
+                targetFragment = new PreferExistFragment();
                 tag = "page_prefer_exist";
             }
         } else if (id == R.id.nav_bucket) {
             if(true) {          // 장바구니가 비어있을 경우
-                targetFragment = new PageBucketExistFragment();
+                targetFragment = new BucketEmptyFragment();
                 tag = "page_bucket_empty";
             } else {            // 장바구니가 비어있지 않은 경우
-                targetFragment = new PageBucketExistFragment();
+                targetFragment = new BucketExistFragment();
                 tag = "page_bucket_exist";
             }
         } else if (id == R.id.nav_planner) {
@@ -150,7 +151,7 @@ public class MainActivity extends AppCompatActivity
                 .getBackStackEntryCount() - 1).getName();
 
         // tag를 통해 Fragment를 구분하고 바뀔 페이지가 같은 것이면 아무 동작도 하지 않는다.
-        if(tag == currentFragmentTag) {
+        if(tag.equals(currentFragmentTag)) {
             if (this.drawer.isDrawerOpen(GravityCompat.START)) {
                 this.drawer.closeDrawer(GravityCompat.START);
             }

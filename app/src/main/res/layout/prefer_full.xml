@@ -5,38 +5,48 @@
     android:weightSum="1">
 
     <Button
-        android:layout_width="128dp"
+        android:layout_width="wrap_content"
         android:layout_height="50dp"
-        android:text="추천 여행지"
+        android:text="@string/check_prefer_sight"
         android:id="@+id/bt_recommend"
-        android:layout_gravity="top|left|center_vertical"
-        android:textSize="20dp"
-        android:layout_centerVertical="true"
+        android:textSize="20sp"
+        android:layout_marginBottom="55dp"
+        android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginLeft="40dp" />
+        android:layout_marginLeft="40dp"/>
 
+    <TextView
+        android:layout_width="200dp"
+        android:layout_height="50dp"
+        android:textSize="22sp"
+        android:id="@+id/prefer_result_text_title"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="140dp"
+        android:textAlignment="center"/>
     <TextView
         android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="@string/detail_prefer"
-        android:id="@+id/t_no_bucket"
+        android:id="@+id/prefer_result_text_content"
         android:layout_gravity="center_horizontal"
-        android:textSize="25dp"
-        android:layout_above="@+id/bt_recommend"
+        android:textSize="18sp"
+        android:textAlignment="center"
+        android:layout_marginTop="200dp"
+        android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true" />
 
     <Button
         android:layout_width="128dp"
         android:layout_height="50dp"
-        android:text="재검사"
-        android:id="@+id/bt_re"
-        android:layout_gravity="top|right"
-        android:textSize="20dp"
+        android:text="@string/restart_prefer_test"
+        android:id="@+id/btn_prefer_reexamine"
+        android:textSize="20sp"
         android:layout_alignTop="@+id/bt_recommend"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginRight="40dp" />
+        android:layout_marginRight="40dp"
+        android:layout_marginBottom="50dp"/>
+
 
 </RelativeLayout>

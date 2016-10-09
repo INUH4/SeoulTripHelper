@@ -1,6 +1,9 @@
 package com.inu.h4.seoultriphelper;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -16,19 +19,34 @@ import android.view.MenuItem;
 
 import com.inu.h4.seoultriphelper.Bucket.BucketEmptyFragment;
 import com.inu.h4.seoultriphelper.Bucket.BucketExistFragment;
+import com.inu.h4.seoultriphelper.DataBase.SIGHT1000ARRAY;
+import com.inu.h4.seoultriphelper.DataBase.SIGHT1000_LIST;
 import com.inu.h4.seoultriphelper.Home.HomeFragment;
-import com.inu.h4.seoultriphelper.Planner.PagePlannerEmptyFragment;
-import com.inu.h4.seoultriphelper.Planner.PagePlannerExistFragment;
+import com.inu.h4.seoultriphelper.Planner.PlannerEmptyFragment;
+import com.inu.h4.seoultriphelper.Planner.PlannerExistFragment;
 import com.inu.h4.seoultriphelper.Prefer.PreferEmptyFragment;
 import com.inu.h4.seoultriphelper.Prefer.PreferExistFragment;
 import com.inu.h4.seoultriphelper.Setting.SettingActivity;
 import com.inu.h4.seoultriphelper.Tag.TagFragment;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+    SIGHT1000_LIST sight1000list;
+    phpDown task1;
+    Bitmap bmImg;
 
     DrawerLayout drawer;
-
     Fragment initFragment;
     FragmentTransaction transaction;
 
@@ -53,17 +71,11 @@ public class MainActivity extends AppCompatActivity
 
         Log.d("LOG/MAIN", "onCreate()");
 
+        task1 = new phpDown();
+        task1.execute("http://52.42.208.72/Sight1000GetData.php");
+
         // 뒤로가기 버튼 이벤트 등록
         backPressCloseSystem = new BackPressCloseSystem(this);
-
-        // 각 페이지에 해당하는 Fragment 초기화
-        initFragment = new HomeFragment();
-
-        // 초기 화면으로 사용할 fragment 설정
-        transaction = getSupportFragmentManager().beginTransaction();
-        transaction.add(R.id.container, initFragment, "page_home");
-        transaction.addToBackStack("page_home");
-        transaction.commit();
 
         // 앱 최상단에 메뉴, 검색버튼과 화면 이름을 출력하는 툴바를 생성
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -77,6 +89,103 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+    }
+
+    private class back extends AsyncTask<String, Integer, Bitmap> {
+        protected Bitmap doInBackground(String... urls) {
+            // TODO Auto-generated method stub
+            try{
+                URL myFileUrl = new URL(urls[0]);
+                HttpURLConnection conn = (HttpURLConnection)myFileUrl.openConnection();
+                conn.setDoInput(true);
+                conn.connect();
+                //String json = DownloadHtml("http://117.16.243.116/appdata.php");
+                InputStream is = conn.getInputStream();
+
+                bmImg = BitmapFactory.decodeStream(is);
+
+            }catch(IOException e){
+                e.printStackTrace();
+            }
+            return bmImg;
+        }
+    }
+
+    private class phpDown extends AsyncTask<String, Integer, String>{
+
+        @Override
+        protected String doInBackground(String... urls) {
+            StringBuilder jsonHtml = new StringBuilder();
+            try{
+                // 연결 url 설정
+                URL url = new URL(urls[0]);
+                // 커넥션 객체 생성
+                HttpURLConnection conn = (HttpURLConnection)url.openConnection();
+                // 연결되었으면.
+                if(conn != null){
+                    conn.setConnectTimeout(10000);
+                    conn.setUseCaches(false);
+                    // 연결되었음 코드가 리턴되면.
+                    if(conn.getResponseCode() == HttpURLConnection.HTTP_OK){
+                        BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
+                        for(;;){
+                            // 웹상에 보여지는 텍스트를 라인단위로 읽어 저장.
+                            String line = br.readLine();
+                            if(line == null) break;
+                            // 저장된 텍스트 라인을 jsonHtml에 붙여넣음
+                            jsonHtml.append(line + "\n");
+                        }
+                        br.close();
+                    }
+                    conn.disconnect();
+                }
+            } catch(Exception ex){
+                ex.printStackTrace();
+            }
+            return jsonHtml.toString();
+        }
+
+        protected void onPostExecute(String str){
+            try{
+                JSONObject root = new JSONObject(str);
+                JSONArray ja = root.getJSONArray("result");
+                for(int i=0; i<ja.length(); i++){
+                    JSONObject jo = ja.getJSONObject(i);
+                    String id = jo.getString("sight_id");
+                    String name = jo.getString("sight_name");
+                    String info = jo.getString("sight_info");
+                    String recommend_count = jo.getString("sight_recommend_count");
+                    String location_x = jo.getString("sight_location_x");
+                    String location_y = jo.getString("sight_location_y");
+                    String weekrecommend = jo.getString("sight_weekrecommend");
+                    String monthrecommend = jo.getString("sight_monthrecommend");
+
+                    sight1000list = new SIGHT1000_LIST();
+                    sight1000list.setSight1000Data(
+                            id,
+                            name,
+                            info,
+                            recommend_count,
+                            location_x,
+                            location_y,
+                            weekrecommend,
+                            monthrecommend);
+
+                    SIGHT1000ARRAY.sight1000Array.add(sight1000list);
+                    Log.d("LOG/HOME", name);
+                }
+                // 각 페이지에 해당하는 Fragment 초기화
+                initFragment = new HomeFragment();
+                // 초기 화면으로 사용할 fragment 설정
+                transaction = getSupportFragmentManager().beginTransaction();
+                transaction.add(R.id.container, initFragment, "page_home");
+                transaction.addToBackStack("page_home");
+                transaction.commit();
+            }
+            catch(JSONException e){
+                e.printStackTrace();
+            }
+        }
     }
 
     @Override
@@ -133,10 +242,10 @@ public class MainActivity extends AppCompatActivity
             }
         } else if (id == R.id.nav_planner) {
             if(true) {          // 플래너가 비어있을 경우
-                targetFragment = new PagePlannerEmptyFragment();
+                targetFragment = new PlannerEmptyFragment();
                 tag = "page_planner_empty";
             } else {            // 플래너가 비어있지 않은 경우
-                targetFragment = new PagePlannerExistFragment();
+                targetFragment = new PlannerExistFragment();
                 tag = "page_planner_exist";
             }
         } else if (id == R.id.nav_map) {
@@ -179,5 +288,4 @@ public class MainActivity extends AppCompatActivity
 
         return true;
     }
-
 }

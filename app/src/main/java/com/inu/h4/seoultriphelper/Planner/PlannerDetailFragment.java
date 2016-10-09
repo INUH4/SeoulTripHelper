@@ -9,7 +9,7 @@ import android.widget.Button;
 
 import com.inu.h4.seoultriphelper.R;
 
-public class PagePlannerDetailFragment extends Fragment {
+public class PlannerDetailFragment extends Fragment {
     Button planSubmitCancelButton;
     @Override
     public void onStart() {

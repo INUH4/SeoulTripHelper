@@ -9,7 +9,7 @@ import android.widget.Button;
 
 import com.inu.h4.seoultriphelper.R;
 
-public class PagePlannerExistFragment extends Fragment {
+public class PlannerExistFragment extends Fragment {
     Button tempButton;
     @Override
     public void onStart() {
@@ -19,7 +19,7 @@ public class PagePlannerExistFragment extends Fragment {
         tempButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container, new PagePlannerDetailFragment()).addToBackStack(null).commit();
+                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container, new PlannerDetailFragment()).addToBackStack(null).commit();
             }
         });
     }

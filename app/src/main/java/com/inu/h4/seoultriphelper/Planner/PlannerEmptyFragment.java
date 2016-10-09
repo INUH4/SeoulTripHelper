@@ -7,12 +7,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-import com.inu.h4.seoultriphelper.Bucket.PageBucketEmptyFragment;
-import com.inu.h4.seoultriphelper.Bucket.PageBucketExistFragment;
-import com.inu.h4.seoultriphelper.PageSearchFragment;
+import com.inu.h4.seoultriphelper.Bucket.BucketEmptyFragment;
+import com.inu.h4.seoultriphelper.Bucket.BucketExistFragment;
+import com.inu.h4.seoultriphelper.SearchFragment;
 import com.inu.h4.seoultriphelper.R;
 
-public class PagePlannerEmptyFragment extends Fragment {
+public class PlannerEmptyFragment extends Fragment {
     Button SubmitBucketButton,SubmitSearchButton;
     @Override
     public void onStart() {
@@ -24,9 +24,9 @@ public class PagePlannerEmptyFragment extends Fragment {
             public void onClick(View v) {
                 Fragment fragment = null;
                 if (true) {              // 장바구니가 비어있을 경우
-                    fragment = new PageBucketEmptyFragment();
+                    fragment = new BucketEmptyFragment();
                 } else {                // 장바구니가 비어있지 않을 경우
-                    fragment = new PageBucketExistFragment();
+                    fragment = new BucketExistFragment();
                 }
                 if (fragment != null)
                     getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment).addToBackStack(null).commit();
@@ -37,7 +37,7 @@ public class PagePlannerEmptyFragment extends Fragment {
         SubmitSearchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container, new PageSearchFragment()).addToBackStack(null).commit();
+                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container, new SearchFragment()).addToBackStack(null).commit();
             }
         });
 
@@ -45,6 +45,6 @@ public class PagePlannerEmptyFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         getActivity().setTitle("여행 플래너");
-        return inflater.inflate(R.layout.page_planner_empty, container, false);
+        return inflater.inflate(R.layout.planner_empty, container, false);
     }
 }

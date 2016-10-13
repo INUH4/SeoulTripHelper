@@ -23,6 +23,19 @@
     <string name="radio_very_no">매우 아니다.</string>
 
 
+    <!--Detail Page-->
+    <string name="detail_point_and_review">별점 &amp; 리뷰</string>
+    <string name="detail_default_point">0.0</string>
+    <string name="detail_max_point">/ 5.0</string>
+
+    <string name="detail_review_dialog_writer">작성자</string>
+    <string name="detail_review_dialog_title">제목을 입력해주세요.</string>
+    <string name="detail_review_dialog_content">내용을 입력해주세요.</string>
+    <string name="detail_review_dialog_submit">등록</string>
+
+
+
+
     <string name="no_bucket">담긴 목록이 없습니다.</string>
 
     <string name="action_search">검색</string>

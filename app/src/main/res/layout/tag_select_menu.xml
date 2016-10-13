@@ -13,7 +13,8 @@
 
         <com.inu.h4.seoultriphelper.Tag.TagGroup
             android:id="@+id/tag_group"
-            style="@style/TagGroup.Large" />
+            style="@style/TagGroup"
+            app:atg_isAppendMode="true" />
 
     </LinearLayout>
 

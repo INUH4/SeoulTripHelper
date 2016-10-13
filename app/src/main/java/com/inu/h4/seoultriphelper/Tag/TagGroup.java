@@ -229,7 +229,7 @@ public class TagGroup extends ViewGroup {
 
         if (isAppendMode) {
             // Append the initial INPUT tag.
-            appendInputTag();
+             appendInputTag();
 
             // Set the click listener to detect the end-input event.
             setOnClickListener(new OnClickListener() {
@@ -454,7 +454,7 @@ public class TagGroup extends ViewGroup {
         }
 
         if (isAppendMode) {
-            appendInputTag();
+            // appendInputTag(); //
         }
     }
 
@@ -496,6 +496,19 @@ public class TagGroup extends ViewGroup {
             }
         }
         return -1;
+    }
+
+    public ArrayList<String> getCheckedTagList() {
+        final int count = getChildCount();
+        ArrayList<String> checkedTagList = new ArrayList<>();
+        for (int i = 0; i < count; i++) {
+            final TagView tag = getTagAt(i);
+            if (tag.isChecked) {
+                checkedTagList.add(tag.getText().toString());
+            }
+        }
+
+        return checkedTagList;
     }
 
     /**
@@ -676,13 +689,14 @@ public class TagGroup extends ViewGroup {
                 } else {
                     // If the clicked tag is currently checked, delete the tag.
                     if (tag.isChecked) {
-                        deleteTag(tag);
+                        // deleteTag(tag); // 체크 상태에서 다시 탭할 시 해당 태그를 삭제한다. 필요 없으니 주석처리.
+                        tag.setChecked(false); // 태그 삭제 -> 체크해제로 변경.
                     } else {
                         // If the clicked tag is unchecked, uncheck the previous checked tag if exists,
                         // then check the clicked tag.
                         final TagView checkedTag = getCheckedTag();
                         if (checkedTag != null) {
-                            checkedTag.setChecked(false);
+                            // checkedTag.setChecked(false);
                         }
                         tag.setChecked(true);
                     }
@@ -771,8 +785,6 @@ public class TagGroup extends ViewGroup {
         /**
          * The path effect provide draw the dash border.
          */
-
-        public void setBackGroundColor(int color) { backgroundColor = color; }
 
         private PathEffect mPathEffect = new DashPathEffect(new float[]{10, 5}, 0);
 
@@ -899,11 +911,12 @@ public class TagGroup extends ViewGroup {
         public void setChecked(boolean checked) {
             isChecked = checked;
             // Make the checked mark drawing region.
-            setPadding(horizontalPadding,
-                    verticalPadding,
-                    isChecked ? (int) (horizontalPadding + getHeight() / 2.5f + CHECKED_MARKER_OFFSET)
-                            : horizontalPadding,
-                    verticalPadding);
+            // 체크 상태일 때 내용 문자열의 오른쪽에 X버튼이 들어갈 여백을 약간 생성한다. 필요 없으니 주석처리.
+//            setPadding(horizontalPadding,
+//                    verticalPadding,
+//                    isChecked ? (int) (horizontalPadding + getHeight() / 2.5f + CHECKED_MARKER_OFFSET)
+//                            : horizontalPadding,
+//                    verticalPadding);
             invalidatePaint();
         }
 
@@ -938,7 +951,7 @@ public class TagGroup extends ViewGroup {
             return getText() != null && getText().length() > 0;
         }
 
-        private void invalidatePaint() {
+        public void invalidatePaint() {
             if (isAppendMode) {
                 if (mState == STATE_INPUT) {
                     mBorderPaint.setColor(dashBorderColor);
@@ -978,15 +991,16 @@ public class TagGroup extends ViewGroup {
             canvas.drawRect(mHorizontalBlankFillRectF, mBackgroundPaint);
             canvas.drawRect(mVerticalBlankFillRectF, mBackgroundPaint);
 
-            if (isChecked) {
-                canvas.save();
-                canvas.rotate(45, mCheckedMarkerBound.centerX(), mCheckedMarkerBound.centerY());
-                canvas.drawLine(mCheckedMarkerBound.left, mCheckedMarkerBound.centerY(),
-                        mCheckedMarkerBound.right, mCheckedMarkerBound.centerY(), mCheckedMarkerPaint);
-                canvas.drawLine(mCheckedMarkerBound.centerX(), mCheckedMarkerBound.top,
-                        mCheckedMarkerBound.centerX(), mCheckedMarkerBound.bottom, mCheckedMarkerPaint);
-                canvas.restore();
-            }
+            // 체크 상태에서 내용 문자열의 오른쪽에 x버튼을 생성. 필요 없으므로 주석처리.
+//            if (isChecked) {
+//                canvas.save();
+//                canvas.rotate(45, mCheckedMarkerBound.centerX(), mCheckedMarkerBound.centerY());
+//                canvas.drawLine(mCheckedMarkerBound.left, mCheckedMarkerBound.centerY(),
+//                        mCheckedMarkerBound.right, mCheckedMarkerBound.centerY(), mCheckedMarkerPaint);
+//                canvas.drawLine(mCheckedMarkerBound.centerX(), mCheckedMarkerBound.top,
+//                        mCheckedMarkerBound.centerX(), mCheckedMarkerBound.bottom, mCheckedMarkerPaint);
+//                canvas.restore();
+//            }
             canvas.drawPath(mBorderPath, mBorderPaint);
             super.onDraw(canvas);
         }

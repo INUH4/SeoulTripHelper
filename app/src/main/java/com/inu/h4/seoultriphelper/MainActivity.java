@@ -27,7 +27,7 @@ import com.inu.h4.seoultriphelper.Planner.PlannerExistFragment;
 import com.inu.h4.seoultriphelper.Prefer.PreferEmptyFragment;
 import com.inu.h4.seoultriphelper.Prefer.PreferExistFragment;
 import com.inu.h4.seoultriphelper.Setting.SettingActivity;
-import com.inu.h4.seoultriphelper.Tag.TagFragment;
+import com.inu.h4.seoultriphelper.Tag.TagMainFragment;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -222,7 +222,7 @@ public class MainActivity extends AppCompatActivity
             targetFragment = new HomeFragment();
             tag = "page_home";
         } else if (id == R.id.nav_tag) {
-            targetFragment = new TagFragment();
+            targetFragment = new TagMainFragment();
             tag = "page_tag";
         } else if (id == R.id.nav_prefer) {
             if(DataRepository.preferIndex == null) {          // 설문 결과가 없을 경우

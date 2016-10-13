@@ -1,6 +1,5 @@
 package com.inu.h4.seoultriphelper.Tag;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -11,7 +10,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.inu.h4.seoultriphelper.R;
-import com.inu.h4.seoultriphelper.Tag.TagGroup.TagView;
 
 import java.util.ArrayList;
 
@@ -23,19 +21,23 @@ public class TagSelectMenuFragment extends Fragment {
 
     private ArrayList<String> categories;
     private TagGroup mTagGroup;
-    private Button confirm, cancle;
+    private Button btnConfirm, btnCancle;
+    private SelectedTagInstance instance;
 
     final private View.OnClickListener mOnClick = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             getActivity().findViewById(R.id.tag_select_menu_container).setVisibility(View.GONE);
             getActivity().findViewById(R.id.additional_menu).setVisibility(View.GONE);
-            onDestroyView();
+            getActivity().findViewById(R.id.btn_tag4_hidden).setVisibility(View.GONE);
+            getActivity().findViewById(R.id.btn_tag4).setVisibility(View.VISIBLE);
 
-            if(v.getId() == R.id.btn_tag_confirm)
-            {
-                // todo : 선택 태그에 관한 정보를 넘기는 코드 작성
+            if(v.getId() == R.id.btn_tag_confirm) { // 체크된 목록을 저장함.
+                instance.setSubtag(mTagGroup.getCheckedTagList());
             }
+
+            ((TagMainFragment)getParentFragment()).setOnChildButtonClick();
+            onDestroyView();
         }
     };
 
@@ -51,9 +53,10 @@ public class TagSelectMenuFragment extends Fragment {
         Log.d("LOG/TAG_SELECT", "onCreateView()");
         View layout = inflater.inflate(R.layout.tag_select_menu, container, false);
 
+        instance = SelectedTagInstance.getInstance();
         // 확인, 취소버튼
-        confirm = (Button) layout.findViewById(R.id.btn_tag_confirm);
-        cancle = (Button) layout.findViewById(R.id.btn_tag_cancle);
+        btnConfirm = (Button) layout.findViewById(R.id.btn_tag_confirm);
+        btnCancle = (Button) layout.findViewById(R.id.btn_tag_cancle);
 
         // 임시 데이터 설정
         categories = new ArrayList<>();
@@ -63,22 +66,12 @@ public class TagSelectMenuFragment extends Fragment {
         categories.add("subtag4");
         categories.add("subtag5");
 
+        btnConfirm.setOnClickListener(mOnClick);
+        btnCancle.setOnClickListener(mOnClick);
+
         // 임시 데이터를 태그 그룹에 삽입하여 띄움
         mTagGroup = (TagGroup) layout.findViewById(R.id.tag_group);
         mTagGroup.setTags(categories); // 태그 초기화 및 띄우기
-        mTagGroup.setOnTagClickListener(new TagGroup.OnTagClickListener() {
-            @Override
-            public void onTagClick(String tag) {
-                // 선택한 태그가 무엇인지 알아낸 후 태그의 색을 변환시킴
-                int index = categories.indexOf(tag);
-                TagView tagView = mTagGroup.getTagAt(index);
-                tagView.setBackGroundColor(Color.LTGRAY);
-                tagView.setTextColor(Color.RED);
-            }
-        });
-
-        confirm.setOnClickListener(mOnClick);
-        cancle.setOnClickListener(mOnClick);
 
         return layout;
     }

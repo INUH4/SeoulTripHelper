@@ -8,9 +8,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
+import com.inu.h4.seoultriphelper.DataBase.SIGHT1000ARRAY;
 import com.inu.h4.seoultriphelper.R;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 public class HomeWeeklyRankingFragment extends Fragment {
     private ListView listView;
@@ -29,44 +32,33 @@ public class HomeWeeklyRankingFragment extends Fragment {
         // Inflate the layout for this fragment
         Log.d("LOG/WEEK", "onCreateView()");
         View layout = inflater.inflate(R.layout.home_weekly_ranking, container, false);
-        adapter = new HomeRankingListViewAdapter();
+        adapter = new HomeRankingListViewAdapter(this);
 
         listView = (ListView) layout.findViewById(R.id.home_weekly_ranking_list_view);
         listView.setAdapter(adapter);
         listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
 
-        loadData();
-        addListViewItem();
+        //getData();
+        //refresh();
+
         return layout;
     }
 
-    public void loadData() {
+    public void getData(){
         data = new ArrayList<>();
-
-        HomeRankingListViewItem item = new HomeRankingListViewItem();
-        item.setSightName("감자");
-        item.setPlaceid(9999);
-        item.setRanking(1);
-        item.setImage(R.drawable.page_search_icon);
-        data.add(item);
-
-        item = new HomeRankingListViewItem();
-        item.setSightName("고구마");
-        item.setPlaceid(8888);
-        item.setRanking(2);
-        item.setImage(R.drawable.page_search_icon);
-        data.add(item);
-
-        item = new HomeRankingListViewItem();
-        item.setSightName("럭셔리");
-        item.setPlaceid(7777);
-        item.setRanking(3);
-        item.setImage(R.drawable.page_search_icon);
-        data.add(item);
-    }
-    public void addListViewItem() {
-        for(int i=0;i<data.size();i++) {
+        HomeRankingListViewItem item;
+        SIGHT1000ARRAY.Weeksorting();
+        for(int i = 0; i< SIGHT1000ARRAY.sight1000Array.size(); i++) {
+            item = new HomeRankingListViewItem();
+            Log.d("LOG/WEEK", "beforeGetData");
+            SIGHT1000ARRAY.getWeekArrayData(item, i);
+            Log.d("LOG/WEEK", "GetData : " + item.getSightName());
+            data.add(item);
             adapter.addItem(data.get(i));
         }
+    }
+    public void refresh(){
+        adapter.notifyDataSetChanged();
+        Log.d("LOG/WEEK", "Refresh");
     }
 }

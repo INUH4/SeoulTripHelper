@@ -1,6 +1,8 @@
 package com.inu.h4.seoultriphelper.Home;
 
 import android.content.Context;
+import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,12 +12,17 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.inu.h4.seoultriphelper.Detail.SightDetailFragment;
 import com.inu.h4.seoultriphelper.InnerDBHelper;
 import com.inu.h4.seoultriphelper.R;
 import java.util.ArrayList;
 
 
 public class HomeRankingListViewAdapter extends BaseAdapter {
+    Fragment fragment;
+    public HomeRankingListViewAdapter(Fragment fragment) {
+        this.fragment = fragment;
+    }
     // Adapter에 추가된 데이터를 저장하기 위한 ArrayList
     private ArrayList<HomeRankingListViewItem> listViewItemList = new ArrayList<>() ;
 
@@ -41,6 +48,10 @@ public class HomeRankingListViewAdapter extends BaseAdapter {
             convertView = inflater.inflate(R.layout.home_item, parent, false);
         }
 
+
+        // Data Set(listViewItemList)에서 position에 위치한 데이터 참조 획득
+        final HomeRankingListViewItem listViewItem = listViewItemList.get(position);
+
         // 화면에 표시될 View(Layout이 inflate된)으로부터 위젯에 대한 참조 획득
         TextView ranking = (TextView) convertView.findViewById(R.id.home_ranking);
         TextView sightName = (TextView) convertView.findViewById(R.id.home_sight_name);
@@ -56,12 +67,19 @@ public class HomeRankingListViewAdapter extends BaseAdapter {
             }
 
         });
-
-        // Data Set(listViewItemList)에서 position에 위치한 데이터 참조 획득
-        HomeRankingListViewItem listViewItem = listViewItemList.get(position);
-
+        sightImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Fragment sightDetailFragment = new SightDetailFragment();
+                Bundle bundle = new Bundle();
+                bundle.putInt("placeId", listViewItem.getPlaceid());
+                sightDetailFragment.setArguments(bundle);
+                fragment.getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container, sightDetailFragment).addToBackStack(null).commit();
+            }
+        });
         // 아이템 내 각 위젯에 데이터 반영
-        ranking.setText(String.valueOf(listViewItem.getRanking()+"위"));
+        //ranking.setText(String.valueOf(listViewItem.getRanking()+"위"));
+        ranking.setText(listViewItem.getRanking()+"위");
         sightName.setText(listViewItem.getSightName());
         sightImage.setImageResource(listViewItem.getImage());
 

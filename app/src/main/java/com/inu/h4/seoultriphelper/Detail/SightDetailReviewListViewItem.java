@@ -1,9 +1,12 @@
 package com.inu.h4.seoultriphelper.Detail;
 
+import java.sql.Timestamp;
+
 public class SightDetailReviewListViewItem {
     String writer;
     float recommendRating;
-    String content;
+    String date;
+    String info;
 
     public String getWriter() {
         return writer;
@@ -17,10 +20,20 @@ public class SightDetailReviewListViewItem {
     public void setRecommendRating(float recommendRating) {
         this.recommendRating = recommendRating;
     }
-    public String getContent() {
-        return content;
+
+    public String getDate() {
+        return date;
     }
-    public void setContent(String content) {
-        this.content = content;
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public String getInfo() {
+        return info;
+    }
+
+    public void setInfo(String info) {
+        this.info = info;
     }
 }

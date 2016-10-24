@@ -9,20 +9,28 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RatingBar;
+import android.widget.Toast;
 
+import com.inu.h4.seoultriphelper.DataBase.InsertDB_REVIEW1000;
+import com.inu.h4.seoultriphelper.DataBase.SelectDB_REVIEW1000;
 import com.inu.h4.seoultriphelper.R;
+
+import java.util.List;
 
 public class SightDetailReviewDialog extends Dialog {
 
     float rating;
     String writer;
-    String title;
     String content;
+    int placeId;
+    List<SightDetailReviewListViewItem> reviewList;
 
     // 클릭버튼이 하나일때 생성자 함수로 클릭이벤트를 받는다.
-    public SightDetailReviewDialog(Context context, float rating) {
+    public SightDetailReviewDialog(Context context, float rating, int placeId, List<SightDetailReviewListViewItem> reviewList) {
         super(context, android.R.style.Theme_Translucent_NoTitleBar);
         this.rating = rating;
+        this.placeId = placeId;
+        this.reviewList = reviewList;
     }
 
     @Override
@@ -37,9 +45,8 @@ public class SightDetailReviewDialog extends Dialog {
 
         setContentView(R.layout.detail_review_dialog);
 
-        RatingBar ratingBar = (RatingBar) findViewById(R.id.detail_review_dialog_rating);
+        final RatingBar ratingBar = (RatingBar) findViewById(R.id.detail_review_dialog_rating);
         final EditText writerView = (EditText) findViewById(R.id.detail_review_dialog_writer);
-        final EditText titleView = (EditText) findViewById(R.id.detail_review_dialog_title);
         final EditText contentView = (EditText) findViewById(R.id.detail_review_dialog_content);
         Button submitButton = (Button) findViewById(R.id.btn_detail_review_dialog_submit);
 
@@ -51,9 +58,19 @@ public class SightDetailReviewDialog extends Dialog {
             public void onClick(View v) {
                 // 입력한 값들 받아옴.
                 writer = writerView.getText().toString();
-                title = titleView.getText().toString();
                 content = contentView.getText().toString();
+                rating = ratingBar.getRating();
 
+                // DB에 저장.
+                if(writer.equals("") || content.equals("")) {
+                    Toast.makeText(getContext(),"빈 칸을 채워주세요.",Toast.LENGTH_SHORT).show();
+                } else {
+                    InsertDB_REVIEW1000.InsertToDatabase(writer, content, String.valueOf(rating), String.valueOf(placeId));
+                    reviewList.clear();
+                    SelectDB_REVIEW1000.getData(String.valueOf(placeId), reviewList);
+                    Toast.makeText(getContext(),"리뷰 등록 완료!",Toast.LENGTH_SHORT).show();
+                    dismiss();
+                }
             }
         });
     }

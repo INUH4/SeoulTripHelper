@@ -13,14 +13,16 @@
         android:layout_width="300dp"
         android:layout_height="300dp"
         android:background="@android:color/white"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:focusable="true"
+        android:focusableInTouchMode="true">
 
         <RatingBar
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/detail_review_dialog_rating"
             android:numStars="5"
-            android:layout_gravity="center"/>
+            android:layout_gravity="center" />
 
         <EditText
             android:id="@+id/detail_review_dialog_writer"
@@ -29,14 +31,6 @@
             android:textColor="@android:color/black"
             android:textSize="18sp"
             android:hint="@string/detail_review_dialog_writer"/>
-
-        <EditText
-            android:id="@+id/detail_review_dialog_title"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:textColor="@android:color/black"
-            android:textSize="18sp"
-            android:hint="@string/detail_review_dialog_title"/>
 
         <EditText
             android:id="@+id/detail_review_dialog_content"

@@ -2,6 +2,7 @@ package com.inu.h4.seoultriphelper.Detail;
 
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,18 +47,23 @@ public class SightDetailReviewListViewAdapter extends BaseAdapter {
 
         TextView writer = (TextView) convertView.findViewById(R.id.detail_review_writer);
         RatingBar rating = (RatingBar) convertView.findViewById(R.id.detail_review_rating);
-        TextView content = (TextView) convertView.findViewById(R.id.detail_review_content);
+        TextView info = (TextView) convertView.findViewById(R.id.detail_review_info);
+        TextView date = (TextView) convertView.findViewById(R.id.detail_review_date);
 
         SightDetailReviewListViewItem item = mListData.get(pos);
 
         writer.setText(item.getWriter());
         rating.setRating(item.getRecommendRating());
-        content.setText(item.getContent());
+        info.setText(item.getInfo());
+        date.setText(item.getDate());
 
 
         return convertView;
     }
     public void addItem(SightDetailReviewListViewItem item) {
         mListData.add(item);
+    }
+    public void initListData() {
+        mListData.clear();
     }
 }

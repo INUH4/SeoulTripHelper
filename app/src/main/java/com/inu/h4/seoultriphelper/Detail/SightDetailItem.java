@@ -4,8 +4,8 @@ import java.util.List;
 
 public class SightDetailItem {
     String sightName;
-    List<Integer> imageIds;
     String sightInfo;
+    List<String> imageUrls;
     int recommendCount;
     double sightX, sightY;
 
@@ -15,17 +15,17 @@ public class SightDetailItem {
     public void setSightName(String sightName) {
         this.sightName = sightName;
     }
-    public List<Integer> getImageIds() {
-        return imageIds;
-    }
-    public void setImageIds(List<Integer> imageIds) {
-        this.imageIds = imageIds;
-    }
     public String getSightInfo() {
         return sightInfo;
     }
     public void setSightInfo(String sightInfo) {
         this.sightInfo = sightInfo;
+    }
+    public List<String> getImageUrls() {
+        return imageUrls;
+    }
+    public void setImageUrls(List<String> imageUrls) {
+        this.imageUrls = imageUrls;
     }
     public int getRecommendCount() {
         return recommendCount;

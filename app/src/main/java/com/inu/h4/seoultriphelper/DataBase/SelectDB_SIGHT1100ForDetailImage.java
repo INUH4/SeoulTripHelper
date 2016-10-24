@@ -5,6 +5,7 @@ import android.util.Log;
 import android.widget.BaseAdapter;
 
 import com.inu.h4.seoultriphelper.Detail.SightDetailFragment;
+import com.inu.h4.seoultriphelper.Detail.SightDetailItem;
 import com.inu.h4.seoultriphelper.Detail.SightDetailReviewListViewAdapter;
 import com.inu.h4.seoultriphelper.Detail.SightDetailReviewListViewItem;
 
@@ -22,45 +23,16 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class SelectDB_REVIEW1000 {
+public class SelectDB_SIGHT1100ForDetailImage {
 
     static String myJSON;
 
+    private static final String SERVER_IP = "http://52.42.208.72/";
     private static final String TAG_RESULTS = "result";
-    private static final String TAG_REVIEW_WRITER = "review_writer";
-    private static final String TAG_REVIEW_INFO = "review_info";
-    private static final String TAG_REVIEW_DATE = "review_date";
-    private static final String TAG_REVIEW_POINT = "review_point";
+    private static final String IMAGE_FILEPATH = "SIGHT_IMAGE_FILEPATH";
+    private static final String IMAGE_FILENAME = "SIGHT_IMAGE_FILENAME";
 
-    protected static void showList(List<SightDetailReviewListViewItem> reviewList){
-        try{
-            JSONObject jsonObj = new JSONObject(myJSON);
-            JSONArray sights = jsonObj.getJSONArray(TAG_RESULTS);
-
-            for(int i=0; i<sights.length(); i++){
-                JSONObject c = sights.getJSONObject(i);
-                String reviewWriter = c.getString(TAG_REVIEW_WRITER);
-                String reviewInfo = c.getString(TAG_REVIEW_INFO);
-                String reviewDate = c.getString(TAG_REVIEW_DATE);
-                String reviewPoint = c.getString(TAG_REVIEW_POINT);
-
-                SightDetailReviewListViewItem item = new SightDetailReviewListViewItem();
-                item.setWriter(reviewWriter);
-                item.setInfo(reviewInfo);
-                item.setDate(reviewDate);
-                item.setRecommendRating(Float.valueOf(reviewPoint));
-
-                Log.d("LOG/DB","Get Item");
-                reviewList.add(item);
-            }
-
-            SightDetailFragment.notifyReviewData();
-        }catch (JSONException e){
-            e.printStackTrace();
-        }
-    }
-
-    public static void getData(String sight_id, final List<SightDetailReviewListViewItem> reviewList) {
+    public static void getData(String sight_id, final List<String> imageUris) {
         class GetDataJSON extends AsyncTask<String, Void, String> {
 
             @Override
@@ -68,7 +40,7 @@ public class SelectDB_REVIEW1000 {
                 try{
                     String sight_id = params[0];
 
-                    String link = "http://52.42.208.72/Review1000GetData.php";
+                    String link = "http://52.42.208.72/Sight1100GetDataForDetail.php";
                     String data = URLEncoder.encode("SIGHT_ID", "UTF-8") + "=" + URLEncoder.encode(sight_id, "UTF-8");
 
                     URL url = new URL(link);
@@ -98,8 +70,26 @@ public class SelectDB_REVIEW1000 {
 
             @Override
             protected void onPostExecute(String result){
-                myJSON = result;
-                showList(reviewList);
+                try{
+                    JSONObject root = new JSONObject(result);
+                    JSONArray ja = root.getJSONArray(TAG_RESULTS);
+
+                    for(int i=0;i<ja.length();i++) {
+                        JSONObject obj = ja.getJSONObject(i);
+                        String sightImageFilePath = obj.getString(IMAGE_FILEPATH);
+                        String sightImageFileName = obj.getString(IMAGE_FILENAME);
+
+                        String fullPath = SERVER_IP.concat(sightImageFilePath).concat(sightImageFileName);
+
+                        imageUris.add(fullPath);
+
+                        Log.d("LOG/DB","Get Item");
+                    }
+
+                    SightDetailFragment.LoadBitmapfromUrl(imageUris);
+                }catch (JSONException e){
+                    e.printStackTrace();
+                }
             }
         }
         GetDataJSON g = new GetDataJSON();

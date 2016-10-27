@@ -18,7 +18,7 @@ public class SIGHT1000ARRAY {
         item.setPlaceid(Integer.parseInt(sight1000Array.get(i).getData(0)));
         item.setSightName(sight1000Array.get(i).getData(1));
         item.setWeek_recommend(Integer.parseInt(sight1000Array.get(i).getData(6)));
-        item.setRanking(++i);
+        item.setRanking(i+1);
         Log.d("LOG/SIGHT1000ARRAYW", sight1000Array.get(i).getData(6));
     }
 
@@ -47,7 +47,7 @@ public class SIGHT1000ARRAY {
         item.setPlaceid(Integer.parseInt(sight1000Array.get(i).getData(0)));
         item.setSightName(sight1000Array.get(i).getData(1));
         item.setMonth_recommend(Integer.parseInt(sight1000Array.get(i).getData(7)));
-        item.setRanking(++i);
+        item.setRanking(i+1);
         Log.d("LOG/SIGHT1000ARRAYM", item.getSightName());
     }
 

@@ -3,24 +3,30 @@ package com.inu.h4.seoultriphelper;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.inu.h4.seoultriphelper.Bucket.BucketEmptyFragment;
 import com.inu.h4.seoultriphelper.Bucket.BucketExistFragment;
 import com.inu.h4.seoultriphelper.DataBase.SIGHT1000ARRAY;
 import com.inu.h4.seoultriphelper.DataBase.SIGHT1000_LIST;
+import com.inu.h4.seoultriphelper.DataBase.SelectDB_SIGHT1100ForDetailImage;
+import com.inu.h4.seoultriphelper.Detail.SightDetailFragment;
 import com.inu.h4.seoultriphelper.Home.HomeFragment;
 import com.inu.h4.seoultriphelper.Planner.PlannerEmptyFragment;
 import com.inu.h4.seoultriphelper.Planner.PlannerExistFragment;
@@ -55,6 +61,12 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onBackPressed() {
         Log.d("LOG/MAIN", "onBackPressed()");
+
+        // DB 데이터를 불러오는 중에 뒤로가기를 눌렀을 경우.
+        if(SelectDB_SIGHT1100ForDetailImage.synk != SelectDB_SIGHT1100ForDetailImage.STOP) {
+            Log.d("LOG/MAIN", "SIGHT1100 synk = STOP");
+            SelectDB_SIGHT1100ForDetailImage.synk = SelectDB_SIGHT1100ForDetailImage.STOP;
+        }
 
         // 좌측의 drawer 메뉴가 켜져있는 경우 뒤로가기 버튼을 누르면 닫음
         if (this.drawer.isDrawerOpen(GravityCompat.START)) {
@@ -192,7 +204,51 @@ public class MainActivity extends AppCompatActivity
     public boolean onCreateOptionsMenu(Menu menu) {
         Log.d("LOG/MAIN", "onCreateOptionMenu()");
         getMenuInflater().inflate(R.menu.main, menu);
-        return true;
+
+        // SearchView Hint 변경하기
+        MenuItem searchItem = menu.findItem(R.id.action_search);
+        SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
+        searchView.setQueryHint("여행지를 검색해 보세요.");
+
+        // SearchView 입력 글자색과 힌트 색상 변경하기
+        SearchView.SearchAutoComplete searchAutoComplete = (SearchView.SearchAutoComplete)searchView
+                .findViewById(android.support.v7.appcompat.R.id.search_src_text);
+        searchAutoComplete.setHintTextColor(Color.GRAY);
+        searchAutoComplete.setTextColor(Color.WHITE);
+
+        // SearchView 확장/축소 이벤트 처리
+        MenuItemCompat.OnActionExpandListener expandListener = new MenuItemCompat.OnActionExpandListener() {
+            @Override
+            public boolean onMenuItemActionExpand(MenuItem item) {
+                Toast.makeText(MainActivity.this, "SearchView 확장", Toast.LENGTH_SHORT).show();
+                return true;
+            }
+
+            @Override
+            public boolean onMenuItemActionCollapse(MenuItem item) {
+                Toast.makeText(MainActivity.this, "SearchView 축소", Toast.LENGTH_SHORT).show();
+                return true;
+            }
+        };
+
+        MenuItemCompat.setOnActionExpandListener(searchItem, expandListener);
+
+        // SearchView 검색어 입력/검색 이벤트 처리
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                Toast.makeText(MainActivity.this, "검색한 명령어 : " + query, Toast.LENGTH_SHORT).show();
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                Toast.makeText(MainActivity.this, "입력중인 단어 : " + newText, Toast.LENGTH_SHORT).show();
+                return true;
+            }
+        });
+
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override

@@ -15,7 +15,7 @@ import java.util.ArrayList;
  * Created by MIN on 2016-10-01.
  */
 
-public class TagContentListItemAdapter extends BaseAdapter {
+public class TagContentListAdapter extends BaseAdapter {
     // Adapter에 추가된 데이터를 저장하기 위한 ArrayList
     private ArrayList<TagContentListItem> listViewItemList = new ArrayList<TagContentListItem>() ;
 

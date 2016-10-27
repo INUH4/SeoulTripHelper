@@ -3,7 +3,6 @@ package com.inu.h4.seoultriphelper.Detail;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -22,9 +21,9 @@ import android.widget.TextView;
 import com.inu.h4.seoultriphelper.DataBase.SelectDB_REVIEW1000;
 import com.inu.h4.seoultriphelper.DataBase.SelectDB_SIGHT1000ForDetailSight;
 import com.inu.h4.seoultriphelper.DataBase.SelectDB_SIGHT1100ForDetailImage;
-import com.inu.h4.seoultriphelper.MainActivity;
 import com.inu.h4.seoultriphelper.R;
 
+import net.daum.mf.map.api.MapPoint;
 import net.daum.mf.map.api.MapView;
 
 import java.io.IOException;
@@ -33,7 +32,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SightDetailFragment extends Fragment implements View.OnClickListener{
+public class SightDetailFragment extends Fragment implements View.OnClickListener {
     static Context mContext;
     static SightDetailItem item;            // 관광지의 정보를 저장.
     static List<String> imageUris;          // 관광지 이미지들의 Uri을 저장.
@@ -44,7 +43,7 @@ public class SightDetailFragment extends Fragment implements View.OnClickListene
     int placeId;
     SightDetailReviewDialog dialog;
 
-    static int pos = 0;        // 메인이미지의 index를 저장.
+    static int pos;        // 메인이미지의 index를 저장.
     static ImageView mainImage;
     static LinearLayout mLayout;
 
@@ -53,11 +52,13 @@ public class SightDetailFragment extends Fragment implements View.OnClickListene
 
     static TextView sightName, sightInfo, sightRecommendCount;
 
-
     final String API_KEY = "9b534daa5413298e965b0542249e5456";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        SelectDB_SIGHT1100ForDetailImage.synk = SelectDB_SIGHT1100ForDetailImage.START;
+        pos = 0;
+
         View layout = inflater.inflate(R.layout.detail, container, false) ;             // 리뷰 리스트뷰를 담당
         header = inflater.inflate(R.layout.detail_header, null, false);      // 리뷰 리스트뷰 윗부분을 담당
 
@@ -113,6 +114,8 @@ public class SightDetailFragment extends Fragment implements View.OnClickListene
     public void getItemById(int placeId) {
         String str_place_id = String.valueOf(placeId);
         Log.d("LOG/DETAIL", "관광지 아이디 : ".concat(str_place_id));
+
+        // 관광지 이미지 Uri을 받아오고 그 Uri를 비트맵으로 변환.
         imageUris = new ArrayList<>();
         imageBitmaps = new ArrayList<>();
         SelectDB_SIGHT1100ForDetailImage.getData(str_place_id, imageUris);
@@ -123,7 +126,7 @@ public class SightDetailFragment extends Fragment implements View.OnClickListene
 
         // 관광지의 리뷰들을 불러옴.
         reviewList = new ArrayList<>();
-        new SelectDB_REVIEW1000().getData(str_place_id, reviewList);
+        SelectDB_REVIEW1000.getData(str_place_id, reviewList);
     }
 
     @Override
@@ -145,14 +148,12 @@ public class SightDetailFragment extends Fragment implements View.OnClickListene
         mapView = new MapView(getActivity());
         mapView.setDaumMapApiKey(API_KEY);
 
-        /*//중심점 및 줌 레벨 변경
-        mapView.setMapCenterPointAndZoomLevel(MapPoint.mapPointWithGeoCoord(item.getSightX(), item.getSightY()), 7, true);
-        //줌인
-        mapView.zoomIn(true);
-        // 줌아웃
-        mapView.zoomOut(true);*/
+        //중심점 및 줌 레벨 변경
+        //mapView.setMapCenterPoint(MapPoint.mapPointWithGeoCoord(37.53737528, 127.00557633), true);
 
     }
+
+    // 받아온 리뷰 목록을 화면에 띄움.
     public static void notifyReviewData() {
         if(adapter != null) {
             adapter.initListData();
@@ -163,6 +164,8 @@ public class SightDetailFragment extends Fragment implements View.OnClickListene
             Log.d("LOG/DETAIL", "Notify");
         }
     }
+
+    // 받아온 관광지 정보(이미지 제외)를 화면에 띄움.
     public static void notifySightData() {
         LinearLayout layout = (LinearLayout) header.findViewById(R.id.detail_header_layout);
 
@@ -177,6 +180,8 @@ public class SightDetailFragment extends Fragment implements View.OnClickListene
 
         layout.setVisibility(View.VISIBLE);
     }
+
+    // 받아온 관광지 이미지를 화면에 띄움.
     public static void notifySightImage() {
         // 메인이미지뷰에 이미지 세팅.
         mainImage = (ImageView) header.findViewById(R.id.detail_main_image);
@@ -195,6 +200,8 @@ public class SightDetailFragment extends Fragment implements View.OnClickListene
             image.setLayoutParams(new LinearLayout.LayoutParams(250, 170));
             image.setScaleType(ImageView.ScaleType.FIT_XY);
             image.setPadding(20, 10, 20, 10);
+
+            // 서브 이미지를 터치했을 때, 메인 이미지로의 전환 이벤트.
             image.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -206,6 +213,8 @@ public class SightDetailFragment extends Fragment implements View.OnClickListene
         }
     }
 
+
+    // Uri -> 비트맵으로의 전환 메서드.
     public static void LoadBitmapfromUrl(List<String> uris) {
         class LoadClass extends AsyncTask< Object, Void, Bitmap> {
             @Override
@@ -216,26 +225,33 @@ public class SightDetailFragment extends Fragment implements View.OnClickListene
 
             @Override
             protected void onPostExecute( Bitmap result ) {
-                super.onPostExecute( result );
-                notifySightImage();
+                if(result != null)
+                    notifySightImage();
             }
 
             public Bitmap loadBitmap( List<String> uri ) {
                 Bitmap bitmap = null;
-                for(int i=0; i<uri.size(); i++) {
-                    URL newurl = null;
-                    bitmap = null;
-                    try {
-                        newurl = new URL(uri.get(i));
-                        bitmap = BitmapFactory.decodeStream(newurl.openConnection().getInputStream());
-                    } catch (MalformedURLException e) {
-                        e.printStackTrace();
-                    } catch (IOException e) {
 
-                        e.printStackTrace();
+                for(int i=0; i<uri.size(); i++) {
+                    if(SelectDB_SIGHT1100ForDetailImage.synk == SelectDB_SIGHT1100ForDetailImage.MIDTERM) {
+                        URL newurl = null;
+                        bitmap = null;
+                        try {
+                            newurl = new URL(uri.get(i));
+                            bitmap = BitmapFactory.decodeStream(newurl.openConnection().getInputStream());
+                        } catch (MalformedURLException e) {
+                            e.printStackTrace();
+                        } catch (IOException e) {
+
+                            e.printStackTrace();
+                        }
+                        Log.d("LOG/DETAIL", "Get Bitmap");
+                        imageBitmaps.add(bitmap);
+                    } else {
+                        Log.d("LOG/DETAIL", "Bitmap Clear");
+                        imageBitmaps.clear();
+                        return null;
                     }
-                    Log.d("LOG/DETAIL", "Get Bitmap");
-                    imageBitmaps.add(bitmap);
                 }
                 return bitmap;
             }
@@ -243,4 +259,5 @@ public class SightDetailFragment extends Fragment implements View.OnClickListene
         LoadClass inner = new LoadClass();
         inner.execute(uris);
     }
+
 }

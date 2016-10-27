@@ -1,22 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <CheckBoxPreference
-        android:defaultValue="false"
-        android:key="useUserName"
-        android:summaryOff="사용자의 이름을 사용하지 않습니다"
-        android:summaryOn="사용자의 이름을 사용합니다"
-        android:title="사용자 이름 사용" />
 
-    <EditTextPreference
-        android:defaultValue="Mir"
-        android:dependency="useUserName"
-        android:key="userName"
-        android:maxLines="1"
-        android:selectAllOnFocus="true"
-        android:singleLine="true"
-        android:title="사용자 이름 설정" />
+<PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <PreferenceCategory
+        android:title="개발자" >
+        <Preference
+            android:key="Setting_Developer_inform"
+            android:summary="개발자 사이트를 확인합니다"
+            android:title="개발자 사이트" >
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://github.com/INUH4" />
+        </Preference>
+
+        <Preference
+            android:key="Setting_MailTo"
+            android:summary="개발자에게 메일을 보냅니다"
+            android:title="메일 보내기"
+            android:selectable="true">
+        </Preference>
+
+
+    </PreferenceCategory>
     <PreferenceCategory android:title="자동 업데이트" >
 
         <SwitchPreference
@@ -42,25 +49,11 @@
             android:showSilent="true"
             android:title="알림 소리" />
 
-    </PreferenceCategory>
-
-    <PreferenceCategory android:title="어플 정보" >
-
         <Preference
-            android:summary="개발자 정보를 확인합니다"
-            android:title="개발자 정보" >
-            <!-- 수정해야함 -->
-            <intent
-                android:targetClass="whdghks913.tistory.examplepreferenceactivity.MadeByActivity"
-                android:targetPackage="whdghks913.tistory.examplepreferenceactivity" />
-        </Preference>
-        <Preference
-            android:summary="개발자에게 메일을 보냅니다"
-            android:title="메일 보내기" >
-            <!-- 수정해야함 -->
-            <intent
-                android:action="android.intent.action.SENDTO"
-                android:data="mailto:whdghks913@naver.com" />
+            android:key="Setting_ver"
+            android:summary="1.0.0"
+            android:title="현재 버전"
+            android:selectable="false">
         </Preference>
 
     </PreferenceCategory>

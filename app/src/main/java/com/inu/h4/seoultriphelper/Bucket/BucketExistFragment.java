@@ -1,13 +1,18 @@
 package com.inu.h4.seoultriphelper.Bucket;
 
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.GridView;
+import android.widget.TextView;
 
+import com.inu.h4.seoultriphelper.InnerDBHelper;
 import com.inu.h4.seoultriphelper.SearchFragment;
 import com.inu.h4.seoultriphelper.R;
 
@@ -27,6 +32,8 @@ public class BucketExistFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        //디비호출 디비는 같은 폰에 하나가 아니라 앱에 하나임
+        final InnerDBHelper InnerDBHelper = new InnerDBHelper(getActivity(), "BUCKETDB1.db",null,1);
 
         getActivity().setTitle("버킷리스트");
 
@@ -53,8 +60,11 @@ public class BucketExistFragment extends Fragment {
 //
 //        RelativeLayout BucketMapViewContainer = (RelativeLayout) layout.findViewById(R.id.bucket_list_mapView);
 //        BucketMapViewContainer.addView(mapView);
+//      //////////////////////////////////////////////////////////////////////////////////
 
-
+        //데이터베이스안에 값확인 용
+        final TextView DBViewer = (TextView) layout.findViewById(R.id.BucketDBView);
+        DBViewer.setText(String.valueOf(InnerDBHelper.RtnCount()));
 
         loadData();
         addListViewItem();
@@ -62,35 +72,23 @@ public class BucketExistFragment extends Fragment {
     }
 
     public void loadData() {
-
+        //디비연결
+        final InnerDBHelper InnerDBHelper = new InnerDBHelper(getActivity(), "BUCKETDB1.db",null,1);
         data = new ArrayList<>();
-        BucketGridViewItem item = new BucketGridViewItem();
-        item.setSightName("경복궁");
-        item.setRecommend(1);
-        item.setImage(R.drawable.page_search_icon);
-        item.setCoordinate_x(37.5796212);
-        item.setCoordinate_y(126.9748523);
-        data.add(item);
-
-        item = new BucketGridViewItem();
-        item.setSightName("남산타워");
-        item.setRecommend(2);
-        item.setImage(R.drawable.page_search_icon);
-        item.setCoordinate_x(37.5511736);
-        item.setCoordinate_y(126.9860379);
-        data.add(item);
-
-        item = new BucketGridViewItem();
-        item.setSightName("63빌딩");
-        item.setRecommend(3);
-        item.setCoordinate_x(37.5193818);
-        item.setCoordinate_y(126.9380216);
-        item.setImage(R.drawable.page_search_icon);
-
-
-        data.add(item);
-
+        String [] placeName ;
+        placeName = InnerDBHelper.RtnPlaceName();
+        for(int a =0 ; a<InnerDBHelper.RtnCount() ; a++){
+            BucketGridViewItem item = new BucketGridViewItem();
+            item.setSightName(placeName[a]);
+            item.setRecommend(a+1);
+            item.setImage(R.drawable.page_search_icon);
+            item.setCoordinate_x(37.5796212+a);
+            item.setCoordinate_y(126.9748523+a);
+            data.add(item);
+        }
     }
+
+
     public void addListViewItem() {
         for(int i=0;i<data.size();i++) {
             adapter.addItem(data.get(i));

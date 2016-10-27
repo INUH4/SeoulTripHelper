@@ -101,12 +101,9 @@
         </TableRow>
     </TableLayout>
 
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:id="@+id/tag_content" >
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
 
         <LinearLayout
             android:orientation="vertical"
@@ -114,15 +111,26 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:id="@+id/tag_select_menu_container"
-            android:visibility="gone" />
+            android:visibility="gone"
+            android:shadowColor="#FF464646"
+            android:shadowDx="1.0"
+            android:shadowDy="1.0"
+            android:shadowRadius="1.0" />
 
-        <ListView
-            android:id="@+id/tag_content_listview"
-            android:layout_height="match_parent"
+        <LinearLayout
+            android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:divider="#ffcc22"
-            android:dividerHeight="1.5dp"
-            android:choiceMode="singleChoice" />
-    </LinearLayout>
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:id="@+id/tag_content" >
 
+            <ListView
+                android:id="@+id/tag_content_listview"
+                android:layout_height="match_parent"
+                android:layout_width="match_parent"
+                android:divider="#ffcc22"
+                android:dividerHeight="1.5dp"
+                android:choiceMode="singleChoice" />
+        </LinearLayout>
+    </FrameLayout>
 </LinearLayout>

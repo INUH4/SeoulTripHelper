@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.inu.h4.seoultriphelper.InnerDBHelper;
 import com.inu.h4.seoultriphelper.R;
 
 import java.util.ArrayList;
@@ -31,6 +32,7 @@ public class BucketGridViewAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         final int pos = position;
         final Context context = parent.getContext();
+        final InnerDBHelper InnerDBHelper = new InnerDBHelper(context, "BUCKETDB1.db",null,1);
 
         // "listview_item" Layout을 inflate하여 convertView 참조 획득.
         if (convertView == null) {
@@ -46,7 +48,7 @@ public class BucketGridViewAdapter extends BaseAdapter {
         ImageButton removeBtn = (ImageButton)  convertView.findViewById(R.id.bucket_remove_btn);
 
         // Data Set(listViewItemList)에서 position에 위치한 데이터 참조 획득
-        BucketGridViewItem GridViewItem = GridViewItemList.get(position);
+        final BucketGridViewItem GridViewItem = GridViewItemList.get(position);
 
         // 아이템 내 각 위젯에 데이터 반영
         recommend.setText(String.valueOf("추천 " + GridViewItem.getRecommend()));
@@ -60,6 +62,7 @@ public class BucketGridViewAdapter extends BaseAdapter {
                 GridViewItemList.remove(pos);
                 adapter.notifyDataSetChanged();
                 Toast.makeText(context, "삭제되었습니다.", Toast.LENGTH_SHORT).show();
+                InnerDBHelper.delete(GridViewItem.getSightName());
             }
 
         });

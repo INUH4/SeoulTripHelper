@@ -22,6 +22,9 @@ public class PreferExistFragment extends Fragment {
     TextView preferTextContent, preferTextTitle;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
+        getActivity().setTitle("사용자 성향");
+
         return inflater.inflate(R.layout.prefer_full, container, false);
     }
 

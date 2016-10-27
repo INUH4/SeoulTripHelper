@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -37,7 +38,24 @@ public class TagSelectMenuFragment extends Fragment {
             }
 
             ((TagMainFragment)getParentFragment()).setOnChildButtonClick();
+            getActivity().findViewById(R.id.tag_content_listview).setOnTouchListener(clickable);
+            getActivity().findViewById(R.id.tag_content_listview).setAlpha(1.0f);
+
             onDestroyView();
+        }
+    };
+
+    final private View.OnTouchListener clickable = new View.OnTouchListener() {
+        @Override
+        public boolean onTouch(View v, MotionEvent event) {
+            return false;
+        }
+    };
+    // 온터치 리스너의 반환값에 따라서 동작을 제어할 수 있음.
+    final private View.OnTouchListener nonClickable = new View.OnTouchListener() {
+        @Override
+        public boolean onTouch(View v, MotionEvent event) {
+            return true;
         }
     };
 
@@ -52,9 +70,12 @@ public class TagSelectMenuFragment extends Fragment {
                              Bundle savedInstanceState) {
         Log.d("LOG/TAG_SELECT", "onCreateView()");
         View layout = inflater.inflate(R.layout.tag_select_menu, container, false);
-
         instance = SelectedTagInstance.getInstance();
-        // 확인, 취소버튼
+
+        // 리스트 뷰를 만져도 동작하지 않음.
+        getActivity().findViewById(R.id.tag_content_listview).setOnTouchListener(nonClickable);
+
+        // 확인, 취소버튼 설정
         btnConfirm = (Button) layout.findViewById(R.id.btn_tag_confirm);
         btnCancle = (Button) layout.findViewById(R.id.btn_tag_cancle);
 

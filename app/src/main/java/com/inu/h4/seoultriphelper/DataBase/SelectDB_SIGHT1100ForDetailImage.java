@@ -31,6 +31,10 @@ public class SelectDB_SIGHT1100ForDetailImage {
     private static final String TAG_RESULTS = "result";
     private static final String IMAGE_FILEPATH = "SIGHT_IMAGE_FILEPATH";
     private static final String IMAGE_FILENAME = "SIGHT_IMAGE_FILENAME";
+    public static final int STOP = 0;       // DB 연동 시작 전 상태.
+    public static final int START = 1;      // DB 연동 시작 상태.
+    public static final int MIDTERM = 2;    // DB 연동 중간지점.
+    public static int synk;     // DB 연동 싱크를 맞춰 줄 변수.
 
     public static void getData(String sight_id, final List<String> imageUris) {
         class GetDataJSON extends AsyncTask<String, Void, String> {
@@ -75,19 +79,28 @@ public class SelectDB_SIGHT1100ForDetailImage {
                     JSONArray ja = root.getJSONArray(TAG_RESULTS);
 
                     for(int i=0;i<ja.length();i++) {
-                        JSONObject obj = ja.getJSONObject(i);
-                        String sightImageFilePath = obj.getString(IMAGE_FILEPATH);
-                        String sightImageFileName = obj.getString(IMAGE_FILENAME);
+                        if(synk == SelectDB_SIGHT1100ForDetailImage.START) {
+                            JSONObject obj = ja.getJSONObject(i);
+                            String sightImageFilePath = obj.getString(IMAGE_FILEPATH);
+                            String sightImageFileName = obj.getString(IMAGE_FILENAME);
 
-                        String fullPath = SERVER_IP.concat(sightImageFilePath).concat(sightImageFileName);
+                            String fullPath = SERVER_IP.concat(sightImageFilePath).concat(sightImageFileName);
 
-                        imageUris.add(fullPath);
+                            imageUris.add(fullPath);
 
-                        Log.d("LOG/DB","Get Item");
+                            Log.d("LOG/DB", "Get Path");
+                        } else {
+                            Log.d("LOG/DB", "Uri Clear");
+                            imageUris.clear();
+                            break;
+                        }
+                    }
+                    if(synk == SelectDB_SIGHT1100ForDetailImage.START) {
+                        synk = SelectDB_SIGHT1100ForDetailImage.MIDTERM;
+                        SightDetailFragment.LoadBitmapfromUrl(imageUris);
                     }
 
-                    SightDetailFragment.LoadBitmapfromUrl(imageUris);
-                }catch (JSONException e){
+                } catch (JSONException e){
                     e.printStackTrace();
                 }
             }

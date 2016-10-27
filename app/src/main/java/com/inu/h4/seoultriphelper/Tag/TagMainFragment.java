@@ -28,7 +28,7 @@ public class TagMainFragment extends Fragment {
     // 리스트 출력 관련 변수
     private ListView mListView;
     private ArrayList<TagContentListItem> mData;
-    private TagContentListItemAdapter adapter;
+    private TagContentListAdapter adapter;
     private SelectedTagInstance instance;
 
     final private View.OnClickListener mOnClick = new View.OnClickListener() {
@@ -72,7 +72,7 @@ public class TagMainFragment extends Fragment {
         View layout = inflater.inflate(R.layout.tag_main, container, false);
 
         SelectedTagInstance.removeInstance(); // 서브태그 인스턴스를 비운다
-        adapter = new TagContentListItemAdapter();
+        adapter = new TagContentListAdapter();
 
         loadData();
         addListViewItem(mData);
@@ -120,6 +120,9 @@ public class TagMainFragment extends Fragment {
                 FragmentTransaction ft = fm.beginTransaction();
                 ft.replace(R.id.tag_select_menu_container, fragment)
                         .commit();
+
+                getActivity().findViewById(R.id.tag_select_menu_container).bringToFront();
+                mListView.setAlpha(0.6f);
             }
         });
 

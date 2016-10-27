@@ -38,8 +38,8 @@ public class HomeWeeklyRankingFragment extends Fragment {
         listView.setAdapter(adapter);
         listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
 
-        //getData();
-        //refresh();
+        getData();
+        refresh();
 
         return layout;
     }

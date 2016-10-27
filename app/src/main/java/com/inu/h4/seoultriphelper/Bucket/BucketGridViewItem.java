@@ -6,7 +6,7 @@ import android.widget.Button;
  * Created by yuk on 2016-09-27.
  */
 public class BucketGridViewItem {
-
+    private int id;
     private int image;
     private int recommend;
     private String sightName;
@@ -38,4 +38,11 @@ public class BucketGridViewItem {
     public double getCoordinate_y(){return coordinate_y;}
     public void setCoordinate_y(double coordinate_y){this.coordinate_y=coordinate_y;}
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 }

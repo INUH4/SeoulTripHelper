@@ -16,6 +16,7 @@ import com.inu.h4.seoultriphelper.DataBase.InsertDB_REVIEW1000;
 import com.inu.h4.seoultriphelper.DataBase.SIGHT1000ARRAY;
 import com.inu.h4.seoultriphelper.DataBase.SIGHT1000_LIST;
 import com.inu.h4.seoultriphelper.DataBase.SIGHT1100ForDetailImage;
+import com.inu.h4.seoultriphelper.MainActivity;
 import com.inu.h4.seoultriphelper.R;
 
 import java.io.IOException;
@@ -30,6 +31,7 @@ public class HomeMonthlyRankingFragment extends Fragment {
     private ListView listView;
     private ArrayList<HomeRankingListViewItem> data;
     private static HomeRankingListViewAdapter adapter;
+    private static int synk;
 
     private static final String SERVER_IP = "http://52.42.208.72/";
 
@@ -37,6 +39,12 @@ public class HomeMonthlyRankingFragment extends Fragment {
     public void onStart() {
         super.onStart();
         Log.d("LOG/MONTH", "onStart()");
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        synk = 0;
     }
 
     @Override
@@ -50,6 +58,8 @@ public class HomeMonthlyRankingFragment extends Fragment {
         listView = (ListView) layout.findViewById(R.id.home_monthly_ranking_list_view);
         listView.setAdapter(adapter);
         listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+
+        synk = 1;
 
         getData();
         refresh();
@@ -90,21 +100,24 @@ public class HomeMonthlyRankingFragment extends Fragment {
             }
 
             public Bitmap loadBitmap( String uri ) {
-                Bitmap bitmap = null;
-                URL newurl = null;
-                bitmap = null;
-                try {
-                    newurl = new URL(SERVER_IP.concat(uri));
-                    bitmap = BitmapFactory.decodeStream(newurl.openConnection().getInputStream());
-                } catch (MalformedURLException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
+                if(synk == 1) {
+                    Bitmap bitmap = null;
+                    URL newurl = null;
+                    bitmap = null;
+                    try {
+                        newurl = new URL(SERVER_IP.concat(uri));
+                        bitmap = BitmapFactory.decodeStream(newurl.openConnection().getInputStream());
+                    } catch (MalformedURLException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
 
-                    e.printStackTrace();
-                }
-                Log.d("LOG/MONTH", "Get Home Bitmap! " + uri);
+                        e.printStackTrace();
+                    }
+                    Log.d("LOG/MONTH", "Get Home Bitmap! " + uri);
 
-                return bitmap;
+                    return bitmap;
+                } else
+                    return null;
             }
         }
         LoadClass inner = new LoadClass();

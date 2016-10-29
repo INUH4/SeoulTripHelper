@@ -50,9 +50,9 @@ public class HomeWeeklyRankingFragment extends Fragment {
         SIGHT1000ARRAY.Weeksorting();
         for(int i = 0; i< SIGHT1000ARRAY.sight1000Array.size(); i++) {
             item = new HomeRankingListViewItem();
-            Log.d("LOG/WEEK", "beforeGetData");
+            //Log.d("LOG/WEEK", "beforeGetData");
             SIGHT1000ARRAY.getWeekArrayData(item, i);
-            Log.d("LOG/WEEK", "GetData : " + item.getSightName());
+            //Log.d("LOG/WEEK", "GetData : " + item.getSightName());
             data.add(item);
             adapter.addItem(data.get(i));
         }

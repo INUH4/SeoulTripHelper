@@ -25,8 +25,7 @@ import com.inu.h4.seoultriphelper.Bucket.BucketEmptyFragment;
 import com.inu.h4.seoultriphelper.Bucket.BucketExistFragment;
 import com.inu.h4.seoultriphelper.DataBase.SIGHT1000ARRAY;
 import com.inu.h4.seoultriphelper.DataBase.SIGHT1000_LIST;
-import com.inu.h4.seoultriphelper.DataBase.SelectDB_SIGHT1100ForDetailImage;
-import com.inu.h4.seoultriphelper.Detail.SightDetailFragment;
+import com.inu.h4.seoultriphelper.DataBase.SIGHT1100ForDetailImage;
 import com.inu.h4.seoultriphelper.Home.HomeFragment;
 import com.inu.h4.seoultriphelper.Planner.PlannerEmptyFragment;
 import com.inu.h4.seoultriphelper.Planner.PlannerExistFragment;
@@ -44,13 +43,16 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     SIGHT1000_LIST sight1000list;
     phpDown task1;
-    Bitmap bmImg;
+    static Bitmap bmImg;
 
     DrawerLayout drawer;
     Fragment initFragment;
@@ -63,9 +65,9 @@ public class MainActivity extends AppCompatActivity
         Log.d("LOG/MAIN", "onBackPressed()");
 
         // DB 데이터를 불러오는 중에 뒤로가기를 눌렀을 경우.
-        if(SelectDB_SIGHT1100ForDetailImage.synk != SelectDB_SIGHT1100ForDetailImage.STOP) {
+        if(SIGHT1100ForDetailImage.synk != SIGHT1100ForDetailImage.STOP) {
             Log.d("LOG/MAIN", "SIGHT1100 synk = STOP");
-            SelectDB_SIGHT1100ForDetailImage.synk = SelectDB_SIGHT1100ForDetailImage.STOP;
+            SIGHT1100ForDetailImage.synk = SIGHT1100ForDetailImage.STOP;
         }
 
         // 좌측의 drawer 메뉴가 켜져있는 경우 뒤로가기 버튼을 누르면 닫음
@@ -101,26 +103,6 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-    }
-
-    private class back extends AsyncTask<String, Integer, Bitmap> {
-        protected Bitmap doInBackground(String... urls) {
-            // TODO Auto-generated method stub
-            try{
-                URL myFileUrl = new URL(urls[0]);
-                HttpURLConnection conn = (HttpURLConnection)myFileUrl.openConnection();
-                conn.setDoInput(true);
-                conn.connect();
-                //String json = DownloadHtml("http://117.16.243.116/appdata.php");
-                InputStream is = conn.getInputStream();
-
-                bmImg = BitmapFactory.decodeStream(is);
-
-            }catch(IOException e){
-                e.printStackTrace();
-            }
-            return bmImg;
-        }
     }
 
     private class phpDown extends AsyncTask<String, Integer, String>{
@@ -171,6 +153,7 @@ public class MainActivity extends AppCompatActivity
                     String location_y = jo.getString("sight_location_y");
                     String weekrecommend = jo.getString("sight_weekrecommend");
                     String monthrecommend = jo.getString("sight_monthrecommend");
+                    String thumbnail = jo.getString("sight_thumbnail");
 
                     sight1000list = new SIGHT1000_LIST();
                     sight1000list.setSight1000Data(
@@ -181,7 +164,8 @@ public class MainActivity extends AppCompatActivity
                             location_x,
                             location_y,
                             weekrecommend,
-                            monthrecommend);
+                            monthrecommend,
+                            thumbnail);
 
                     SIGHT1000ARRAY.sight1000Array.add(sight1000list);
                     Log.d("LOG/HOME", name);

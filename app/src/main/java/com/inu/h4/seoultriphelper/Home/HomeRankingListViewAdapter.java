@@ -10,8 +10,11 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.inu.h4.seoultriphelper.DataBase.SIGHT1000ForDetailSight;
 import com.inu.h4.seoultriphelper.Detail.SightDetailFragment;
 import com.inu.h4.seoultriphelper.InnerDBHelper;
 import com.inu.h4.seoultriphelper.R;
@@ -48,7 +51,6 @@ public class HomeRankingListViewAdapter extends BaseAdapter {
             convertView = inflater.inflate(R.layout.home_item, parent, false);
         }
 
-
         // Data Set(listViewItemList)에서 position에 위치한 데이터 참조 획득
         final HomeRankingListViewItem listViewItem = listViewItemList.get(position);
 
@@ -56,9 +58,11 @@ public class HomeRankingListViewAdapter extends BaseAdapter {
         TextView ranking = (TextView) convertView.findViewById(R.id.home_ranking);
         TextView sightName = (TextView) convertView.findViewById(R.id.home_sight_name);
         ImageView sightImage = (ImageView) convertView.findViewById(R.id.home_sight_image);
+        final TextView recommendCount = (TextView) convertView.findViewById(R.id.home_recommend_count);
+        RatingBar rating = (RatingBar) convertView.findViewById(R.id.home_rating_bar);
         Button getBucketButton = (Button) convertView.findViewById(R.id.btn_home_get_bucket);
-        Button recommendButton = (Button) convertView.findViewById(R.id.btn_home_recommend);
-        Button moreInfoButton = (Button) convertView.findViewById(R.id.btn_home_more_info);
+        Button recommendButton = (Button) convertView.findViewById(R.id.home_recommend_icon);
+        TextView currentPoint = (TextView) convertView.findViewById(R.id.home_rating_current_point);
 
         //담기 버튼
         getBucketButton.setOnClickListener(new View.OnClickListener() {
@@ -66,6 +70,12 @@ public class HomeRankingListViewAdapter extends BaseAdapter {
             public void onClick(View v) {
             }
 
+        });
+        recommendButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SIGHT1000ForDetailSight.incrementHomeRecommendCount(String.valueOf(listViewItem.getPlaceid()), listViewItem);
+            }
         });
         sightImage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -81,7 +91,10 @@ public class HomeRankingListViewAdapter extends BaseAdapter {
         //ranking.setText(String.valueOf(listViewItem.getRanking()+"위"));
         ranking.setText(listViewItem.getRanking()+"위");
         sightName.setText(listViewItem.getSightName());
-        sightImage.setImageResource(listViewItem.getImage());
+        sightImage.setImageBitmap(listViewItem.getImageBitmap());
+        recommendCount.setText(String.valueOf(listViewItem.getRecommendCount()));
+        rating.setRating((float)listViewItem.getRating());
+        currentPoint.setText(String.valueOf(listViewItem.getRating()));
 
         return convertView;
     }

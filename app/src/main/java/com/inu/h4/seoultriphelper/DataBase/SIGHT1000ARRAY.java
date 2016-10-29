@@ -1,7 +1,8 @@
 package com.inu.h4.seoultriphelper.DataBase;
 
-import android.util.Log;
+import android.graphics.Bitmap;
 
+import com.inu.h4.seoultriphelper.Home.HomeMonthlyRankingFragment;
 import com.inu.h4.seoultriphelper.Home.HomeRankingListViewItem;
 
 import java.util.ArrayList;
@@ -19,7 +20,10 @@ public class SIGHT1000ARRAY {
         item.setSightName(sight1000Array.get(i).getData(1));
         item.setWeek_recommend(Integer.parseInt(sight1000Array.get(i).getData(6)));
         item.setRanking(i+1);
-        Log.d("LOG/SIGHT1000ARRAYW", sight1000Array.get(i).getData(6));
+        item.setRecommendCount(Integer.valueOf(sight1000Array.get(i).getData(3)));
+        //SelectDB_REVIEW1000.setAvgRecommendPoint(String.valueOf(item.getPlaceid()), item);
+
+        //Log.d("LOG/SIGHT1000ARRAYW", sight1000Array.get(i).getData(6));
     }
 
     public static void Weeksorting(){
@@ -48,7 +52,10 @@ public class SIGHT1000ARRAY {
         item.setSightName(sight1000Array.get(i).getData(1));
         item.setMonth_recommend(Integer.parseInt(sight1000Array.get(i).getData(7)));
         item.setRanking(i+1);
-        Log.d("LOG/SIGHT1000ARRAYM", item.getSightName());
+        item.setRecommendCount(Integer.valueOf(sight1000Array.get(i).getData(3)));
+        //SelectDB_REVIEW1000.setAvgRecommendPoint(String.valueOf(item.getPlaceid()), item);
+
+        //Log.d("LOG/SIGHT1000ARRAYM", item.getSightName());
     }
 
     public static void Monthsorting(){
@@ -69,6 +76,14 @@ public class SIGHT1000ARRAY {
                 return 1;
             else
                 return 0;
+        }
+    }
+
+    static public void setRecommendCountById(String placeId, String recommendCount) {
+        for(int i=0; i<sight1000Array.size(); i++) {
+            if(sight1000Array.get(i).getData(0).equals(placeId)) {
+                sight1000Array.get(i).setData(3, recommendCount);
+            }
         }
     }
 }

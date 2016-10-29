@@ -25,45 +25,15 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class SelectDB_REVIEW1000 {
+public class SIGHT1000ForDetailSight {
 
-    static String myJSON;
+    private static final String SIGHT_NAME = "SIGHT_NAME";
+    private static final String SIGHT_INFO = "SIGHT_INFO";
+    private static final String SIGHT_RECOMMEND_COUNT = "SIGHT_RECOMMEND_COUNT";
+    private static final String SIGHT_LOCATION_X = "SIGHT_LOCATION_X";
+    private static final String SIGHT_LOCATION_Y = "SIGHT_LOCATION_Y";
 
-    private static final String TAG_RESULTS = "result";
-    private static final String TAG_REVIEW_WRITER = "review_writer";
-    private static final String TAG_REVIEW_INFO = "review_info";
-    private static final String TAG_REVIEW_DATE = "review_date";
-    private static final String TAG_REVIEW_POINT = "review_point";
-
-    protected static void showList(List<SightDetailReviewListViewItem> reviewList){
-        try{
-            JSONObject jsonObj = new JSONObject(myJSON);
-            JSONArray sights = jsonObj.getJSONArray(TAG_RESULTS);
-
-            for(int i=0; i<sights.length(); i++){
-                JSONObject c = sights.getJSONObject(i);
-                String reviewWriter = c.getString(TAG_REVIEW_WRITER);
-                String reviewInfo = c.getString(TAG_REVIEW_INFO);
-                String reviewDate = c.getString(TAG_REVIEW_DATE);
-                String reviewPoint = c.getString(TAG_REVIEW_POINT);
-
-                SightDetailReviewListViewItem item = new SightDetailReviewListViewItem();
-                item.setWriter(reviewWriter);
-                item.setInfo(reviewInfo);
-                item.setDate(reviewDate);
-                item.setRecommendRating(Float.valueOf(reviewPoint));
-
-                Log.d("LOG/DB","Get Item");
-                reviewList.add(item);
-            }
-
-            SightDetailFragment.notifyReviewData();
-        }catch (JSONException e){
-            e.printStackTrace();
-        }
-    }
-
-    public static void getData(String sight_id, final List<SightDetailReviewListViewItem> reviewList) {
+    public static void getData(String sight_id, final SightDetailItem item) {
         class GetDataJSON extends AsyncTask<String, Void, String> {
 
             @Override
@@ -71,7 +41,7 @@ public class SelectDB_REVIEW1000 {
                 try{
                     String sight_id = params[0];
 
-                    String link = "http://52.42.208.72/Review1000GetData.php";
+                    String link = "http://52.42.208.72/Sight1000GetDataForDetail.php";
                     String data = URLEncoder.encode("SIGHT_ID", "UTF-8") + "=" + URLEncoder.encode(sight_id, "UTF-8");
 
                     URL url = new URL(link);
@@ -101,27 +71,45 @@ public class SelectDB_REVIEW1000 {
 
             @Override
             protected void onPostExecute(String result){
-                myJSON = result;
-                showList(reviewList);
+                try{
+                    JSONObject obj = new JSONObject(result);
+
+                    String sightName = obj.getString(SIGHT_NAME);
+                    String sightInfo = obj.getString(SIGHT_INFO);
+                    String sightRecommendCount = obj.getString(SIGHT_RECOMMEND_COUNT);
+                    String sightLocationX = obj.getString(SIGHT_LOCATION_X);
+                    String sightLocationY = obj.getString(SIGHT_LOCATION_Y);
+
+                    item.setSightName(sightName);
+                    item.setSightInfo(sightInfo);
+                    item.setRecommendCount(Integer.valueOf(sightRecommendCount));
+                    item.setSightX(Double.valueOf(sightLocationX));
+                    item.setSightY(Double.valueOf(sightLocationY));
+
+                    Log.d("LOG/DB","Get Item");
+
+                    SightDetailFragment.notifySightData();
+                }catch (JSONException e){
+                    e.printStackTrace();
+                }
             }
         }
         GetDataJSON g = new GetDataJSON();
         g.execute(sight_id);
     }
-    public static void setAvgRecommendPoint(String sight_id, final SightDetailItem item) {
-        class GetAvg extends AsyncTask<String, Void, String> {
+    public static void incrementDetailRecommendCount(String sight_id, final SightDetailItem item) {
+        class incrementDetailRecommendCountClass extends AsyncTask<String, Void, String> {
 
             @Override
             protected String doInBackground(String... params){
                 try{
                     String sight_id = params[0];
 
-                    String link = "http://52.42.208.72/Review1000GetAvg.php";
+                    String link = "http://52.42.208.72/Sight1000UpdateRecommend.php";
                     String data = URLEncoder.encode("SIGHT_ID", "UTF-8") + "=" + URLEncoder.encode(sight_id, "UTF-8");
 
                     URL url = new URL(link);
                     URLConnection conn = url.openConnection();
-
 
                     conn.setDoOutput(true);
                     OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
@@ -150,39 +138,32 @@ public class SelectDB_REVIEW1000 {
                 try{
                     JSONObject obj = new JSONObject(result);
 
-                    String avgPoint = obj.getString("avg(REVIEW_POINT)");
-                    Log.d("LOG/REVIEW1000", avgPoint);
+                    String sightRecommendCount = obj.getString(SIGHT_RECOMMEND_COUNT);
 
-                    if(!avgPoint.contains("null")) {
-                        double dAvgPoint = Math.round(Double.valueOf(avgPoint)*10d) / 10d;
-                        item.setAvgPoint(dAvgPoint);
-                    }
-                    else
-                        item.setAvgPoint(0.0);
+                    item.setRecommendCount(Integer.valueOf(sightRecommendCount));
 
-                    SightDetailFragment.notifyAvgPoint();
+                    SightDetailFragment.notifyRecommendCount();
                 }catch (JSONException e){
                     e.printStackTrace();
                 }
             }
         }
-        GetAvg avg = new GetAvg();
-        avg.execute(sight_id);
+        incrementDetailRecommendCountClass incrementDetailRecommendCountClass = new incrementDetailRecommendCountClass();
+        incrementDetailRecommendCountClass.execute(sight_id);
     }
-    public static void setAvgRecommendPoint(String sight_id, final HomeRankingListViewItem item) {
-        class GetAvg extends AsyncTask<String, Void, String> {
+    public static void incrementHomeRecommendCount(String sight_id, final HomeRankingListViewItem item) {
+        class incrementHomeRecommendCountClass extends AsyncTask<String, Void, String> {
 
             @Override
             protected String doInBackground(String... params){
                 try{
                     String sight_id = params[0];
 
-                    String link = "http://52.42.208.72/Review1000GetAvg.php";
+                    String link = "http://52.42.208.72/Sight1000UpdateRecommend.php";
                     String data = URLEncoder.encode("SIGHT_ID", "UTF-8") + "=" + URLEncoder.encode(sight_id, "UTF-8");
 
                     URL url = new URL(link);
                     URLConnection conn = url.openConnection();
-
 
                     conn.setDoOutput(true);
                     OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
@@ -211,23 +192,19 @@ public class SelectDB_REVIEW1000 {
                 try{
                     JSONObject obj = new JSONObject(result);
 
-                    String avgPoint = obj.getString("avg(REVIEW_POINT)");
-                    Log.d("LOG/REVIEW1000", avgPoint);
+                    String sightRecommendCount = obj.getString(SIGHT_RECOMMEND_COUNT);
 
-                    if(!avgPoint.contains("null")) {
-                        double dAvgPoint = Math.round(Double.valueOf(avgPoint)*10d) / 10d;
-                        item.setRating(dAvgPoint);
-                    }
-                    else
-                        item.setRating(0.0);
+                    item.setRecommendCount(Integer.valueOf(sightRecommendCount));
 
+                    SIGHT1000ARRAY.setRecommendCountById(String.valueOf(item.getPlaceid()),sightRecommendCount);
                     HomeMonthlyRankingFragment.refresh();
+
                 }catch (JSONException e){
                     e.printStackTrace();
                 }
             }
         }
-        GetAvg avg = new GetAvg();
-        avg.execute(sight_id);
+        incrementHomeRecommendCountClass incrementRecommendCountClass = new incrementHomeRecommendCountClass();
+        incrementRecommendCountClass.execute(sight_id);
     }
 }

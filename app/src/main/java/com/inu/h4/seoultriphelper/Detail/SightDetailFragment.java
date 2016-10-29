@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -18,12 +19,12 @@ import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.inu.h4.seoultriphelper.DataBase.SIGHT1000ARRAY;
 import com.inu.h4.seoultriphelper.DataBase.SelectDB_REVIEW1000;
-import com.inu.h4.seoultriphelper.DataBase.SelectDB_SIGHT1000ForDetailSight;
-import com.inu.h4.seoultriphelper.DataBase.SelectDB_SIGHT1100ForDetailImage;
+import com.inu.h4.seoultriphelper.DataBase.SIGHT1000ForDetailSight;
+import com.inu.h4.seoultriphelper.DataBase.SIGHT1100ForDetailImage;
 import com.inu.h4.seoultriphelper.R;
 
-import net.daum.mf.map.api.MapPoint;
 import net.daum.mf.map.api.MapView;
 
 import java.io.IOException;
@@ -46,17 +47,18 @@ public class SightDetailFragment extends Fragment implements View.OnClickListene
     static int pos;        // 메인이미지의 index를 저장.
     static ImageView mainImage;
     static LinearLayout mLayout;
+    static RatingBar avgRatingBar;
 
     MapView mapView;
     static View header;
 
-    static TextView sightName, sightInfo, sightRecommendCount;
+    static TextView sightName, sightInfo, sightRecommendCount, avgCurrentPoint;
 
     final String API_KEY = "9b534daa5413298e965b0542249e5456";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        SelectDB_SIGHT1100ForDetailImage.synk = SelectDB_SIGHT1100ForDetailImage.START;
+        SIGHT1100ForDetailImage.synk = SIGHT1100ForDetailImage.START;
         pos = 0;
 
         View layout = inflater.inflate(R.layout.detail, container, false) ;             // 리뷰 리스트뷰를 담당
@@ -74,6 +76,7 @@ public class SightDetailFragment extends Fragment implements View.OnClickListene
             ListView reviewListView;
             ImageButton leftImageButton, rightImageButton;
             RatingBar ratingBar;
+            Button recommendButton;
 
             // 좌우 버튼을 통해 pos 값 변경.
             leftImageButton = (ImageButton) header.findViewById(R.id.btn_left_image);
@@ -87,10 +90,23 @@ public class SightDetailFragment extends Fragment implements View.OnClickListene
                 public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
                     TextView tv = (TextView) header.findViewById(R.id.detail_current_point);
                     tv.setText(String.valueOf(rating));
-                    dialog = new SightDetailReviewDialog(getContext(), rating, placeId, reviewList); // 다이얼로그 생성
+                    dialog = new SightDetailReviewDialog(getContext(), rating, placeId, reviewList, item); // 다이얼로그 생성
                     dialog.show();
                 }
             });
+
+            // 추천 버튼 초기화.
+            recommendButton = (Button) header.findViewById(R.id.detail_recommend_icon);
+            recommendButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    SIGHT1000ForDetailSight.incrementDetailRecommendCount(String.valueOf(placeId), item);
+                }
+            });
+
+            // 평점 RatingBar 초기화.
+            avgRatingBar = (RatingBar) header.findViewById(R.id.detail_avg_ratingBar);
+            avgCurrentPoint = (TextView) header.findViewById(R.id.detail_avg_current_point);
 
             // 지도를 위한 MapView 초기화.
             initMapView();
@@ -115,18 +131,23 @@ public class SightDetailFragment extends Fragment implements View.OnClickListene
         String str_place_id = String.valueOf(placeId);
         Log.d("LOG/DETAIL", "관광지 아이디 : ".concat(str_place_id));
 
-        // 관광지 이미지 Uri을 받아오고 그 Uri를 비트맵으로 변환.
-        imageUris = new ArrayList<>();
-        imageBitmaps = new ArrayList<>();
-        SelectDB_SIGHT1100ForDetailImage.getData(str_place_id, imageUris);
-
         // 관광지 이름, 설명, 추천 수를 받아옴
         item = new SightDetailItem();
-        SelectDB_SIGHT1000ForDetailSight.getData(str_place_id, item);
+        item.setPlaceId(str_place_id);
+        SIGHT1000ForDetailSight.getData(str_place_id, item);
+
+        // 관광지 이미지 Uri을 받아오고 그 Uri를 비트맵으로 변환.
+        imageUris = new ArrayList<>();
+        item.setImageUrls(imageUris);
+        imageBitmaps = new ArrayList<>();
+        SIGHT1100ForDetailImage.getData(str_place_id, imageUris);
 
         // 관광지의 리뷰들을 불러옴.
         reviewList = new ArrayList<>();
         SelectDB_REVIEW1000.getData(str_place_id, reviewList);
+
+        // 관광지의 평점을 받아옴.
+        SelectDB_REVIEW1000.setAvgRecommendPoint(str_place_id, item);
     }
 
     @Override
@@ -213,6 +234,15 @@ public class SightDetailFragment extends Fragment implements View.OnClickListene
         }
     }
 
+    public static void notifyRecommendCount() {
+        sightRecommendCount.setText(String.valueOf(item.getRecommendCount()));
+        SIGHT1000ARRAY.setRecommendCountById(item.getPlaceId(), String.valueOf(item.getRecommendCount()));
+    }
+    public static void notifyAvgPoint() {
+        avgRatingBar.setRating((float)item.getAvgPoint());
+        avgCurrentPoint.setText(String.valueOf(item.getAvgPoint()));
+    }
+
 
     // Uri -> 비트맵으로의 전환 메서드.
     public static void LoadBitmapfromUrl(List<String> uris) {
@@ -233,7 +263,7 @@ public class SightDetailFragment extends Fragment implements View.OnClickListene
                 Bitmap bitmap = null;
 
                 for(int i=0; i<uri.size(); i++) {
-                    if(SelectDB_SIGHT1100ForDetailImage.synk == SelectDB_SIGHT1100ForDetailImage.MIDTERM) {
+                    if(SIGHT1100ForDetailImage.synk == SIGHT1100ForDetailImage.MIDTERM) {
                         URL newurl = null;
                         bitmap = null;
                         try {

@@ -24,7 +24,6 @@
 
 
     <!--Detail Page-->
-    <string name="detail_recommend_count">추천 수</string>
     <string name="detail_point_and_review">별점 &amp; 리뷰</string>
     <string name="detail_default_point">0.0</string>
     <string name="detail_max_point">/ 5.0</string>

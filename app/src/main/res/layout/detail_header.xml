@@ -83,18 +83,51 @@
             android:layout_marginStart="20dp"
             android:layout_marginTop="15dp"/>
 
+        <RatingBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/detail_avg_ratingBar"
+            style="?android:attr/ratingBarStyleIndicator"
+            android:layout_below="@+id/detail_sight_name"
+            android:layout_marginLeft="20dp"
+            android:layout_marginStart="20dp"/>
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:id="@+id/detail_avg_current_point"
+            android:text="@string/detail_default_point"
+            android:textSize="20sp"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_alignBottom="@+id/detail_avg_ratingBar"
+            android:layout_toRightOf="@+id/detail_avg_ratingBar"
+            android:layout_toEndOf="@+id/detail_avg_ratingBar" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/detail_max_point"
+            android:textSize="20sp"
+            android:layout_alignBottom="@+id/detail_avg_ratingBar"
+            android:layout_toRightOf="@+id/detail_avg_current_point"
+            android:layout_toEndOf="@+id/detail_avg_current_point"
+            android:layout_marginLeft="11dp"
+            android:layout_marginStart="11dp" />
+
+        <Button
+            android:layout_width="35dp"
+            android:layout_height="35dp"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="@string/detail_recommend_count"
             android:textSize="22sp"
-            android:id="@+id/detail_recommend_text"
+            android:id="@+id/detail_recommend_icon"
             android:layout_marginLeft="20dp"
             android:layout_marginStart="20dp"
             android:layout_alignBottom="@+id/detail_sight_name"
-            android:layout_toRightOf="@+id/detail_sight_name"
-            android:layout_toEndOf="@+id/detail_sight_name"/>
+            android:layout_toLeftOf="@+id/detail_sight_recommend_count"
+            android:layout_toStartOf="@+id/detail_sight_recommend_count"
+            android:background="@drawable/icon_recommend"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -103,17 +136,19 @@
             android:id="@+id/detail_sight_recommend_count"
             android:layout_marginLeft="5dp"
             android:layout_marginStart="5dp"
-            android:layout_alignBottom="@+id/detail_recommend_text"
-            android:layout_toRightOf="@+id/detail_recommend_text"
-            android:layout_toEndOf="@+id/detail_recommend_text" />
+            android:layout_alignBottom="@+id/detail_recommend_icon"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginRight="10dp"
+            android:layout_marginEnd="10dp"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="19sp"
             android:id="@+id/detail_sight_info"
-            android:layout_alignLeft="@+id/detail_sight_name"
-            android:layout_alignStart="@+id/detail_sight_name"
-            android:layout_below="@+id/detail_sight_name"
+            android:layout_alignLeft="@+id/detail_avg_ratingBar"
+            android:layout_alignStart="@+id/detail_avg_ratingBar"
+            android:layout_below="@+id/detail_avg_ratingBar"
             android:layout_marginEnd="10dp"
             android:layout_marginRight="10dp"
             android:layout_marginBottom="15dp"/>

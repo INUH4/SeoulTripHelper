@@ -3,7 +3,6 @@ package com.inu.h4.seoultriphelper.Detail;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -24,13 +23,15 @@ public class SightDetailReviewDialog extends Dialog {
     String content;
     int placeId;
     List<SightDetailReviewListViewItem> reviewList;
+    SightDetailItem item;
 
     // 클릭버튼이 하나일때 생성자 함수로 클릭이벤트를 받는다.
-    public SightDetailReviewDialog(Context context, float rating, int placeId, List<SightDetailReviewListViewItem> reviewList) {
+    public SightDetailReviewDialog(Context context, float rating, int placeId, List<SightDetailReviewListViewItem> reviewList, SightDetailItem item) {
         super(context, android.R.style.Theme_Translucent_NoTitleBar);
         this.rating = rating;
         this.placeId = placeId;
         this.reviewList = reviewList;
+        this.item = item;
     }
 
     @Override
@@ -68,6 +69,7 @@ public class SightDetailReviewDialog extends Dialog {
                     InsertDB_REVIEW1000.InsertToDatabase(writer, content, String.valueOf(rating), String.valueOf(placeId));
                     reviewList.clear();
                     SelectDB_REVIEW1000.getData(String.valueOf(placeId), reviewList);
+                    SelectDB_REVIEW1000.setAvgRecommendPoint(String.valueOf(placeId), item);
                     Toast.makeText(getContext(),"리뷰 등록 완료!",Toast.LENGTH_SHORT).show();
                     dismiss();
                 }

@@ -3,12 +3,20 @@ package com.inu.h4.seoultriphelper.Detail;
 import java.util.List;
 
 public class SightDetailItem {
+    String placeId;
     String sightName;
     String sightInfo;
     List<String> imageUrls;
     int recommendCount;
     double sightX, sightY;
+    double avgPoint;
 
+    public String getPlaceId() {
+        return placeId;
+    }
+    public void setPlaceId(String placeId) {
+        this.placeId = placeId;
+    }
     public String getSightName() {
         return sightName;
     }
@@ -44,5 +52,11 @@ public class SightDetailItem {
     }
     public void setSightY(double sightY) {
         this.sightY = sightY;
+    }
+    public double getAvgPoint() {
+        return avgPoint;
+    }
+    public void setAvgPoint(double avgPoint) {
+        this.avgPoint = avgPoint;
     }
 }

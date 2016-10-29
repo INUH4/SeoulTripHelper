@@ -1,7 +1,5 @@
 package com.inu.h4.seoultriphelper.Detail;
 
-import java.sql.Timestamp;
-
 public class SightDetailReviewListViewItem {
     String writer;
     float recommendRating;

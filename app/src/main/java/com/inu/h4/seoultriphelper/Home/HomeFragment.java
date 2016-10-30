@@ -15,8 +15,7 @@ import com.inu.h4.seoultriphelper.SmartTabLayoutLibrary.FragmentStatePagerItemAd
 import com.ogaclejapan.smarttablayout.SmartTabLayout;
 
 public class HomeFragment extends Fragment {
-    public static int monthFragmentRowCount = 4, weekFragmentRowCount = 4;
-    public static int currentFragmentIndex=0;
+    public static int monthFragmentRowCount, weekFragmentRowCount;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -27,6 +26,8 @@ public class HomeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         Log.d("LOG/PAGE_HOME", "onCreateView()");
+        monthFragmentRowCount = 4;
+        weekFragmentRowCount = 4;
         View layout = inflater.inflate(R.layout.home, container, false);
 
         FragmentStatePagerItemAdapter adapter = new FragmentStatePagerItemAdapter(

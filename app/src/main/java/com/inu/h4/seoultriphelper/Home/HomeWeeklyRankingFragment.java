@@ -50,7 +50,7 @@ public class HomeWeeklyRankingFragment extends Fragment {
         Log.d("LOG/WEEK", "onCreateView()");
 
         View layout = inflater.inflate(R.layout.home_weekly_ranking, container, false);
-        adapter = new HomeRankingListViewAdapter(this);
+        adapter = new HomeRankingListViewAdapter(this,1);
 
         listView = (ListView) layout.findViewById(R.id.home_weekly_ranking_list_view);
         listView.setAdapter(adapter);
@@ -70,18 +70,17 @@ public class HomeWeeklyRankingFragment extends Fragment {
                 //OnScrollListener.SCROLL_STATE_IDLE은 스크롤이 이동하다가 멈추었을때 발생되는 스크롤 상태입니다.
                 //즉 스크롤이 바닦에 닿아 멈춘 상태에 처리를 하겠다는 뜻
                 if(scrollState == AbsListView.OnScrollListener.SCROLL_STATE_IDLE && lastItemVisibleFlag) {
-                    HomeFragment.currentFragmentIndex = 1;
 
                     Log.d("LOG/WEEK", String.valueOf(SIGHT1000ARRAY.sight1000Array.size()));
                     if(HomeFragment.weekFragmentRowCount + 4 <= SIGHT1000ARRAY.sight1000Array.size()) {
                         HomeFragment.weekFragmentRowCount += 4;
 
                         Log.d("LOG/WEEK", String.valueOf(adapter.listViewItemList.size()));
-                        SIGHT1000ARRAY.Monthsorting();
+                        SIGHT1000ARRAY.Weeksorting();
                         for (int i = HomeFragment.weekFragmentRowCount - 4; i < HomeFragment.weekFragmentRowCount; i++) {
                             HomeRankingListViewItem item = new HomeRankingListViewItem();
                             //Log.d("LOG/MONTH", "beforeGetData");
-                            SIGHT1000ARRAY.getMonthArrayData(item, i);
+                            SIGHT1000ARRAY.getWeekArrayData(item, i);
                             LoadBitmapfromUrl(SIGHT1000ARRAY.sight1000Array.get(i).getData(8), item);
                             //Log.d("LOG/MONTH", "GetData : " + item.getSightName());
                             data.add(item);
@@ -93,11 +92,11 @@ public class HomeWeeklyRankingFragment extends Fragment {
                         HomeFragment.weekFragmentRowCount = SIGHT1000ARRAY.sight1000Array.size();
 
                         Log.d("LOG/WEEK", String.valueOf(adapter.listViewItemList.size()));
-                        SIGHT1000ARRAY.Monthsorting();
+                        SIGHT1000ARRAY.Weeksorting();
                         for (int i = HomeFragment.weekFragmentRowCount; i < HomeFragment.weekFragmentRowCount + sub; i++) {
                             HomeRankingListViewItem item = new HomeRankingListViewItem();
                             //Log.d("LOG/MONTH", "beforeGetData");
-                            SIGHT1000ARRAY.getMonthArrayData(item, i);
+                            SIGHT1000ARRAY.getWeekArrayData(item, i);
                             LoadBitmapfromUrl(SIGHT1000ARRAY.sight1000Array.get(i).getData(8), item);
                             //Log.d("LOG/MONTH", "GetData : " + item.getSightName());
                             data.add(item);

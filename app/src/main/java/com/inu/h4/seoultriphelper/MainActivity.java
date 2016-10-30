@@ -61,6 +61,7 @@ public class MainActivity extends AppCompatActivity
     private BackPressCloseSystem backPressCloseSystem;
     static int InnerDbCounter=0;
     final InnerDBHelper InnerDBHelper1 = new InnerDBHelper(this, "BUCKETDB1.db",null,1);
+    InnerDBHelper2 innerDBHelper2 = new InnerDBHelper2(this, "PREFERDB2.db",null,1);
 
     @Override
     public void onBackPressed() {
@@ -271,7 +272,7 @@ public class MainActivity extends AppCompatActivity
             targetFragment = new TagMainFragment();
             tag = "page_tag";
         } else if (id == R.id.nav_prefer) {
-            if(DataRepository.preferIndex == null) {          // 설문 결과가 없을 경우
+            if(innerDBHelper2.selectPrefer() == null) {          // 설문 결과가 없을 경우
                 targetFragment = new PreferEmptyFragment();
                 tag = "page_prefer_empty";
             } else {            // 설문 결과가 있을 경우

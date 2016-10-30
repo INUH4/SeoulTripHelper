@@ -73,7 +73,7 @@ public class BucketGridViewAdapter extends BaseAdapter {
                 GridViewItemList.remove(pos);
                 adapter.notifyDataSetChanged();
                 Toast.makeText(context, "삭제되었습니다.", Toast.LENGTH_SHORT).show();
-                InnerDBHelper.delete(GridViewItem.getSightName());
+                InnerDBHelper.delete(String.valueOf(GridViewItem.getId()));
             }
 
         });

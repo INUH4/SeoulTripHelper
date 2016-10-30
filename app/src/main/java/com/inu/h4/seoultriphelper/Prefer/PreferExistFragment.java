@@ -2,6 +2,7 @@ package com.inu.h4.seoultriphelper.Prefer;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +10,8 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.inu.h4.seoultriphelper.DataRepository;
+import com.inu.h4.seoultriphelper.InnerDBHelper;
+import com.inu.h4.seoultriphelper.InnerDBHelper2;
 import com.inu.h4.seoultriphelper.R;
 
 import java.io.BufferedReader;
@@ -20,6 +23,7 @@ public class PreferExistFragment extends Fragment {
     Bundle bundle = null;
     Button reexamineButton;
     TextView preferTextContent, preferTextTitle;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
@@ -32,16 +36,20 @@ public class PreferExistFragment extends Fragment {
     public void onStart() {
         super.onStart();
 
+        InnerDBHelper2 innerDBHelper2 = new InnerDBHelper2(getContext(), "PREFERDB2.db",null,1);
+
         preferTextContent = (TextView) getActivity().findViewById(R.id.prefer_result_text_content);
         preferTextTitle = (TextView) getActivity().findViewById(R.id.prefer_result_text_title);
         bundle = getArguments();
         if(bundle != null) {
-            if(DataRepository.preferIndex == null) {        // 기존의 설문 결과가 없을 경우.
-                DataRepository.preferIndex = (String) bundle.get("preferIndex");        // 방금 완성한 설문의 결과를 저장.
+            if(innerDBHelper2.selectPrefer() == null) {        // 기존의 설문 결과가 없을 경우.
+                Log.d("LOG/PREFER", innerDBHelper2.selectPrefer() + "aaa");
+                innerDBHelper2.insertPrefer((String) bundle.get("preferIndex"));        // 방금 완성한 설문의 결과를 저장.
+                Log.d("LOG/PREFER", innerDBHelper2.selectPrefer() + "bbb");
                 bundle.remove("preferIndex");       // 번들에 저장해놓은 결과는 삭제. (글로벌 설문 결과 변수가 존재하므로.)
             }
         }
-        setPreferTextValue(DataRepository.preferIndex);         // 설문 결과를 화면에 출력.
+        setPreferTextValue(innerDBHelper2.selectPrefer());         // 설문 결과를 화면에 출력.
 
         reexamineButton = (Button) getActivity().findViewById(R.id.btn_prefer_reexamine);
         reexamineButton.setOnClickListener(new View.OnClickListener() {

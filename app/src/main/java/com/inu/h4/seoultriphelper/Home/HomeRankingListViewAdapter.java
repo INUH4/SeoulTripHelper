@@ -23,8 +23,10 @@ import java.util.ArrayList;
 
 public class HomeRankingListViewAdapter extends BaseAdapter {
     Fragment fragment;
-    public HomeRankingListViewAdapter(Fragment fragment) {
+    int fragmentIndex;
+    public HomeRankingListViewAdapter(Fragment fragment, int fragmentIndex) {
         this.fragment = fragment;
+        this.fragmentIndex = fragmentIndex;
     }
     // Adapter에 추가된 데이터를 저장하기 위한 ArrayList
     public ArrayList<HomeRankingListViewItem> listViewItemList = new ArrayList<>() ;
@@ -32,7 +34,7 @@ public class HomeRankingListViewAdapter extends BaseAdapter {
     // Adapter에 사용되는 데이터의 개수를 리턴. : 필수 구현
     @Override
     public int getCount() {
-        if(HomeFragment.currentFragmentIndex == 0)
+        if(fragmentIndex == 0)
             return HomeFragment.monthFragmentRowCount;
         else
             return HomeFragment.weekFragmentRowCount;
@@ -45,10 +47,6 @@ public class HomeRankingListViewAdapter extends BaseAdapter {
         final Context context = parent.getContext();
         final HomeRankingListViewItem listViewItem;
 
-        //디비호출
-        final InnerDBHelper dbHelper = new InnerDBHelper(context, "BUCKETDB1.db",null,1);
-
-
         // "listview_item" Layout을 inflate하여 convertView 참조 획득.
         if (convertView == null) {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -56,7 +54,7 @@ public class HomeRankingListViewAdapter extends BaseAdapter {
         }
 
         // Data Set(listViewItemList)에서 position에 위치한 데이터 참조 획득
-        if(position <= listViewItemList.size())
+        if(position < listViewItemList.size())
             listViewItem = listViewItemList.get(position);
         else
             listViewItem = null;

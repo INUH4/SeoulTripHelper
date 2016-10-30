@@ -50,8 +50,6 @@ public class SightDetailReviewListViewAdapter extends BaseAdapter {
         RatingBar rating = (RatingBar) convertView.findViewById(R.id.detail_review_rating);
         TextView info = (TextView) convertView.findViewById(R.id.detail_review_info);
         TextView date = (TextView) convertView.findViewById(R.id.detail_review_date);
-        Button putBucketButton = (Button) convertView.findViewById(R.id.detail_put_bucket);
-        Button putPlannerButton = (Button) convertView.findViewById(R.id.detail_put_planner);
 
         SightDetailReviewListViewItem item = mListData.get(pos);
 
@@ -59,22 +57,6 @@ public class SightDetailReviewListViewAdapter extends BaseAdapter {
         rating.setRating(item.getRecommendRating());
         info.setText(item.getInfo());
         date.setText(item.getDate());
-
-        // 버킷리스트에 담기
-        putBucketButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
-        // 플래너에 담기
-        putPlannerButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
-
 
         return convertView;
     }

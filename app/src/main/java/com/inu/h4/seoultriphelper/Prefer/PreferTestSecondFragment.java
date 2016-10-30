@@ -9,6 +9,8 @@ import android.widget.Button;
 import android.widget.ListView;
 
 import com.inu.h4.seoultriphelper.DataRepository;
+import com.inu.h4.seoultriphelper.InnerDBHelper;
+import com.inu.h4.seoultriphelper.InnerDBHelper2;
 import com.inu.h4.seoultriphelper.R;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -21,9 +23,12 @@ public class PreferTestSecondFragment extends Fragment {
     private ListView listView;                  // 출력을 위한 리스트 뷰 객체
     private ArrayList<String> data;             //  파일로부터 설문내용을 받아옴
     private PreferTestListViewAdapter adapter;      // 리스트 뷰 어댑터
+
     @Override
     public void onStart() {
         super.onStart();
+
+        final InnerDBHelper2 innerDBHelper2 = new InnerDBHelper2(getContext(), "PREFERDB2.db",null,1);
 
         adapter = new PreferTestListViewAdapter();
 
@@ -39,8 +44,8 @@ public class PreferTestSecondFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 if(adapter.isFilledOut()) {
-                    if(DataRepository.preferIndex != null)          // 기존의 설문 결과가 있는지 확인.
-                        DataRepository.preferIndex = null;      // 있을 경우 초기화.
+                    if(innerDBHelper2.selectPrefer() != null)          // 기존의 설문 결과가 있는지 확인.
+                        innerDBHelper2.deletePrefer(innerDBHelper2.selectPrefer()); // 있을 경우 초기화.
 
                     Bundle bundle = getArguments();         // 이전 페이지에서 세팅한 번틀을 가져옴.
                     String index = ((String) bundle.get("preferFirstIndex")).concat(getMyPreferSecondValue());    // 첫번째 설문의 결과와 두번째 설문의 결과를 합침.

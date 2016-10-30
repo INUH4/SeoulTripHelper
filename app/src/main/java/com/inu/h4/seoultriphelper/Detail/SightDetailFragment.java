@@ -18,13 +18,16 @@ import android.widget.ListView;
 import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.inu.h4.seoultriphelper.DataBase.SIGHT1000ARRAY;
 import com.inu.h4.seoultriphelper.DataBase.SelectDB_REVIEW1000;
 import com.inu.h4.seoultriphelper.DataBase.SIGHT1000ForDetailSight;
 import com.inu.h4.seoultriphelper.DataBase.SIGHT1100ForDetailImage;
+import com.inu.h4.seoultriphelper.InnerDBHelper;
 import com.inu.h4.seoultriphelper.R;
 
+import net.daum.mf.map.api.MapPoint;
 import net.daum.mf.map.api.MapView;
 
 import java.io.IOException;
@@ -64,6 +67,9 @@ public class SightDetailFragment extends Fragment implements View.OnClickListene
         View layout = inflater.inflate(R.layout.detail, container, false) ;             // 리뷰 리스트뷰를 담당
         header = inflater.inflate(R.layout.detail_header, null, false);      // 리뷰 리스트뷰 윗부분을 담당
 
+        //디비호출
+        final InnerDBHelper dbHelper = new InnerDBHelper(getContext(), "BUCKETDB1.db",null,1);
+
         mContext = getContext();
 
         Bundle bundle = getArguments();
@@ -76,7 +82,7 @@ public class SightDetailFragment extends Fragment implements View.OnClickListene
             ListView reviewListView;
             ImageButton leftImageButton, rightImageButton;
             RatingBar ratingBar;
-            Button recommendButton;
+            Button recommendButton, putBucketButton, putPlannerButton;
 
             // 좌우 버튼을 통해 pos 값 변경.
             leftImageButton = (ImageButton) header.findViewById(R.id.btn_left_image);
@@ -92,6 +98,25 @@ public class SightDetailFragment extends Fragment implements View.OnClickListene
                     tv.setText(String.valueOf(rating));
                     dialog = new SightDetailReviewDialog(getContext(), rating, placeId, reviewList, item); // 다이얼로그 생성
                     dialog.show();
+                }
+            });
+
+            // 버킷리스트, 장바구니에 추가 버튼 초기화.
+            putBucketButton = (Button) header.findViewById(R.id.detail_put_bucket);
+            putPlannerButton = (Button) header.findViewById(R.id.detail_put_planner);
+            // 버킷리스트에 담기
+            putBucketButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dbHelper.insert(String.valueOf(placeId));
+                    Toast.makeText(getContext(), "버킷리스트에 담겼습니다.", Toast.LENGTH_SHORT).show();
+                }
+            });
+            // 플래너에 담기
+            putPlannerButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
                 }
             });
 
@@ -170,8 +195,8 @@ public class SightDetailFragment extends Fragment implements View.OnClickListene
         mapView.setDaumMapApiKey(API_KEY);
 
         //중심점 및 줌 레벨 변경
-        //mapView.setMapCenterPoint(MapPoint.mapPointWithGeoCoord(37.53737528, 127.00557633), true);
-
+        //mapView.setMapCenterPoint(MapPoint.mapPointWithGeoCoord((double)37.53737528, (double)127.00557633), true);
+        //mapView.setZoomLevel(7,true);
     }
 
     // 받아온 리뷰 목록을 화면에 띄움.

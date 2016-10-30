@@ -32,6 +32,8 @@
     <string name="detail_review_dialog_title">제목을 입력해주세요.</string>
     <string name="detail_review_dialog_content">내용을 입력해주세요.</string>
     <string name="detail_review_dialog_submit">등록</string>
+    <string name="detail_put_bucket">버킷리스트에 담기</string>
+    <string name="detail_put_planner">플래너에 담기</string>
 
 
 

@@ -15,6 +15,8 @@ import com.inu.h4.seoultriphelper.SmartTabLayoutLibrary.FragmentStatePagerItemAd
 import com.ogaclejapan.smarttablayout.SmartTabLayout;
 
 public class HomeFragment extends Fragment {
+    public static int monthFragmentRowCount = 4, weekFragmentRowCount = 4;
+    public static int currentFragmentIndex=0;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

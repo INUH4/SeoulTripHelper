@@ -27,12 +27,15 @@ public class HomeRankingListViewAdapter extends BaseAdapter {
         this.fragment = fragment;
     }
     // Adapter에 추가된 데이터를 저장하기 위한 ArrayList
-    private ArrayList<HomeRankingListViewItem> listViewItemList = new ArrayList<>() ;
+    public ArrayList<HomeRankingListViewItem> listViewItemList = new ArrayList<>() ;
 
     // Adapter에 사용되는 데이터의 개수를 리턴. : 필수 구현
     @Override
     public int getCount() {
-        return 4 ;
+        if(HomeFragment.currentFragmentIndex == 0)
+            return HomeFragment.monthFragmentRowCount;
+        else
+            return HomeFragment.weekFragmentRowCount;
     }
 
     // position에 위치한 데이터를 화면에 출력하는데 사용될 View를 리턴. : 필수 구현
@@ -40,6 +43,7 @@ public class HomeRankingListViewAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         final int pos = position;
         final Context context = parent.getContext();
+        final HomeRankingListViewItem listViewItem;
 
         //디비호출
         final InnerDBHelper dbHelper = new InnerDBHelper(context, "BUCKETDB1.db",null,1);
@@ -52,52 +56,39 @@ public class HomeRankingListViewAdapter extends BaseAdapter {
         }
 
         // Data Set(listViewItemList)에서 position에 위치한 데이터 참조 획득
-        final HomeRankingListViewItem listViewItem = listViewItemList.get(position);
+        if(position <= listViewItemList.size())
+            listViewItem = listViewItemList.get(position);
+        else
+            listViewItem = null;
 
-        // 화면에 표시될 View(Layout이 inflate된)으로부터 위젯에 대한 참조 획득
-        TextView ranking = (TextView) convertView.findViewById(R.id.home_ranking);
-        TextView sightName = (TextView) convertView.findViewById(R.id.home_sight_name);
-        ImageView sightImage = (ImageView) convertView.findViewById(R.id.home_sight_image);
-        final TextView recommendCount = (TextView) convertView.findViewById(R.id.home_recommend_count);
-        RatingBar rating = (RatingBar) convertView.findViewById(R.id.home_rating_bar);
-        Button getBucketButton = (Button) convertView.findViewById(R.id.btn_home_get_bucket);
-        Button recommendButton = (Button) convertView.findViewById(R.id.home_recommend_icon);
-        TextView currentPoint = (TextView) convertView.findViewById(R.id.home_rating_current_point);
+        if(listViewItem != null) {
+            // 화면에 표시될 View(Layout이 inflate된)으로부터 위젯에 대한 참조 획득
+            TextView ranking = (TextView) convertView.findViewById(R.id.home_ranking);
+            TextView sightName = (TextView) convertView.findViewById(R.id.home_sight_name);
+            ImageView sightImage = (ImageView) convertView.findViewById(R.id.home_sight_image);
+            final TextView recommendCount = (TextView) convertView.findViewById(R.id.home_recommend_count);
+            RatingBar rating = (RatingBar) convertView.findViewById(R.id.home_rating_bar);
+            TextView currentPoint = (TextView) convertView.findViewById(R.id.home_rating_current_point);
 
-        //담기 버튼
-        getBucketButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.d("LOG/getPlaceid", String.valueOf(listViewItem.getPlaceid()));
-                dbHelper.insert(String.valueOf(listViewItem.getPlaceid()));
-                Toast.makeText(context, "버킷리스트에 담겼습니다.", Toast.LENGTH_SHORT).show();
-            }
-        });
-        recommendButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                SIGHT1000ForDetailSight.incrementHomeRecommendCount(String.valueOf(listViewItem.getPlaceid()), listViewItem);
-            }
-        });
-        sightImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Fragment sightDetailFragment = new SightDetailFragment();
-                Bundle bundle = new Bundle();
-                bundle.putInt("placeId", listViewItem.getPlaceid());
-                sightDetailFragment.setArguments(bundle);
-                fragment.getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container, sightDetailFragment).addToBackStack(null).commit();
-            }
-        });
-        // 아이템 내 각 위젯에 데이터 반영
-        //ranking.setText(String.valueOf(listViewItem.getRanking()+"위"));
-        ranking.setText(listViewItem.getRanking()+"위");
-        sightName.setText(listViewItem.getSightName());
-        sightImage.setImageBitmap(listViewItem.getImageBitmap());
-        recommendCount.setText(String.valueOf(listViewItem.getRecommendCount()));
-        rating.setRating((float)listViewItem.getRating());
-        currentPoint.setText(String.valueOf(listViewItem.getRating()));
-
+            sightImage.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Fragment sightDetailFragment = new SightDetailFragment();
+                    Bundle bundle = new Bundle();
+                    bundle.putInt("placeId", listViewItem.getPlaceid());
+                    sightDetailFragment.setArguments(bundle);
+                    fragment.getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container, sightDetailFragment).addToBackStack(null).commit();
+                }
+            });
+            // 아이템 내 각 위젯에 데이터 반영
+            //ranking.setText(String.valueOf(listViewItem.getRanking()+"위"));
+            ranking.setText(listViewItem.getRanking() + "위");
+            sightName.setText(listViewItem.getSightName());
+            sightImage.setImageBitmap(listViewItem.getImageBitmap());
+            recommendCount.setText(String.valueOf(listViewItem.getRecommendCount()));
+            rating.setRating((float) listViewItem.getRating());
+            currentPoint.setText(String.valueOf(listViewItem.getRating()));
+        }
         return convertView;
     }
 

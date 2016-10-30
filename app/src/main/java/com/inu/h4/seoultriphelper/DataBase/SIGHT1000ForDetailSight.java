@@ -151,63 +151,6 @@ public class SIGHT1000ForDetailSight {
         incrementDetailRecommendCountClass incrementDetailRecommendCountClass = new incrementDetailRecommendCountClass();
         incrementDetailRecommendCountClass.execute(sight_id);
     }
-    public static void incrementHomeRecommendCount(String sight_id, final HomeRankingListViewItem item) {
-        class incrementHomeRecommendCountClass extends AsyncTask<String, Void, String> {
-
-            @Override
-            protected String doInBackground(String... params){
-                try{
-                    String sight_id = params[0];
-
-                    String link = "http://52.42.208.72/Sight1000UpdateRecommend.php";
-                    String data = URLEncoder.encode("SIGHT_ID", "UTF-8") + "=" + URLEncoder.encode(sight_id, "UTF-8");
-
-                    URL url = new URL(link);
-                    URLConnection conn = url.openConnection();
-
-                    conn.setDoOutput(true);
-                    OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
-
-                    wr.write(data);
-                    wr.flush();
-
-                    BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-
-                    StringBuilder sb = new StringBuilder();
-                    String line = null;
-
-                    while((line = reader.readLine()) != null){
-                        sb.append(line);
-                        break;
-                    }
-                    return sb.toString();
-                }
-                catch (Exception e){
-                    return new String("Exception: " + e.getMessage());
-                }
-            }
-
-            @Override
-            protected void onPostExecute(String result){
-                try{
-                    JSONObject obj = new JSONObject(result);
-
-                    String sightRecommendCount = obj.getString(SIGHT_RECOMMEND_COUNT);
-
-                    item.setRecommendCount(Integer.valueOf(sightRecommendCount));
-
-                    SIGHT1000ARRAY.setRecommendCountById(String.valueOf(item.getPlaceid()),sightRecommendCount);
-                    HomeMonthlyRankingFragment.refresh();
-
-                }catch (JSONException e){
-                    e.printStackTrace();
-                }
-            }
-        }
-        incrementHomeRecommendCountClass incrementRecommendCountClass = new incrementHomeRecommendCountClass();
-        incrementRecommendCountClass.execute(sight_id);
-    }
-
     public static void addSumPointAndPeopleCount(String sight_id, String point) {
         class incrementHomeRecommendCountClass extends AsyncTask<String, Void, String> {
 

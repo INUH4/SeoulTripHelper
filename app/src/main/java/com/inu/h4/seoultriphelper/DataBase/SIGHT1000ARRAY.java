@@ -1,17 +1,13 @@
 package com.inu.h4.seoultriphelper.DataBase;
 
-import android.graphics.Bitmap;
+import android.util.Log;
 
-import com.inu.h4.seoultriphelper.Home.HomeMonthlyRankingFragment;
 import com.inu.h4.seoultriphelper.Home.HomeRankingListViewItem;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
-/**
- * Created by Administrator on 2016-10-05.
- */
 public class SIGHT1000ARRAY {
     public static ArrayList<SIGHT1000_LIST> sight1000Array = new ArrayList<SIGHT1000_LIST>();
 
@@ -21,7 +17,13 @@ public class SIGHT1000ARRAY {
         item.setWeek_recommend(Integer.parseInt(sight1000Array.get(i).getData(6)));
         item.setRanking(i+1);
         item.setRecommendCount(Integer.valueOf(sight1000Array.get(i).getData(3)));
-        //SelectDB_REVIEW1000.setAvgRecommendPoint(String.valueOf(item.getPlaceid()), item);
+
+        if(!sight1000Array.get(i).getData(10).equals("0")) {
+            double dAvgPoint = Math.round(Double.valueOf(
+                    sight1000Array.get(i).getData(9)) / Double.valueOf(sight1000Array.get(i).getData(10)
+            ) * 10d) / 10d;
+            item.setRating(dAvgPoint);
+        }
 
         //Log.d("LOG/SIGHT1000ARRAYW", sight1000Array.get(i).getData(6));
     }
@@ -53,7 +55,13 @@ public class SIGHT1000ARRAY {
         item.setMonth_recommend(Integer.parseInt(sight1000Array.get(i).getData(7)));
         item.setRanking(i+1);
         item.setRecommendCount(Integer.valueOf(sight1000Array.get(i).getData(3)));
-        //SelectDB_REVIEW1000.setAvgRecommendPoint(String.valueOf(item.getPlaceid()), item);
+        if(!sight1000Array.get(i).getData(10).equals("0")) {
+            double dAvgPoint = Math.round(Double.valueOf(
+                    sight1000Array.get(i).getData(9)) / Double.valueOf(sight1000Array.get(i).getData(10)
+            ) * 10d) / 10d;
+            Log.d("LOG/SIGHT1000", String.valueOf(dAvgPoint));
+            item.setRating(dAvgPoint);
+        }
 
         //Log.d("LOG/SIGHT1000ARRAYM", item.getSightName());
     }
@@ -79,11 +87,27 @@ public class SIGHT1000ARRAY {
         }
     }
 
-    static public void setRecommendCountById(String placeId, String recommendCount) {
+    public static void setRecommendCountById(String placeId, String recommendCount) {
         for(int i=0; i<sight1000Array.size(); i++) {
             if(sight1000Array.get(i).getData(0).equals(placeId)) {
                 sight1000Array.get(i).setData(3, recommendCount);
             }
         }
+    }
+    public static void setSumPoint(String placeId, double point) {
+        for(int i=0; i<sight1000Array.size(); i++) {
+            if(sight1000Array.get(i).getData(0).equals(placeId)) {
+                sight1000Array.get(i).setData(9, String.valueOf(Double.valueOf(sight1000Array.get(i).getData(9)) + point));
+                sight1000Array.get(i).setData(10, String.valueOf(Integer.valueOf(sight1000Array.get(i).getData(10)) + 1));
+            }
+        }
+    }
+    static public SIGHT1000_LIST getItemById(String placeId) {
+        for(int i=0; i<sight1000Array.size(); i++) {
+            if(sight1000Array.get(i).getData(0).equals(placeId)) {
+                return sight1000Array.get(i);
+            }
+        }
+        return null;
     }
 }

@@ -32,7 +32,7 @@ public class HomeRankingListViewAdapter extends BaseAdapter {
     // Adapter에 사용되는 데이터의 개수를 리턴. : 필수 구현
     @Override
     public int getCount() {
-        return listViewItemList.size() ;
+        return 4 ;
     }
 
     // position에 위치한 데이터를 화면에 출력하는데 사용될 View를 리턴. : 필수 구현
@@ -42,7 +42,7 @@ public class HomeRankingListViewAdapter extends BaseAdapter {
         final Context context = parent.getContext();
 
         //디비호출
-        final InnerDBHelper dbHelper = new InnerDBHelper(context, "BUCKETDB.db",null,1);
+        final InnerDBHelper dbHelper = new InnerDBHelper(context, "BUCKETDB1.db",null,1);
 
 
         // "listview_item" Layout을 inflate하여 convertView 참조 획득.
@@ -68,8 +68,10 @@ public class HomeRankingListViewAdapter extends BaseAdapter {
         getBucketButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Log.d("LOG/getPlaceid", String.valueOf(listViewItem.getPlaceid()));
+                dbHelper.insert(String.valueOf(listViewItem.getPlaceid()));
+                Toast.makeText(context, "버킷리스트에 담겼습니다.", Toast.LENGTH_SHORT).show();
             }
-
         });
         recommendButton.setOnClickListener(new View.OnClickListener() {
             @Override

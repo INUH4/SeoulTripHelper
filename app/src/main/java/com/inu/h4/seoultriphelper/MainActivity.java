@@ -59,6 +59,8 @@ public class MainActivity extends AppCompatActivity
     FragmentTransaction transaction;
 
     private BackPressCloseSystem backPressCloseSystem;
+    static int InnerDbCounter=0;
+    final InnerDBHelper InnerDBHelper1 = new InnerDBHelper(this, "BUCKETDB1.db",null,1);
 
     @Override
     public void onBackPressed() {
@@ -154,6 +156,8 @@ public class MainActivity extends AppCompatActivity
                     String weekrecommend = jo.getString("sight_weekrecommend");
                     String monthrecommend = jo.getString("sight_monthrecommend");
                     String thumbnail = jo.getString("sight_thumbnail");
+                    String sumpoint = jo.getString("sum_point");
+                    String peoplecount = jo.getString("p_count");
 
                     sight1000list = new SIGHT1000_LIST();
                     sight1000list.setSight1000Data(
@@ -165,7 +169,9 @@ public class MainActivity extends AppCompatActivity
                             location_y,
                             weekrecommend,
                             monthrecommend,
-                            thumbnail);
+                            thumbnail,
+                            sumpoint,
+                            peoplecount);
 
                     SIGHT1000ARRAY.sight1000Array.add(sight1000list);
                     Log.d("LOG/HOME", name);
@@ -273,10 +279,10 @@ public class MainActivity extends AppCompatActivity
                 tag = "page_prefer_exist";
             }
         } else if (id == R.id.nav_bucket) {
-            if(true) {          // 장바구니가 비어있을 경우
+            if(InnerDBHelper1.RtnCount()==0) {          // 버킷리스트가 비어있을 경우
                 targetFragment = new BucketEmptyFragment();
                 tag = "page_bucket_empty";
-            } else {            // 장바구니가 비어있지 않은 경우
+            } else {            // 버킷리스트가 비어있지 않은 경우
                 targetFragment = new BucketExistFragment();
                 tag = "page_bucket_exist";
             }

@@ -1,5 +1,6 @@
 package com.inu.h4.seoultriphelper.Bucket;
 
+import android.graphics.Bitmap;
 import android.widget.Button;
 
 /**
@@ -7,17 +8,18 @@ import android.widget.Button;
  */
 public class BucketGridViewItem {
     private int id;
-    private int image;
+    private Bitmap bitmap;
     private int recommend;
     private String sightName;
     private double coordinate_x;
     private double coordinate_y;
 
-    public int getImage() {
-        return image;
+    public Bitmap getBitmap() {
+        return bitmap;
     }
-    public void setImage(int image) {
-        this.image = image;
+
+    public void setBitmap(Bitmap bitmap) {
+        this.bitmap = bitmap;
     }
 
     public int getRecommend() {

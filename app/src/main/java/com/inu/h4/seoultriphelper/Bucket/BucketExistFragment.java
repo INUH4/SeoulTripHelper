@@ -1,8 +1,12 @@
 package com.inu.h4.seoultriphelper.Bucket;
 
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,17 +16,25 @@ import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.TextView;
 
+import com.inu.h4.seoultriphelper.DataBase.SIGHT1000ARRAY;
+import com.inu.h4.seoultriphelper.DataBase.SIGHT1000_LIST;
+import com.inu.h4.seoultriphelper.Home.HomeRankingListViewItem;
 import com.inu.h4.seoultriphelper.InnerDBHelper;
 import com.inu.h4.seoultriphelper.SearchFragment;
 import com.inu.h4.seoultriphelper.R;
 
 
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 
 public class BucketExistFragment extends Fragment {
     private GridView GridView;
     private ArrayList<BucketGridViewItem> data;
-    private BucketGridViewAdapter adapter;
+    private static BucketGridViewAdapter adapter;
+    private static int synk;
+    private static final String SERVER_IP = "http://52.42.208.72/";
 
     @Override
     public void onStart() {
@@ -32,28 +44,29 @@ public class BucketExistFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        synk = 1;
         //디비호출 디비는 같은 폰에 하나가 아니라 앱에 하나임
         final InnerDBHelper InnerDBHelper = new InnerDBHelper(getActivity(), "BUCKETDB1.db",null,1);
 
         getActivity().setTitle("버킷리스트");
 
         View layout = inflater.inflate(R.layout.bucket_list, container, false);
-        adapter = new BucketGridViewAdapter();
+        adapter = new BucketGridViewAdapter(this);
 
         GridView = (GridView) layout.findViewById(R.id.bucket_list_grid_view);
         GridView.setAdapter(adapter);
         GridView.setChoiceMode(GridView.CHOICE_MODE_SINGLE);
         //클릭하면 상세페이지로 넘어가게
-        GridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view,
-                                    int position, long id) {
-                getActivity().getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.container, new SearchFragment())
-                        .addToBackStack(null)
-                        .commit();
-            }
-        });
+//        GridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view,
+//                                    int position, long id) {
+//                getActivity().getSupportFragmentManager().beginTransaction()
+//                        .replace(R.id.container, new SearchFragment())
+//                        .addToBackStack(null)
+//                        .commit();
+//            }
+//        });
 //        /////////////////////////////////////////////////////////////////////////////
 //        MapView mapView = new MapView(getActivity());
 //        mapView.setDaumMapApiKey("753615f093d763e50b6a87a0a0f25f05");
@@ -77,13 +90,16 @@ public class BucketExistFragment extends Fragment {
         data = new ArrayList<>();
         String [] placeName ;
         placeName = InnerDBHelper.RtnPlaceName();
+        SIGHT1000_LIST array;
         for(int a =0 ; a<InnerDBHelper.RtnCount() ; a++){
             BucketGridViewItem item = new BucketGridViewItem();
-            item.setSightName(placeName[a]);
-            item.setRecommend(a+1);
-            item.setImage(R.drawable.page_search_icon);
-            item.setCoordinate_x(37.5796212+a);
-            item.setCoordinate_y(126.9748523+a);
+            array = SIGHT1000ARRAY.getItemById(placeName[a]);
+            item.setId(Integer.valueOf(array.getData(0)));
+            item.setSightName(array.getData(1));
+            item.setRecommend( Integer.parseInt(array.getData(3)));
+            LoadBitmapfromUrl(array.getData(8), item);
+            item.setCoordinate_x(Double.parseDouble(array.getData(4)));
+            item.setCoordinate_y(Double.parseDouble(array.getData(5)));
             data.add(item);
         }
     }
@@ -95,4 +111,54 @@ public class BucketExistFragment extends Fragment {
         }
     }
 
+    // Uri -> 비트맵으로의 전환 메서드.
+    public static void LoadBitmapfromUrl(final String uri, final BucketGridViewItem item) {
+        class LoadClass extends AsyncTask< Object, Void, Bitmap> {
+            @Override
+            protected Bitmap doInBackground( Object... params ) {
+                String uri = (String) params[0];
+                return loadBitmap( uri );
+            }
+
+            @Override
+            protected void onPostExecute( Bitmap result ) {
+                if(result != null) {
+                    item.setBitmap(result);
+                    refresh();
+                }
+            }
+
+            public Bitmap loadBitmap( String uri ) {
+                if(synk == 1) {
+                    Bitmap bitmap = null;
+                    URL newurl = null;
+                    bitmap = null;
+                    try {
+                        newurl = new URL(SERVER_IP.concat(uri));
+                        bitmap = BitmapFactory.decodeStream(newurl.openConnection().getInputStream());
+                    } catch (MalformedURLException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+
+                        e.printStackTrace();
+                    }
+                    Log.d("LOG/MONTH", "Get Home Bitmap! " + uri);
+
+                    return bitmap;
+                } else
+                    return null;
+            }
+        }
+        LoadClass inner = new LoadClass();
+        inner.execute(uri);
+    }
+    public static void refresh() {
+        adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        synk = 0;
+    }
 }

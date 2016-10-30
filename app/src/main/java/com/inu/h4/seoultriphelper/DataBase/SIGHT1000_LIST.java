@@ -6,7 +6,7 @@ import android.util.Log;
  * Created by Administrator on 2016-09-28.
  */
 public class SIGHT1000_LIST {
-    private String[] sight1000Data = new String[10];
+    private String[] sight1000Data = new String[11];
     // [0] = 아이디
     // [1] = 이름
     // [2] = 상세정보
@@ -16,7 +16,8 @@ public class SIGHT1000_LIST {
     // [6] = 주 추천 수
     // [7] = 월 추천 수
     // [8] = 경로
-    // [9] = 평점
+    // [9] = 별점 총합
+    // [10] = 평가자 수
 
     public void setSight1000Data(String sight1000_id,
                                  String sight1000_name,
@@ -26,7 +27,9 @@ public class SIGHT1000_LIST {
                                  String sight1000_location_y,
                                  String sight1000_weekrecommend,
                                  String sight1000_monthrecommend,
-                                 String sight1000_thumbnail
+                                 String sight1000_thumbnail,
+                                 String sight1000_sumpoint,
+                                 String sight1000_peoplecount
                                  ){
         sight1000Data[0] = sight1000_id;
         sight1000Data[1] = sight1000_name;
@@ -37,6 +40,8 @@ public class SIGHT1000_LIST {
         sight1000Data[6] = sight1000_weekrecommend;
         sight1000Data[7] = sight1000_monthrecommend;
         sight1000Data[8] = sight1000_thumbnail;
+        sight1000Data[9] = sight1000_sumpoint;
+        sight1000Data[10] = sight1000_peoplecount;
     }
 
     public String getData(int index){

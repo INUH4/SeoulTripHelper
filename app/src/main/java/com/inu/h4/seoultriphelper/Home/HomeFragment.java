@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.inu.h4.seoultriphelper.R;
+import com.inu.h4.seoultriphelper.SmartTabLayoutLibrary.FragmentPagerItem;
 import com.inu.h4.seoultriphelper.SmartTabLayoutLibrary.FragmentPagerItems;
 import com.inu.h4.seoultriphelper.SmartTabLayoutLibrary.FragmentStatePagerItemAdapter;
 import com.ogaclejapan.smarttablayout.SmartTabLayout;

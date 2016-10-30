@@ -207,4 +207,46 @@ public class SIGHT1000ForDetailSight {
         incrementHomeRecommendCountClass incrementRecommendCountClass = new incrementHomeRecommendCountClass();
         incrementRecommendCountClass.execute(sight_id);
     }
+
+    public static void addSumPointAndPeopleCount(String sight_id, String point) {
+        class incrementHomeRecommendCountClass extends AsyncTask<String, Void, String> {
+
+            @Override
+            protected String doInBackground(String... params){
+                try{
+                    String sight_id = params[0];
+                    String point = params[1];
+
+                    String link = "http://52.42.208.72/Review1000UpdatePoint.php";
+                    String data = URLEncoder.encode("SIGHT_ID", "UTF-8") + "=" + URLEncoder.encode(sight_id, "UTF-8");
+                    data += "&" + URLEncoder.encode("SUM_POINT", "UTF-8") + "=" + URLEncoder.encode(point, "UTF-8");
+
+                    URL url = new URL(link);
+                    URLConnection conn = url.openConnection();
+
+                    conn.setDoOutput(true);
+                    OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
+
+                    wr.write(data);
+                    wr.flush();
+
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+
+                    StringBuilder sb = new StringBuilder();
+                    String line = null;
+
+                    while((line = reader.readLine()) != null){
+                        sb.append(line);
+                        break;
+                    }
+                    return sb.toString();
+                }
+                catch (Exception e){
+                    return new String("Exception: " + e.getMessage());
+                }
+            }
+        }
+        incrementHomeRecommendCountClass incrementRecommendCountClass = new incrementHomeRecommendCountClass();
+        incrementRecommendCountClass.execute(sight_id, point);
+    }
 }

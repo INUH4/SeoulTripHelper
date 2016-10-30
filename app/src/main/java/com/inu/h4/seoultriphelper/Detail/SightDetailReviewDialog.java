@@ -11,6 +11,8 @@ import android.widget.RatingBar;
 import android.widget.Toast;
 
 import com.inu.h4.seoultriphelper.DataBase.InsertDB_REVIEW1000;
+import com.inu.h4.seoultriphelper.DataBase.SIGHT1000ARRAY;
+import com.inu.h4.seoultriphelper.DataBase.SIGHT1000ForDetailSight;
 import com.inu.h4.seoultriphelper.DataBase.SelectDB_REVIEW1000;
 import com.inu.h4.seoultriphelper.R;
 
@@ -67,6 +69,8 @@ public class SightDetailReviewDialog extends Dialog {
                     Toast.makeText(getContext(),"빈 칸을 채워주세요.",Toast.LENGTH_SHORT).show();
                 } else {
                     InsertDB_REVIEW1000.InsertToDatabase(writer, content, String.valueOf(rating), String.valueOf(placeId));
+                    SIGHT1000ForDetailSight.addSumPointAndPeopleCount(String.valueOf(placeId), String.valueOf(rating));
+                    SIGHT1000ARRAY.setSumPoint(String.valueOf(placeId), (double)rating);
                     reviewList.clear();
                     SelectDB_REVIEW1000.getData(String.valueOf(placeId), reviewList);
                     SelectDB_REVIEW1000.setAvgRecommendPoint(String.valueOf(placeId), item);

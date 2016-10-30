@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.ListView;
 
 import com.inu.h4.seoultriphelper.DataBase.InsertDB_REVIEW1000;
@@ -113,7 +114,7 @@ public class HomeMonthlyRankingFragment extends Fragment {
 
                         e.printStackTrace();
                     }
-                    Log.d("LOG/MONTH", "Get Home Bitmap! " + uri);
+                    //Log.d("LOG/MONTH", "Get Home Bitmap! " + uri);
 
                     return bitmap;
                 } else
@@ -124,9 +125,28 @@ public class HomeMonthlyRankingFragment extends Fragment {
         inner.execute(uri);
     }
 
-    static public void refresh(){
+    public static void refresh(){
         adapter.notifyDataSetChanged();
-        Log.d("LOG/MONTH", "Refresh");
+        //Log.d("LOG/MONTH", "Refresh");
     }
 
+//    public void set() {
+//        boolean lastitemVisibleFlag = false;        //화면에 리스트의 마지막 아이템이 보여지는지 체크
+//        listView.setOnScrollListener(new AbsListView.OnScrollListener() {
+//            @Override
+//            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+//                //현재 화면에 보이는 첫번째 리스트 아이템의 번호(firstVisibleItem) + 현재 화면에 보이는 리스트 아이템의 갯수(visibleItemCount)가 리스트 전체의 갯수(totalItemCount) -1 보다 크거나 같을때
+//                lastItemVisibleFlag = (totalItemCount > 0) && (firstVisibleItem + visibleItemCount >= totalItemCount;
+//            }
+//            @Override
+//            public void onScrollStateChanged(AbsListView view, int scrollState) {
+//                //OnScrollListener.SCROLL_STATE_IDLE은 스크롤이 이동하다가 멈추었을때 발생되는 스크롤 상태입니다.
+//                //즉 스크롤이 바닦에 닿아 멈춘 상태에 처리를 하겠다는 뜻
+//                if(scrollState == OnScrollListener.SCROLL_STATE_IDLE && lastItemVisibleFlag) {
+//                    //TODO 화면이 바닦에 닿을때 처리
+//                }
+//            }
+//
+//        });
+//    }
 }

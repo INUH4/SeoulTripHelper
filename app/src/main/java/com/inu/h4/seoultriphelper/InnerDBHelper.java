@@ -6,9 +6,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
-/**
- * Created by yuk on 2016-10-05.
- */
 public class InnerDBHelper  extends SQLiteOpenHelper {
 
 
@@ -36,14 +33,12 @@ public class InnerDBHelper  extends SQLiteOpenHelper {
         // 읽고 쓰기가 가능하게 DB 열기
         SQLiteDatabase db = getWritableDatabase();
         //중복체크
-        //     Cursor cursor = db.rawQuery("SELECT * FROM BUCKETDB1 where placeName = " + getplaceName , null);
-        //         if(cursor.getCount() <=0 ){
-        // DB에 입력한 값으로 행 추가
-        db.execSQL("INSERT INTO BUCKETDB1 VALUES(null, '" + getplaceName + "');");
-        db.close();
-        //  }
-
-
+        Cursor cursor = db.rawQuery("SELECT * FROM BUCKETDB1 where placeName = " + getplaceName , null);
+        if(cursor.getCount() <=0 ){
+            // DB에 입력한 값으로 행 추가
+            db.execSQL("INSERT INTO BUCKETDB1 VALUES(null, '" + getplaceName + "');");
+            db.close();
+        }
     }
 
     public void update(String getplaceName) {

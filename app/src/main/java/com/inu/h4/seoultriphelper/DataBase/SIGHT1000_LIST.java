@@ -5,7 +5,7 @@ import android.util.Log;
  * Created by Administrator on 2016-09-28.
  */
 public class SIGHT1000_LIST {
-    private String[] sight1000Data = new String[10];
+    private String[] sight1000Data = new String[9];
     // [0] = 아이디
     // [1] = 이름
     // [2] = 상세정보
@@ -33,8 +33,7 @@ public class SIGHT1000_LIST {
         sight1000Data[5] = sight1000_location_y;
         sight1000Data[6] = sight1000_weekrecommend;
         sight1000Data[7] = sight1000_monthrecommend;
-        sight1000Data[8] = sight1000_monthrecommend;
-        sight1000Data[9] = sight1000_category;
+        sight1000Data[8] = sight1000_category;
     }
 
     public String getData(int index){

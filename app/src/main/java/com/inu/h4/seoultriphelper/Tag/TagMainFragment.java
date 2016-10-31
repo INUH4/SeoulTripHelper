@@ -14,6 +14,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import com.inu.h4.seoultriphelper.DataBase.SIGHT1000ARRAY;
+import com.inu.h4.seoultriphelper.DataBase.TAG1200ARRAY;
 import com.inu.h4.seoultriphelper.R;
 
 import java.util.ArrayList;
@@ -22,6 +23,9 @@ public class TagMainFragment extends Fragment {
     // 태그 관련 변수들
     private Button[] tags;
     private LinearLayout hiddenTagRow;
+
+    // DB 불러오기
+    private TAG1200ARRAY tag1200array;
 
     // 리스트 출력 관련 변수
     private ListView mListView;
@@ -69,6 +73,11 @@ public class TagMainFragment extends Fragment {
                 // 선택한 버튼 태그의 문자열과 같은 장소를 출력 전용 리스트에 저장
                 adapter.removeItem(); // 어댑터에 저장된 목록을 비우고 새로운 목록을 채워넣음.
 
+                tag1200array = TAG1200ARRAY.getInstance();
+
+                for(int i = 0; i < 5; i++) {
+                    tag1200array.getData().get(i).getData(1);
+                }
                 for (int i = 0; i < mData.size(); i++) {
                     if (mData.get(i).getCategory().equals(category)) {
                         adapter.addItem(mData.get(i)); // 새 목록 채우기
@@ -166,16 +175,26 @@ public class TagMainFragment extends Fragment {
     public void setOnChildButtonClick() {
         if(!SelectedTagInstance.getSubtags().isEmpty()) { // 서브태그 목록이 비어 있지 않은 경우
             adapter.removeItem(); // 어댑터의 내용을 비움
-            for(TagContentItem item : mData) {
-                ArrayList<String> attribute = item.getAttribute();
 
-                for(int i = 0; i < SelectedTagInstance.getSubtags().size(); i++) { // 저장된 서브태그의 갯수만큼
-                    if(attribute.contains(SelectedTagInstance.getSubtags().get(i))) { // 서브태그가 포함되었는지 검사
-                        adapter.addItem(item);
-                        break;
-                    }
+            tag1200array = TAG1200ARRAY.getInstance();
+
+            ArrayList<Integer> tagID = SelectedTagInstance.getSubtagId();
+
+            for(int i = 0; i < tag1200array.getData().size(); i++) {
+                if(tag1200array.getData().get(i).getData(1).contains(tagID.get(i))) {
+
                 }
             }
+//            for(TagContentItem item : mData) {
+//                ArrayList<Integer> attribute = item.getPlaceId();
+//
+//                for(int i = 0; i < SelectedTagInstance.getSubtagID().size(); i++) { // 저장된 서브태그의 갯수만큼
+//                    if(attribute.contains(SelectedTagInstance.getSubtags().get(i))) { // 서브태그가 포함되었는지 검사
+//                        adapter.addItem(item);
+//                        break;
+//                    }
+//                }
+//            }
 
             // 선택한 태그들을 카테고리 아래에 출력함.
             TagGroup tagGroup = (TagGroup) getActivity().findViewById(R.id.selected_tag_group);

@@ -36,7 +36,6 @@ public class TagSelectMenuFragment extends Fragment {
     private SelectedTagInstance instance;
     private TAG1000ARRAY tag1000array;
     private TAG1100ARRAY tag1100array;
-    private TAG1200ARRAY tag1200array;
 
     final private View.OnClickListener mOnClick = new View.OnClickListener() {
         @Override
@@ -45,13 +44,19 @@ public class TagSelectMenuFragment extends Fragment {
             getActivity().findViewById(R.id.hidden_tag_row).setVisibility(View.GONE);
 
             if (v.getId() == R.id.btn_tag_confirm) { // 확인버튼을 눌렀을 때
-                for(int i = 0; i < tagGroupSize; i++) {
-                    // adapter에 저장된 각 아이템들의 태그 그룹에 체크된 목록을 instance에 저장한다
-                    subtags = new ArrayList<>();
-                    subtags = tagGroups[i].getCheckedTagList();
-                    for(int j = 0; j < subtags.size(); j++)
-                        SelectedTagInstance.addSubtags(subtags.get(j));
+//                for(int i = 0; i < tagGroupSize; i++) {
+//                    // adapter에 저장된 각 아이템들의 태그 그룹에 체크된 목록을 instance에 저장한다
+//                    subtags = new ArrayList<>();
+//                    subtags = tagGroups[i].getCheckedTagList();
+//                    for(int j = 0; j < subtags.size(); j++)
+//                        SelectedTagInstance.addSubtags(subtags.get(j));
+//                }
+                for(int i = 0; i< TAG1200ARRAY.tag1200Array.size(); i++){
+                    if(subtags.equals(TAG1200ARRAY.tag1200Array.get()))
                 }
+
+                // 서브태그 이름과 ID 매칭작업
+                SelectedTagInstance.matchSubtagId();
 
                 // 선택 태그 목록은 확인을 눌렀을 때만 보임.
                 getActivity().findViewById(R.id.selected_tag_group).setVisibility(View.VISIBLE);
@@ -96,7 +101,6 @@ public class TagSelectMenuFragment extends Fragment {
 
         tag1000array = TAG1000ARRAY.getInstance();
         tag1100array = TAG1100ARRAY.getInstance();
-        tag1200array = TAG1200ARRAY.getInstance();
 
         tagGroupSize = tag1000array.getData().size(); // 태그 그룹의 갯수
         int tagSize = tag1100array.getData().size(); // 태그 전체의 갯수

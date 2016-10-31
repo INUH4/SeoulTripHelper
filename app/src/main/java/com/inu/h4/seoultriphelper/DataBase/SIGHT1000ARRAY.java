@@ -56,7 +56,7 @@ public class SIGHT1000ARRAY {
         item.setPlaceId(Integer.parseInt(sight1000Array.get(i).getData(0)));
         item.setSightName(sight1000Array.get(i).getData(1));
         item.setRecommend(Integer.parseInt(sight1000Array.get(i).getData(3)));
-        item.setCategory(sight1000Array.get(i).getData(9));
+        item.setCategory(sight1000Array.get(i).getData(8));
     }
 
     public static void Monthsorting(){

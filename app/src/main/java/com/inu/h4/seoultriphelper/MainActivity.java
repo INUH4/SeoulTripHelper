@@ -21,7 +21,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.inu.h4.seoultriphelper.Bucket.BucketEmptyFragment;
 import com.inu.h4.seoultriphelper.Bucket.BucketExistFragment;
@@ -35,6 +34,7 @@ import com.inu.h4.seoultriphelper.DataBase.TAG1100_LIST;
 import com.inu.h4.seoultriphelper.DataBase.TAG1200ARRAY;
 import com.inu.h4.seoultriphelper.DataBase.TAG1200_LIST;
 import com.inu.h4.seoultriphelper.Home.HomeFragment;
+import com.inu.h4.seoultriphelper.Planner.PlannerDB;
 import com.inu.h4.seoultriphelper.Planner.PlannerEmptyFragment;
 import com.inu.h4.seoultriphelper.Planner.PlannerExistFragment;
 import com.inu.h4.seoultriphelper.Prefer.PreferEmptyFragment;
@@ -43,6 +43,7 @@ import com.inu.h4.seoultriphelper.Search.SearchListViewAdapter;
 import com.inu.h4.seoultriphelper.Search.SearchListViewItem;
 import com.inu.h4.seoultriphelper.Setting.SettingActivity;
 import com.inu.h4.seoultriphelper.Tag.TagMainFragment;
+import com.inu.h4.seoultriphelper.Tag.TagSelectedSightFragment;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -53,10 +54,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity
@@ -82,6 +80,7 @@ public class MainActivity extends AppCompatActivity
     static int InnerDbCounter=0;
     final InnerDBHelper InnerDBHelper1 = new InnerDBHelper(this, "BUCKETDB1.db",null,1);
     InnerDBHelper2 innerDBHelper2 = new InnerDBHelper2(this, "PREFERDB2.db",null,1);
+    PlannerDB plannerDB;
 
     // 검색 관련 변수들
     private SearchListViewAdapter adapter;
@@ -112,6 +111,8 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
 
         Log.d("LOG/MAIN", "onCreate()");
+
+        plannerDB = new PlannerDB(this, "planner.db", null, 1);
 
         tag1000array = TAG1000ARRAY.getInstance();
         tag1100array = TAG1100ARRAY.getInstance();
@@ -245,6 +246,7 @@ public class MainActivity extends AppCompatActivity
                     String thumbnail = jo.getString("sight_thumbnail");
                     String sumpoint = jo.getString("sum_point");
                     String peoplecount = jo.getString("p_count");
+                    String category = jo.getString("category");
 
                     sight1000list = new SIGHT1000_LIST();
                     sight1000list.setSight1000Data(
@@ -258,7 +260,8 @@ public class MainActivity extends AppCompatActivity
                             monthrecommend,
                             thumbnail,
                             sumpoint,
-                            peoplecount);
+                            peoplecount,
+                            category);
 
                     SIGHT1000ARRAY.sight1000Array.add(sight1000list);
 
@@ -468,8 +471,14 @@ public class MainActivity extends AppCompatActivity
                 tag = "page_bucket_exist";
             }
         } else if (id == R.id.nav_planner) {
-            targetFragment = new PlannerExistFragment();
-            tag = "page_planner_exist";
+            if(plannerDB.RtnCount() == 0) {
+                targetFragment = new PlannerEmptyFragment();
+                tag = "page_planner_empty";
+            } else {
+                targetFragment = new PlannerExistFragment();
+                tag = "page_planner_exist";
+            }
+
         } else if (id == R.id.nav_map) {
 
         } else if (id == R.id.nav_setting) {

@@ -42,7 +42,7 @@ public class HomeFragment extends Fragment {
         SmartTabLayout viewPagerTab = (SmartTabLayout) layout.findViewById(R.id.home_viewpagertab);
         viewPagerTab.setViewPager(viewPager);
 
-        getActivity().setTitle("홈 화면");
+        getActivity().setTitle("홈");
         return layout;
     }
 

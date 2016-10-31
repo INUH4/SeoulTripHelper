@@ -8,14 +8,10 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.inu.h4.seoultriphelper.R;
 
-/**
- * Created by Administrator on 2016-10-31.
- */
 
 public class PlannerInsertDialog extends Dialog {
 

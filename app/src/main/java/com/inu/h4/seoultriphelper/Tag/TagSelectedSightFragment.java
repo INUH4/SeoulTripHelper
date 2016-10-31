@@ -1,4 +1,4 @@
-package com.inu.h4.seoultriphelper.Prefer;
+package com.inu.h4.seoultriphelper.Tag;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -21,8 +21,8 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PreferRecommendSightFragment extends Fragment {
-    static PreferRecommendSightListViewAdapter adapter;
+public class TagSelectedSightFragment extends Fragment {
+    static TagSelectedSightListViewAdapter adapter;
     List<String> sightIdList;
     List<SIGHT1000_LIST> sight1000List;
 
@@ -32,20 +32,26 @@ public class PreferRecommendSightFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         getActivity().setTitle("추천 여행지");
-        View layout = inflater.inflate(R.layout.prefer_recommend_sight, container, false);
+        View layout = inflater.inflate(R.layout.tag_selected_sight, container, false);
 
-        Bundle bundle = getArguments();
+        //Bundle bundle = getArguments();
+        Bundle bundle = new Bundle();
+        List<String> list = new ArrayList<>();
+        list.add("1");
+        list.add("5");
+        bundle.putStringArrayList("sightList", (ArrayList<String>)list);
+
         if(bundle != null) {
             sightIdList = (ArrayList<String>) bundle.get("sightList");
             sight1000List = new ArrayList<>();
             synk = 1;
 
-            adapter = new PreferRecommendSightListViewAdapter(this);
+            adapter = new TagSelectedSightListViewAdapter(this);
 
             loadSight1000Data(sightIdList);
             convertSIght1000DataToListViewItem(sight1000List);
 
-            ListView listView = (ListView) layout.findViewById(R.id.prefer_recommend_sight_list_view);
+            ListView listView = (ListView) layout.findViewById(R.id.tag_selected_sight_list_view);
             listView.setAdapter(adapter);
             listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
 
@@ -64,7 +70,7 @@ public class PreferRecommendSightFragment extends Fragment {
     public void convertSIght1000DataToListViewItem(List<SIGHT1000_LIST> sight1000List) {
         for(int i=0; i<sight1000List.size(); i++) {
             SIGHT1000_LIST sightItem = sight1000List.get(i);
-            PreferRecommendSightListViewItem item = new PreferRecommendSightListViewItem();
+            TagSelectedSightListViewItem item = new TagSelectedSightListViewItem();
             item.setPlaceId(sightItem.getData(0));
             item.setSightName(sightItem.getData(1));
             item.setRecommendCount(Integer.valueOf(sightItem.getData(3)));
@@ -80,7 +86,7 @@ public class PreferRecommendSightFragment extends Fragment {
         }
     }
     // Uri -> 비트맵으로의 전환 메서드.
-    public static void LoadBitmapfromUrl(final String uri, final PreferRecommendSightListViewItem item) {
+    public static void LoadBitmapfromUrl(final String uri, final TagSelectedSightListViewItem item) {
         class LoadClass extends AsyncTask< Object, Void, Bitmap> {
             @Override
             protected Bitmap doInBackground( Object... params ) {

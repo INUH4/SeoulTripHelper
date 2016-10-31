@@ -4,15 +4,10 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.graphics.Bitmap;
 import android.util.Log;
-import android.widget.ImageView;
 
 import java.util.ArrayList;
 
-/**
- * Created by Administrator on 2016-10-30.
- */
 
 public class PlannerDB extends SQLiteOpenHelper{
 
@@ -123,5 +118,12 @@ public class PlannerDB extends SQLiteOpenHelper{
                 ;
         sqLiteDatabase.execSQL(sql);
         sqLiteDatabase.close();
+    }
+
+    public int RtnCount() {
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM PLANNER", null);
+        Log.d("LOG/PLANNER_DB", String.valueOf(cursor.getCount()));
+        return cursor.getCount();
     }
 }

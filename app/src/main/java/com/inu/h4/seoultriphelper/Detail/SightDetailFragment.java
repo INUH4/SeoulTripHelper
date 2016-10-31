@@ -50,6 +50,7 @@ public class SightDetailFragment extends Fragment implements View.OnClickListene
     int placeId;
     SightDetailReviewDialog dialog;
     PlannerInsertDialog InsertDialog;
+    RelativeLayout mapViewContainer;
 
     static int pos;        // 메인이미지의 index를 저장.
     static ImageView mainImage;
@@ -142,7 +143,7 @@ public class SightDetailFragment extends Fragment implements View.OnClickListene
             mapView = new MapView(getActivity());
             mapView.setDaumMapApiKey(API_KEY);
 
-            RelativeLayout mapViewContainer = (RelativeLayout) header.findViewById(R.id.detail_map_layout);
+            mapViewContainer = (RelativeLayout) header.findViewById(R.id.detail_map_layout);
             mapViewContainer.addView(mapView);
 
             // 리뷰 출력을 위한 세팅.
@@ -199,7 +200,7 @@ public class SightDetailFragment extends Fragment implements View.OnClickListene
     public static void initMapView() {
 
         // 받아온 위도, 경도를 이용해서 mapView에 출력
-        mapView.setMapCenterPointAndZoomLevel(MapPoint.mapPointWithGeoCoord(item.getSightX(), item.getSightY()), 7, true);
+        mapView.setMapCenterPointAndZoomLevel(MapPoint.mapPointWithGeoCoord(item.getSightX(), item.getSightY()), 2, true);
         mapView.zoomIn(true);
         mapView.zoomOut(true);
 
@@ -334,4 +335,9 @@ public class SightDetailFragment extends Fragment implements View.OnClickListene
         inner.execute(uris);
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        mapViewContainer.removeAllViews();
+    }
 }

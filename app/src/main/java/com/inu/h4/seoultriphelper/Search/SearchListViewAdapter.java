@@ -19,9 +19,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-/**
- * Created by MIN on 2016-10-27.
- */
 
 public class SearchListViewAdapter extends BaseAdapter {
     // Declare Variables

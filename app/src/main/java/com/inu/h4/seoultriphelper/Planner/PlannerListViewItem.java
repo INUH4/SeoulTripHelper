@@ -1,8 +1,7 @@
 package com.inu.h4.seoultriphelper.Planner;
 
-/**
- * Created by Administrator on 2016-10-30.
- */
+
+import android.graphics.Bitmap;
 
 public class PlannerListViewItem {
     private String P_name;
@@ -13,7 +12,11 @@ public class PlannerListViewItem {
     private int P_cost;
     private String P_memo;
     private int P_day;
+    private Bitmap imageBitmap;
 
+    public Bitmap getImageBitmap() {
+        return imageBitmap;
+    }
     public String getP_name(){
         return P_name;
     }
@@ -47,4 +50,7 @@ public class PlannerListViewItem {
     public void setP_cost(int P_cost){this.P_cost = P_cost;}
     public void setP_memo(String P_memo){this.P_memo = P_memo;}
     public void setP_day(int P_day){this.P_day = P_day;}
+    public void setImageBitmap(Bitmap imageBitmap) {
+        this.imageBitmap = imageBitmap;
+    }
 }

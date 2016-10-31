@@ -11,9 +11,6 @@ import android.widget.Toast;
 
 import com.inu.h4.seoultriphelper.R;
 
-/**
- * Created by Administrator on 2016-10-31.
- */
 
 public class PlannerListEditDialog extends Dialog {
     PlannerDB plannerDB;
@@ -25,17 +22,21 @@ public class PlannerListEditDialog extends Dialog {
     int i_cost;
     String s_memo;
     int i_day;
-    public PlannerListEditDialog(Context context, String name, int t_sh, int t_sm, int t_eh, int t_em, int cost, String memo, int day, PlannerDB plannerDB){
+    PlannerListViewAdapter adapter;
+    PlannerListViewItem item;
+    public PlannerListEditDialog(Context context, PlannerListViewItem item, PlannerDB plannerDB, PlannerListViewAdapter adapter){
         super(context);
-        this.name = name;
-        i_t_sh = t_sh;
-        i_t_sm = t_sm;
-        i_t_eh = t_eh;
-        i_t_em = t_em;
-        i_cost = cost;
-        s_memo = memo;
-        i_day = day;
+        this.item = item;
+        this.name = item.getP_name();
+        i_t_sh = item.getP_t_sh();
+        i_t_sm = item.getP_t_sm();
+        i_t_eh = item.getP_t_eh();
+        i_t_em = item.getP_t_em();
+        i_cost = item.getP_cost();
+        s_memo = item.getP_memo();
+        i_day = item.getP_day();
         this.plannerDB = plannerDB;
+        this.adapter = adapter;
     }
 
     @Override
@@ -102,6 +103,15 @@ public class PlannerListEditDialog extends Dialog {
                 s_memo = memo.getText().toString();
 
                 plannerDB.DBEdit(name, i_t_sh, i_t_sm, i_t_eh, i_t_em, i_cost, s_memo, i_day);
+                item.setP_t_sh(i_t_sh);
+                item.setP_t_sm(i_t_sm);
+                item.setP_t_eh(i_t_eh);
+                item.setP_t_em(i_t_em);
+                item.setP_cost(i_cost);
+                item.setP_memo(s_memo);
+                item.setP_day(i_day);
+
+                adapter.notifyDataSetChanged();
 
                 Toast.makeText(getContext(), "수정 완료", Toast.LENGTH_SHORT).show();
                 dismiss();

@@ -1,7 +1,6 @@
 package com.inu.h4.seoultriphelper.Setting;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceCategory;
@@ -10,9 +9,6 @@ import android.util.Log;
 
 import com.inu.h4.seoultriphelper.R;
 
-/**
- * Created by yuk on 2016-10-26.
- */
 public class SettingContents extends PreferenceFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {

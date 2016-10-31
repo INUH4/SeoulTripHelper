@@ -11,7 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import com.inu.h4.seoultriphelper.DataBase.SIGHT1000ARRAY;
 import com.inu.h4.seoultriphelper.DataBase.SIGHT1000_LIST;
@@ -33,6 +32,7 @@ public class BucketExistFragment extends Fragment {
     private static BucketGridViewAdapter adapter;
     private static int synk;
     private static final String SERVER_IP = "http://52.42.208.72/";
+    private RelativeLayout BucketMapViewContainer;
 
     @Override
     public void onStart() {
@@ -58,7 +58,7 @@ public class BucketExistFragment extends Fragment {
         MapView mapView = new MapView(getActivity());
         mapView.setDaumMapApiKey("753615f093d763e50b6a87a0a0f25f05");
 
-        RelativeLayout BucketMapViewContainer = (RelativeLayout) layout.findViewById(R.id.bucket_list_mapView);
+        BucketMapViewContainer = (RelativeLayout) layout.findViewById(R.id.bucket_list_mapView);
         BucketMapViewContainer.addView(mapView);
         mapView.setZoomLevel(7, true);
         mapView.setMapCenterPoint(MapPoint.mapPointWithGeoCoord(37.553161, 126.972664), true);
@@ -160,5 +160,11 @@ public class BucketExistFragment extends Fragment {
     public void onStop() {
         super.onStop();
         synk = 0;
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        BucketMapViewContainer.removeAllViews();
     }
 }

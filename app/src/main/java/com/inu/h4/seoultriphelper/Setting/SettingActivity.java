@@ -2,16 +2,6 @@ package com.inu.h4.seoultriphelper.Setting;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.preference.Preference;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
-import com.inu.h4.seoultriphelper.R;
 
 public class SettingActivity extends Activity {
     @Override

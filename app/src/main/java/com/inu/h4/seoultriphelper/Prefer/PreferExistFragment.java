@@ -23,7 +23,7 @@ import java.util.ArrayList;
 public class PreferExistFragment extends Fragment {
     public static int synk;
     Bundle bundle = null;
-    Button reexamineButton, showRecommendSightButton;
+    Button reexamineButton, showRecommendSightButton, deletePreferIndexButton;
     TextView preferTextContent, preferTextTitle;
     String index;
     ArrayList<String> sightIdList;
@@ -39,7 +39,7 @@ public class PreferExistFragment extends Fragment {
         getActivity().setTitle("사용자 성향");
         View layout = inflater.inflate(R.layout.prefer_full, container, false);
 
-        InnerDBHelper2 innerDBHelper2 = new InnerDBHelper2(getContext(), "PREFERDB2.db",null,1);
+        final InnerDBHelper2 innerDBHelper2 = new InnerDBHelper2(getContext(), "PREFERDB2.db",null,1);
         synk = 0;
 
         imageView = (ImageView) layout.findViewById(R.id.prefer_character_image);
@@ -83,6 +83,16 @@ public class PreferExistFragment extends Fragment {
                     getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment).addToBackStack(null).commit();
                 } else
                     Toast.makeText(getContext(), "잠시 후 다시 눌러주세요.",Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        deletePreferIndexButton = (Button) layout.findViewById(R.id.prefer_delete_index_btn);
+        deletePreferIndexButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                innerDBHelper2.deletePrefer(index);
+                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container, new PreferEmptyFragment()).addToBackStack(null).commit();
+                Toast.makeText(getContext(), "설문 결과 삭제 완료",Toast.LENGTH_SHORT).show();
             }
         });
 

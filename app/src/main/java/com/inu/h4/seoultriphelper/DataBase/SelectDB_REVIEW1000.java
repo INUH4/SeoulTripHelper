@@ -2,14 +2,10 @@ package com.inu.h4.seoultriphelper.DataBase;
 
 import android.os.AsyncTask;
 import android.util.Log;
-import android.widget.BaseAdapter;
 
 import com.inu.h4.seoultriphelper.Detail.SightDetailFragment;
 import com.inu.h4.seoultriphelper.Detail.SightDetailItem;
-import com.inu.h4.seoultriphelper.Detail.SightDetailReviewListViewAdapter;
 import com.inu.h4.seoultriphelper.Detail.SightDetailReviewListViewItem;
-import com.inu.h4.seoultriphelper.Home.HomeMonthlyRankingFragment;
-import com.inu.h4.seoultriphelper.Home.HomeRankingListViewItem;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -21,8 +17,6 @@ import java.io.OutputStreamWriter;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public class SelectDB_REVIEW1000 {

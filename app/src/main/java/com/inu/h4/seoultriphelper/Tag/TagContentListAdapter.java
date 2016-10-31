@@ -11,9 +11,6 @@ import android.widget.TextView;
 import com.inu.h4.seoultriphelper.R;
 import java.util.ArrayList;
 
-/**
- * Created by MIN on 2016-10-01.
- */
 
 public class TagContentListAdapter extends BaseAdapter {
     // Adapter에 추가된 데이터를 저장하기 위한 ArrayList

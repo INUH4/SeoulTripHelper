@@ -9,6 +9,7 @@
         android:layout_alignParentEnd="true"
         android:textSize="14sp"
         android:text="@string/prefer_delete_index"
+        android:id="@+id/prefer_delete_index_btn"
         />
 
     <ImageView

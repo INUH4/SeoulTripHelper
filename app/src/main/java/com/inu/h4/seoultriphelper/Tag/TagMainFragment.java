@@ -20,7 +20,6 @@ import java.util.ArrayList;
 
 public class TagMainFragment extends Fragment {
     // 태그 관련 변수들
-    //private Button tag1, tag2, tag3, tag4, tag5, tag6, tag7, tag8, tag9;
     private Button[] tags;
     private LinearLayout hiddenTagRow;
 
@@ -28,15 +27,15 @@ public class TagMainFragment extends Fragment {
     private ListView mListView;
     private ArrayList<TagContentItem> mData;
     private TagContentAdapter adapter;
-//    private SelectedTagInstance instance;
 
     final private View.OnClickListener hiddenMenuInflater = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             // tag4를 누르면 tag5, 6, 7, 8이 보이며, tag4의 클릭 리스너가 변경됨.
             hiddenTagRow.setVisibility(View.VISIBLE);
-            getActivity().findViewById(R.id.tag_select_menu_container)
-                    .setVisibility(View.VISIBLE);
+            getActivity().findViewById(R.id.tag_select_menu_container).setVisibility(View.VISIBLE);
+            getActivity().findViewById(R.id.selected_tag_group).setVisibility(View.GONE);
+            SelectedTagInstance.clearSubtags();
 
             // 하위 태그 메뉴를 선택할 fragment를 띄움
             TagSelectMenuFragment fragment = new TagSelectMenuFragment();
@@ -57,25 +56,26 @@ public class TagMainFragment extends Fragment {
         @Override
         public void onClick(View v) {
             // 클릭한 장소 태그 버튼(대분류)의 문자열을 받아온다
-            String LocationTag = ((Button) v).getText().toString();
+            String category = ((Button) v).getText().toString();
 
-            if(LocationTag.equals(tags[0].getText().toString())) {
+            if(category.equals(tags[0].getText().toString())) {
                 // tag1을 누르면 전체 내용 출력(모든 장소 태그)
                 adapter.removeItem();
 
-                adapter.notifyDataSetChanged();
-                mListView.setAdapter(adapter);
+                for(int i = 0; i < mData.size(); i++) {
+                    adapter.addItem(mData.get(i));
+                }
             } else {
                 // 선택한 버튼 태그의 문자열과 같은 장소를 출력 전용 리스트에 저장
-                adapter.removeItem(); // 어댑터에 저장한 목록을 일단 비워주고 새로운 목록을 채워넣음.
+                adapter.removeItem(); // 어댑터에 저장된 목록을 비우고 새로운 목록을 채워넣음.
 
-//                for (int i = 0; i < mData.size(); i++) {
-//                    if (mData.get(i).getLocationTypeTag().equals(LocationTag)) {
-//                        adapter.addItem(mData.get(i)); // 새 목록 채우기
-//                    }
-//                }
+                for (int i = 0; i < mData.size(); i++) {
+                    if (mData.get(i).getCategory().equals(category)) {
+                        adapter.addItem(mData.get(i)); // 새 목록 채우기
+                    }
+                }
 
-//                SelectedTagInstance.setMaintag(LocationTag);
+                SelectedTagInstance.setCategory(category);
             }
 
             // 리스트뷰 갱신
@@ -96,8 +96,9 @@ public class TagMainFragment extends Fragment {
         Log.d("LOG/PAGE_TAG", "onCreateView()");
         View layout = inflater.inflate(R.layout.tag_main, container, false);
 
-//        instance.removeInstance(); // 인스턴스를 비운다
-//        instance.getInstance(); //  인스턴스를 새로 생성
+        SelectedTagInstance.removeInstance(); // 인스턴스를 비운다
+        SelectedTagInstance instance = SelectedTagInstance.getInstance(); //  인스턴스를 새로 생성
+
         adapter = new TagContentAdapter();
 
         initView(layout);
@@ -159,26 +160,28 @@ public class TagMainFragment extends Fragment {
 
     public void refresh(){
         adapter.notifyDataSetChanged();
-        Log.d("LOG/MONTH", "Refresh");
+        Log.d("LOG/TAG", "Refresh");
     }
 
     public void setOnChildButtonClick() {
-//        instance = SelectedTagInstance.getInstance(); // singleton 객체의 인스턴스를 받아옴.
+        if(!SelectedTagInstance.getSubtags().isEmpty()) { // 서브태그 목록이 비어 있지 않은 경우
+            adapter.removeItem(); // 어댑터의 내용을 비움
+            for(TagContentItem item : mData) {
+                ArrayList<String> attribute = item.getAttribute();
 
-//        if(!instance.getSubtag().isEmpty()) { // 서브태그 목록이 비어 있지 않은 경우
-//            adapter.removeItem(); // 어댑터의 내용을 비움
-//            Log.d("LOG/PAGE_TAG", "adapter cleared.");
-//            for(TagContentItem item : mData) {
-//                ArrayList<String> attribute = item.getAttribute();
-//
-//                for(int i = 0; i < instance.getSubtag().size(); i++) { // 저장된 서브태그의 갯수만큼
-//                    if(attribute.contains(instance.getSubtag().get(i))) { // 서브태그가 포함되었는지 검사
-//                        adapter.addItem(item);
-//                        break;
-//                    }
-//                }
-//            }
-//        }
+                for(int i = 0; i < SelectedTagInstance.getSubtags().size(); i++) { // 저장된 서브태그의 갯수만큼
+                    if(attribute.contains(SelectedTagInstance.getSubtags().get(i))) { // 서브태그가 포함되었는지 검사
+                        adapter.addItem(item);
+                        break;
+                    }
+                }
+            }
+
+            // 선택한 태그들을 카테고리 아래에 출력함.
+            TagGroup tagGroup = (TagGroup) getActivity().findViewById(R.id.selected_tag_group);
+            tagGroup.setTags(SelectedTagInstance.getSubtags());
+            tagGroup.setVisibility(View.VISIBLE);
+        }
 
         adapter.notifyDataSetChanged();
         mListView.setAdapter(adapter);

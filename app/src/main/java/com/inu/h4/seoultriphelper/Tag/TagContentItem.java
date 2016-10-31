@@ -11,7 +11,7 @@ public class TagContentItem {
     private int image;
     private String sightName;
     private int recommend;
-    private String locationTypeTag; // 대분류(장소의 종류)
+    private String category; // 대분류(장소의 종류)
     private ArrayList<String> attribute; // 중분류(속성 태그)
 
     public TagContentItem() {
@@ -40,8 +40,8 @@ public class TagContentItem {
     }
     public void setRecommend(int recommend) { this.recommend = recommend; }
 
-    public String getLocationTypeTag() { return locationTypeTag; }
-    public void setLocationTypeTag(String locationTypeTag) { this.locationTypeTag = locationTypeTag; }
+    public String getCategory() { return category; }
+    public void setCategory(String category) { this.category = category; }
 
     public ArrayList<String> getAttribute() { return attribute; }
     public void addAttribute(String tag) { attribute.add(tag); }

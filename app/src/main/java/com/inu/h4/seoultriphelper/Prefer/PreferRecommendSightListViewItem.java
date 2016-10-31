@@ -1,9 +1,6 @@
 package com.inu.h4.seoultriphelper.Prefer;
 
 import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
-import android.widget.Button;
-import android.net.Uri;
 
 public class PreferRecommendSightListViewItem {
     private String placeId;

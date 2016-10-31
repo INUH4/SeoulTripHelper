@@ -7,18 +7,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
-import android.widget.TextClock;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.inu.h4.seoultriphelper.R;
 
 import java.util.ArrayList;
 
-/**
- * Created by Administrator on 2016-10-30.
- */
 
 public class PlannerListViewAdapter extends BaseAdapter {
+    PlannerListViewAdapter adapter = this;
     Fragment fragment;
     PlannerListEditDialog EditDialog;
     PlannerDB plannerDB;
@@ -45,7 +43,7 @@ public class PlannerListViewAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         final Context context = parent.getContext();
 
         if(convertView == null){
@@ -61,6 +59,7 @@ public class PlannerListViewAdapter extends BaseAdapter {
         TextView cost = (TextView) convertView.findViewById(R.id.Cost);
         TextView memo = (TextView) convertView.findViewById(R.id.Memo);
         TextView day = (TextView) convertView.findViewById(R.id.day);
+        ImageView image = (ImageView) convertView.findViewById(R.id.Sightimage);
 
         name.setText(listViewItem.getP_name());
         startTime.setText(listViewItem.getP_t_sh() + "시 " + listViewItem.getP_t_sm() + "분");
@@ -68,21 +67,16 @@ public class PlannerListViewAdapter extends BaseAdapter {
         cost.setText(listViewItem.getP_cost() + "원");
         memo.setText(listViewItem.getP_memo());
         day.setText(listViewItem.getP_day() + "일");
+        image.setImageBitmap(listViewItem.getImageBitmap());
 
         Button editButton = (Button) convertView.findViewById(R.id.edit_plan);
         editButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 EditDialog = new PlannerListEditDialog(context,
-                        listViewItem.getP_name(),
-                        listViewItem.getP_t_sh(),
-                        listViewItem.getP_t_sm(),
-                        listViewItem.getP_t_eh(),
-                        listViewItem.getP_t_em(),
-                        listViewItem.getP_cost(),
-                        listViewItem.getP_memo(),
-                        listViewItem.getP_day(),
-                        plannerDB);
+                        listViewItem,
+                        plannerDB,
+                        adapter);
                 EditDialog.show();
             }
         });
@@ -92,6 +86,7 @@ public class PlannerListViewAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 plannerDB.DBDelete(listViewItem.getP_name());
+                listViewItemlist.remove(position);
                 notifyDataSetChanged();
             }
         });

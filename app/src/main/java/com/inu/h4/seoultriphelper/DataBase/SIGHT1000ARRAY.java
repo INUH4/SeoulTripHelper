@@ -71,6 +71,7 @@ public class SIGHT1000ARRAY {
         item.setPlaceId(Integer.parseInt(sight1000Array.get(i).getData(0)));
         item.setSightName(sight1000Array.get(i).getData(1));
         item.setRecommend(Integer.parseInt(sight1000Array.get(i).getData(3)));
+        item.setCategory(sight1000Array.get(i).getData(11));
     }
 
     public static void Monthsorting(){
@@ -112,6 +113,14 @@ public class SIGHT1000ARRAY {
     static public SIGHT1000_LIST getItemById(String placeId) {
         for(int i=0; i<sight1000Array.size(); i++) {
             if(sight1000Array.get(i).getData(0).equals(placeId)) {
+                return sight1000Array.get(i);
+            }
+        }
+        return null;
+    }
+    static public SIGHT1000_LIST getItemByName(String placeName) {
+        for(int i=0; i<sight1000Array.size(); i++) {
+            if(sight1000Array.get(i).getData(1).equals(placeName)) {
                 return sight1000Array.get(i);
             }
         }

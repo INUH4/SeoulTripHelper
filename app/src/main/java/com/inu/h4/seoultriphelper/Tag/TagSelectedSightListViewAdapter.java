@@ -1,4 +1,4 @@
-package com.inu.h4.seoultriphelper.Prefer;
+package com.inu.h4.seoultriphelper.Tag;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -17,11 +17,11 @@ import com.inu.h4.seoultriphelper.R;
 import java.util.ArrayList;
 
 
-public class PreferRecommendSightListViewAdapter extends BaseAdapter {
+public class TagSelectedSightListViewAdapter extends BaseAdapter {
     Fragment fragment;
     // Adapter에 추가된 데이터를 저장하기 위한 ArrayList
-    ArrayList<PreferRecommendSightListViewItem> listViewItemList = new ArrayList<>() ;
-    public PreferRecommendSightListViewAdapter(Fragment fragment) {
+    ArrayList<TagSelectedSightListViewItem> listViewItemList = new ArrayList<>() ;
+    public TagSelectedSightListViewAdapter(Fragment fragment) {
         this.fragment = fragment;
     }
 
@@ -40,17 +40,17 @@ public class PreferRecommendSightListViewAdapter extends BaseAdapter {
         // "listview_item" Layout을 inflate하여 convertView 참조 획득.
         if (convertView == null) {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = inflater.inflate(R.layout.prefer_recommend_sight_item, parent, false);
+            convertView = inflater.inflate(R.layout.tag_selected_sight_item, parent, false);
         }
 
         // 화면에 표시될 View(Layout이 inflate된)으로부터 위젯에 대한 참조 획득
-        TextView sightName = (TextView) convertView.findViewById(R.id.prefer_sight_name);
-        ImageView sightImage = (ImageView) convertView.findViewById(R.id.prefer_sight_image);
-        final TextView recommendCount = (TextView) convertView.findViewById(R.id.prefer_recommend_count);
-        RatingBar rating = (RatingBar) convertView.findViewById(R.id.prefer_rating_bar);
-        TextView currentPoint = (TextView) convertView.findViewById(R.id.prefer_rating_current_point);
+        TextView sightName = (TextView) convertView.findViewById(R.id.tag_selected_sight_name);
+        ImageView sightImage = (ImageView) convertView.findViewById(R.id.tag_selected_sight_image);
+        final TextView recommendCount = (TextView) convertView.findViewById(R.id.tag_selected_recommend_count);
+        RatingBar rating = (RatingBar) convertView.findViewById(R.id.tag_selected_rating_bar);
+        TextView currentPoint = (TextView) convertView.findViewById(R.id.tag_selected_rating_current_point);
 
-        final PreferRecommendSightListViewItem listViewItem = listViewItemList.get(pos);
+        final TagSelectedSightListViewItem listViewItem = listViewItemList.get(pos);
 
         // 아이템 내 각 위젯에 데이터 반영
         sightName.setText(listViewItem.getSightName());
@@ -86,7 +86,7 @@ public class PreferRecommendSightListViewAdapter extends BaseAdapter {
     }
 
     // 아이템 데이터 추가를 위한 함수. 개발자가 원하는대로 작성 가능.
-    public void addItem(PreferRecommendSightListViewItem item) {
+    public void addItem(TagSelectedSightListViewItem item) {
         listViewItemList.add(item);
     }
 }

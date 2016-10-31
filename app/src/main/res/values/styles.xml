@@ -66,6 +66,13 @@
     </style>
 
     <style name="TagGroup.Beauty_Red.Inverse" parent="TagGroup">
+        <item name="atg_borderColor">#49C120</item>
+        <item name="atg_textColor">#FFFFFF</item>
+        <item name="atg_backgroundColor">#49C120</item>
+        <item name="atg_inputHintColor">#80FFFFFF</item>
+    </style>
+
+    <style name="TagGroup.Default.Inverse" parent="TagGroup">
         <item name="atg_borderColor">#FF3D7F</item>
         <item name="atg_textColor">#FFFFFF</item>
         <item name="atg_backgroundColor">#FF3D7F</item>

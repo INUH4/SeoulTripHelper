@@ -2,9 +2,6 @@ package com.inu.h4.seoultriphelper.Bucket;
 
 import android.graphics.Bitmap;
 
-/**
- * Created by yuk on 2016-09-27.
- */
 public class BucketGridViewItem {
     private int id;
     private Bitmap bitmap;

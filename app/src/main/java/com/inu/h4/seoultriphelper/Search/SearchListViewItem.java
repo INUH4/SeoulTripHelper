@@ -1,8 +1,5 @@
 package com.inu.h4.seoultriphelper.Search;
 
-/**
- * Created by MIN on 2016-10-27.
- */
 
 public class SearchListViewItem {
     private int placeId;

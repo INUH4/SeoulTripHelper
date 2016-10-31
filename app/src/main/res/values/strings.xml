@@ -37,6 +37,7 @@
 
     <string name="hourandminute">00</string>
     <string name="memo">메모를 입력해주세요.</string>
+    <string name="no_planner_item">여행지 정보가 없습니다.</string>
 
     <string name="prefer_delete_index">검사 결과 삭제</string>
 

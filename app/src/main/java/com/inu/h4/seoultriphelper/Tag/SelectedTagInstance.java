@@ -8,16 +8,17 @@ import java.util.ArrayList;
 public class SelectedTagInstance {
     private static SelectedTagInstance instance = null;
 
-    private String maintag;
-    private ArrayList<String> subtag;
+    private String category;
+    private ArrayList<String> subtags;
 
-    private SelectedTagInstance() { }
+    private SelectedTagInstance() {
+        category = "";
+        subtags = new ArrayList<>();
+    }
 
     public static SelectedTagInstance getInstance() {
         if(instance == null) {
             instance = new SelectedTagInstance();
-            instance.maintag = "";
-            instance.subtag  = new ArrayList<>();
         }
 
         return instance;
@@ -27,19 +28,17 @@ public class SelectedTagInstance {
         instance = null;
     }
 
-    public String getMaintag() {
-        return instance.maintag;
+    public static String getCategory() { return instance.category; }
+
+    public static void setCategory(String category) { instance.category = category; }
+
+    public static ArrayList<String> getSubtags() {
+        return instance.subtags;
     }
 
-    public void setMaintag(String maintag) {
-        instance.maintag = maintag;
+    public static void setSubtags(ArrayList<String> subtags) {
+        instance.subtags = subtags;
     }
-
-    public ArrayList<String> getSubtag() {
-        return instance.subtag;
-    }
-
-    public void setSubtag(ArrayList<String> subtag) {
-        instance.subtag = subtag;
-    }
+    public static void addSubtags(String subtag) { instance.subtags.add(subtag); }
+    public static void clearSubtags() { instance.subtags = new ArrayList<>(); }
 }

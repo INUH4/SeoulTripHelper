@@ -7,7 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-import com.inu.h4.seoultriphelper.SearchFragment;
+import com.inu.h4.seoultriphelper.Search.SearchFragment;
 import com.inu.h4.seoultriphelper.R;
 
 public class BucketEmptyFragment extends Fragment {

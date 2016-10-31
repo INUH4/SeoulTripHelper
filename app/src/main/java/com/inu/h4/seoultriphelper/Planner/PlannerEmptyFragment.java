@@ -9,7 +9,7 @@ import android.widget.Button;
 
 import com.inu.h4.seoultriphelper.Bucket.BucketEmptyFragment;
 import com.inu.h4.seoultriphelper.Bucket.BucketExistFragment;
-import com.inu.h4.seoultriphelper.SearchFragment;
+import com.inu.h4.seoultriphelper.Search.SearchFragment;
 import com.inu.h4.seoultriphelper.R;
 
 public class PlannerEmptyFragment extends Fragment {

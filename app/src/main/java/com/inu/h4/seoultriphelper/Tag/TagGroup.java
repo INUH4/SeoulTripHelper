@@ -374,6 +374,11 @@ public class TagGroup extends ViewGroup {
         }
     }
 
+    public void setAppendMode(boolean mode) {
+        if (mode) { isAppendMode = true; }
+        else { isAppendMode = false; }
+    }
+
     /**
      * Returns the INPUT tag view in this group.
      *

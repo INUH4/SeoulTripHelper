@@ -19,19 +19,27 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
+import android.view.View;
+import android.widget.ListView;
 
 import com.inu.h4.seoultriphelper.Bucket.BucketEmptyFragment;
 import com.inu.h4.seoultriphelper.Bucket.BucketExistFragment;
 import com.inu.h4.seoultriphelper.DataBase.SIGHT1000ARRAY;
 import com.inu.h4.seoultriphelper.DataBase.SIGHT1000_LIST;
 import com.inu.h4.seoultriphelper.DataBase.SelectDB_SIGHT1100ForDetailImage;
-import com.inu.h4.seoultriphelper.Detail.SightDetailFragment;
+import com.inu.h4.seoultriphelper.DataBase.TAG1000ARRAY;
+import com.inu.h4.seoultriphelper.DataBase.TAG1000_LIST;
+import com.inu.h4.seoultriphelper.DataBase.TAG1100ARRAY;
+import com.inu.h4.seoultriphelper.DataBase.TAG1100_LIST;
+import com.inu.h4.seoultriphelper.DataBase.TAG1200ARRAY;
+import com.inu.h4.seoultriphelper.DataBase.TAG1200_LIST;
 import com.inu.h4.seoultriphelper.Home.HomeFragment;
 import com.inu.h4.seoultriphelper.Planner.PlannerEmptyFragment;
 import com.inu.h4.seoultriphelper.Planner.PlannerExistFragment;
 import com.inu.h4.seoultriphelper.Prefer.PreferEmptyFragment;
 import com.inu.h4.seoultriphelper.Prefer.PreferExistFragment;
+import com.inu.h4.seoultriphelper.Search.SearchListViewAdapter;
+import com.inu.h4.seoultriphelper.Search.SearchListViewItem;
 import com.inu.h4.seoultriphelper.Setting.SettingActivity;
 import com.inu.h4.seoultriphelper.Tag.TagMainFragment;
 
@@ -45,18 +53,33 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+    phpDown task1, task2, task3, task4;
+
     SIGHT1000_LIST sight1000list;
-    phpDown task1;
+    TAG1000_LIST tag1000list;
+    TAG1100_LIST tag1100list;
+    TAG1200_LIST tag1200list;
+
+    TAG1000ARRAY tag1000array;
+    TAG1100ARRAY tag1100array;
+    TAG1200ARRAY tag1200array;
+
     Bitmap bmImg;
 
-    DrawerLayout drawer;
-    Fragment initFragment;
-    FragmentTransaction transaction;
+    private DrawerLayout drawer;
+    private Fragment initFragment;
+    private FragmentTransaction transaction;
 
     private BackPressCloseSystem backPressCloseSystem;
+
+    // 검색 관련 변수들
+    private SearchListViewAdapter adapter;
+    private SearchListViewItem searchItem;
+    private ListView searchListview;
 
     @Override
     public void onBackPressed() {
@@ -83,15 +106,32 @@ public class MainActivity extends AppCompatActivity
 
         Log.d("LOG/MAIN", "onCreate()");
 
-        task1 = new phpDown();
+        tag1000array = TAG1000ARRAY.getInstance();
+        tag1100array = TAG1100ARRAY.getInstance();
+        tag1200array = TAG1200ARRAY.getInstance();
+
+        task1 = new phpDown("sight1000");
         task1.execute("http://52.42.208.72/Sight1000GetData.php");
 
-        // 뒤로가기 버튼 이벤트 등록
-        backPressCloseSystem = new BackPressCloseSystem(this);
+        task2 = new phpDown("tag1000");
+        task2.execute("http://52.42.208.72/Tag1000GetData.php");
+
+        task3 = new phpDown("tag1100");
+        task3.execute("http://52.42.208.72/Tag1100GetData.php");
+
+        task4 = new phpDown("tag1200");
+        task4.execute("http://52.42.208.72/Tag1200GetData.php");
 
         // 앱 최상단에 메뉴, 검색버튼과 화면 이름을 출력하는 툴바를 생성
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        // 검색을 위한 멤버들 초기화
+        adapter = new SearchListViewAdapter(this);
+        searchListview = (ListView) findViewById(R.id.search_listview);
+
+        // 뒤로가기 버튼 이벤트 등록
+        backPressCloseSystem = new BackPressCloseSystem(this);
 
         // 좌측 메뉴를 생성하는 drawer layout
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -124,6 +164,19 @@ public class MainActivity extends AppCompatActivity
     }
 
     private class phpDown extends AsyncTask<String, Integer, String>{
+        private int select;
+
+        phpDown(String command) {
+            if(command.equals("sight1000")) {
+                select = 0;
+            } else if (command.equals("tag1000")) {
+                select = 1;
+            } else if (command.equals("tag1100")) {
+                select = 2;
+            } else if (command.equals("tag1200")) {
+                select = 3;
+            }
+        }
 
         @Override
         protected String doInBackground(String... urls) {
@@ -158,10 +211,22 @@ public class MainActivity extends AppCompatActivity
         }
 
         protected void onPostExecute(String str){
+            if(select == 0) {
+                loadSight1000(str);
+            } else if (select == 1) {
+                loadTag1000(str);
+            } else if (select == 2) {
+                loadTag1100(str);
+            } else if (select == 3) {
+                loadTag1200(str);
+            }
+        }
+
+        private void loadSight1000(String str) {
             try{
                 JSONObject root = new JSONObject(str);
                 JSONArray ja = root.getJSONArray("result");
-                for(int i=0; i<ja.length(); i++){
+                for(int i = 0; i < ja.length(); i++) {
                     JSONObject jo = ja.getJSONObject(i);
                     String id = jo.getString("sight_id");
                     String name = jo.getString("sight_name");
@@ -171,6 +236,7 @@ public class MainActivity extends AppCompatActivity
                     String location_y = jo.getString("sight_location_y");
                     String weekrecommend = jo.getString("sight_weekrecommend");
                     String monthrecommend = jo.getString("sight_monthrecommend");
+                    String category = jo.getString("category");
 
                     sight1000list = new SIGHT1000_LIST();
                     sight1000list.setSight1000Data(
@@ -181,11 +247,19 @@ public class MainActivity extends AppCompatActivity
                             location_x,
                             location_y,
                             weekrecommend,
-                            monthrecommend);
+                            monthrecommend,
+                            category);
 
                     SIGHT1000ARRAY.sight1000Array.add(sight1000list);
-                    Log.d("LOG/HOME", name);
+
+                    // 검색을 위한 데이터 삽입
+                    searchItem = new SearchListViewItem();
+                    searchItem.setName(name);
+                    searchItem.setPlaceId(Integer.parseInt(id));
+
+                    adapter.addItem(searchItem);
                 }
+
                 // 각 페이지에 해당하는 Fragment 초기화
                 initFragment = new HomeFragment();
                 // 초기 화면으로 사용할 fragment 설정
@@ -193,6 +267,78 @@ public class MainActivity extends AppCompatActivity
                 transaction.add(R.id.container, initFragment, "page_home");
                 transaction.addToBackStack("page_home");
                 transaction.commit();
+
+                searchListview.setAdapter(adapter);
+            }
+            catch(JSONException e){
+                e.printStackTrace();
+            }
+        }
+
+        private void loadTag1000(String str) {
+            try{
+                JSONObject root = new JSONObject(str);
+                JSONArray ja = root.getJSONArray("result");
+                for(int i = 0; i < ja.length(); i++) {
+                    JSONObject jo = ja.getJSONObject(i);
+                    String tag_group_id = jo.getString("tag_group_id");
+                    String tag_group_name = jo.getString("tag_group_name");
+                    Log.d("LOG/MAIN", "tag1000 load : " + tag_group_name);
+
+                    tag1000list = new TAG1000_LIST();
+                    tag1000list.setTag1000Data(
+                            tag_group_id,
+                            tag_group_name);
+
+                    tag1000array.addData(tag1000list);
+                }
+            }
+            catch(JSONException e){
+                e.printStackTrace();
+            }
+        }
+
+        private void loadTag1100(String str) {
+            try{
+                JSONObject root = new JSONObject(str);
+                JSONArray ja = root.getJSONArray("result");
+                for(int i = 0; i < ja.length(); i++) {
+                    JSONObject jo = ja.getJSONObject(i);
+                    String tag_id = jo.getString("tag_id");
+                    String tag_name = jo.getString("tag_name");
+                    String tag_group_id = jo.getString("tag_group_id");
+                    Log.d("LOG/MAIN", "tag1100 load : " + tag_id);
+
+                    tag1100list = new TAG1100_LIST();
+                    tag1100list.setTag1100Data(
+                            tag_id,
+                            tag_name,
+                            tag_group_id);
+
+                    tag1100array.addData(tag1100list);
+                }
+            }
+            catch(JSONException e){
+                e.printStackTrace();
+            }
+        }
+
+        private void loadTag1200(String str) {
+            try{
+                JSONObject root = new JSONObject(str);
+                JSONArray ja = root.getJSONArray("result");
+                for(int i = 0; i < ja.length(); i++) {
+                    JSONObject jo = ja.getJSONObject(i);
+                    String sight_id = jo.getString("sight_id");
+                    String tag_id = jo.getString("tag_id");
+
+                    tag1200list = new TAG1200_LIST();
+                    tag1200list.setTag1200Data(
+                            sight_id,
+                            tag_id);
+
+                    tag1200array.addData(tag1200list);
+                }
             }
             catch(JSONException e){
                 e.printStackTrace();
@@ -210,6 +356,8 @@ public class MainActivity extends AppCompatActivity
         SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
         searchView.setQueryHint("여행지를 검색해 보세요.");
 
+        adapter.setMenuItem(searchItem); // 검색 종료 후 창을 닫기 위해 객체를 보냄.
+
         // SearchView 입력 글자색과 힌트 색상 변경하기
         SearchView.SearchAutoComplete searchAutoComplete = (SearchView.SearchAutoComplete)searchView
                 .findViewById(android.support.v7.appcompat.R.id.search_src_text);
@@ -220,13 +368,15 @@ public class MainActivity extends AppCompatActivity
         MenuItemCompat.OnActionExpandListener expandListener = new MenuItemCompat.OnActionExpandListener() {
             @Override
             public boolean onMenuItemActionExpand(MenuItem item) {
-                Toast.makeText(MainActivity.this, "SearchView 확장", Toast.LENGTH_SHORT).show();
+                // 검색창이 팽창되면 숨어있던 레이아웃이 보이게 되며 다른 창은 클릭하지 못하게 됨.
+//                findViewById(R.id.search_result).setVisibility(View.VISIBLE);
+//                findViewById(R.id.search_result).bringToFront();
                 return true;
             }
 
             @Override
             public boolean onMenuItemActionCollapse(MenuItem item) {
-                Toast.makeText(MainActivity.this, "SearchView 축소", Toast.LENGTH_SHORT).show();
+                findViewById(R.id.search_result).setVisibility(View.GONE);
                 return true;
             }
         };
@@ -236,14 +386,23 @@ public class MainActivity extends AppCompatActivity
         // SearchView 검색어 입력/검색 이벤트 처리
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
-            public boolean onQueryTextSubmit(String query) {
-                Toast.makeText(MainActivity.this, "검색한 명령어 : " + query, Toast.LENGTH_SHORT).show();
+            public boolean onQueryTextSubmit(String input) {
                 return true;
             }
 
             @Override
-            public boolean onQueryTextChange(String newText) {
-                Toast.makeText(MainActivity.this, "입력중인 단어 : " + newText, Toast.LENGTH_SHORT).show();
+            public boolean onQueryTextChange(String input) {
+                if(! input.equals("")) {
+                    findViewById(R.id.search_result).setVisibility(View.VISIBLE);
+                    findViewById(R.id.search_result).bringToFront();
+                } else {
+                    findViewById(R.id.search_result).setVisibility(View.GONE);
+                }
+
+                String text = input.toLowerCase(Locale.getDefault());
+                adapter.filter(text);
+                searchListview.setAdapter(adapter);
+
                 return true;
             }
         });

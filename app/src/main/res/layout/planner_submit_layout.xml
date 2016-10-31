@@ -5,7 +5,7 @@
     <ImageView
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:id="@+id/imageView2"
+        android:id="@+id/Sightimage"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
@@ -14,101 +14,128 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="여행지 : "
-        android:id="@+id/textView5"
+        android:text="일차 : "
+        android:id="@+id/T_day"
         android:layout_alignParentTop="true"
-        android:layout_toRightOf="@+id/imageView2"
-        android:layout_toEndOf="@+id/imageView2" />
+        android:layout_toRightOf="@+id/Sightimage"
+        android:layout_toEndOf="@+id/Sightimage"
+        android:layout_marginTop="5dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/day"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/T_day"
+        android:layout_toEndOf="@+id/T_day"
+        android:layout_marginTop="5dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="이름 : "
+        android:id="@+id/T_SightName"
+        android:layout_below="@+id/T_day"
+        android:layout_toRightOf="@+id/Sightimage"
+        android:layout_toEndOf="@+id/Sightimage" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/SightName"
+        android:layout_below="@+id/T_day"
+        android:layout_toRightOf="@+id/T_SightName"
+        android:layout_toEndOf="@+id/T_SightName" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="시간 : "
-        android:id="@+id/textView6"
-        android:layout_below="@+id/textView5"
-        android:layout_toRightOf="@+id/imageView2"
-        android:layout_toEndOf="@+id/imageView2" />
+        android:id="@+id/T_Time"
+        android:layout_below="@+id/T_SightName"
+        android:layout_toRightOf="@+id/Sightimage"
+        android:layout_toEndOf="@+id/Sightimage" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/StartTime"
+        android:layout_below="@+id/T_SightName"
+        android:layout_toRightOf="@+id/T_Time"
+        android:layout_toEndOf="@+id/T_Time" />
+
+    <TextView
+        android:text="~"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/T_SightName"
+        android:layout_toRightOf="@+id/StartTime"
+        android:layout_toEndOf="@+id/StartTime"
+        android:textSize="15dp"
+        android:id="@+id/hrp2"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/EndTime"
+        android:layout_below="@+id/T_SightName"
+        android:layout_toRightOf="@+id/hrp2"
+        android:layout_toEndOf="@+id/hrp2"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="요금 : "
-        android:id="@+id/textView7"
-        android:layout_alignBaseline="@+id/btn_plan_submit_cancel"
-        android:layout_alignBottom="@+id/btn_plan_submit_cancel"
-        android:layout_toRightOf="@+id/imageView2"
-        android:layout_toEndOf="@+id/imageView2" />
+        android:id="@+id/T_Cost"
+        android:layout_below="@+id/T_Time"
+        android:layout_toRightOf="@+id/Sightimage"
+        android:layout_toEndOf="@+id/Sightimage" />
 
-    <Button
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="저장"
-        android:id="@+id/btn_plan_submit_save"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="취소"
-        android:id="@+id/btn_plan_submit_cancel"
-        android:layout_below="@+id/btn_plan_submit_save"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:id="@+id/Cost"
+        android:layout_toRightOf="@+id/T_Cost"
+        android:layout_toEndOf="@+id/T_Cost"
+        android:layout_below="@+id/T_Time" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="메모 : "
-        android:id="@+id/textView8"
-        android:layout_below="@+id/imageView2"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:id="@+id/T_Memo"
+        android:layout_below="@+id/T_Cost"
+        android:layout_toRightOf="@+id/Sightimage"
+        android:layout_toEndOf="@+id/Sightimage" />
 
     <TextView
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/T_Cost"
+        android:layout_toRightOf="@+id/T_Memo"
+        android:layout_toLeftOf="@+id/edit_plan"
+        android:layout_toEndOf="@+id/T_Memo"
+        android:layout_toStartOf="@+id/edit_plan"
+        android:id="@+id/Memo"
+        android:layout_width="wrap_content" />
+
+    <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="여행지이름"
-        android:id="@+id/text_plan_submit_name"
+        android:text="수정"
+        android:id="@+id/edit_plan"
         android:layout_alignParentTop="true"
-        android:layout_toRightOf="@+id/textView5"
-        android:layout_toEndOf="@+id/textView5"
-        android:layout_marginLeft="3dp"
-        android:layout_marginStart="3dp" />
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 
-    <TextView
+    <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="시간은 time selecter 알아보고 하께요"
-        android:id="@+id/textView9"
-        android:layout_below="@+id/textView5"
-        android:layout_toRightOf="@+id/textView6"
-        android:layout_toEndOf="@+id/textView6" />
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/text_plan_submit_fee"
-        android:layout_alignBottom="@+id/textView7"
-        android:layout_toRightOf="@+id/textView7"
-        android:layout_toEndOf="@+id/textView7" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="원"
-        android:id="@+id/textView10"
-        android:layout_alignBottom="@+id/text_plan_submit_fee"
-        android:layout_toRightOf="@+id/text_plan_submit_fee"
-        android:layout_toEndOf="@+id/text_plan_submit_fee" />
-
-    <EditText
-        android:layout_width="250dp"
-        android:layout_height="wrap_content"
-        android:id="@+id/text_plan_submit_memo"
-        android:layout_alignBottom="@+id/textView8"
-        android:layout_toRightOf="@+id/textView8"
-        android:layout_toEndOf="@+id/textView8" />
+        android:text="삭제"
+        android:id="@+id/delete_plan"
+        android:layout_below="@+id/edit_plan"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 
 </RelativeLayout>

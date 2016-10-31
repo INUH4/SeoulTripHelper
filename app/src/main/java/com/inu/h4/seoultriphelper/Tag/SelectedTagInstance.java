@@ -11,13 +11,14 @@ public class SelectedTagInstance {
     private String maintag;
     private ArrayList<String> subtag;
 
-    private SelectedTagInstance() { }
+    private SelectedTagInstance() {
+        maintag = "";
+        subtag = new ArrayList<>();
+    }
 
     public static SelectedTagInstance getInstance() {
         if(instance == null) {
             instance = new SelectedTagInstance();
-            instance.maintag = "";
-            instance.subtag  = new ArrayList<>();
         }
 
         return instance;
@@ -31,7 +32,7 @@ public class SelectedTagInstance {
         return instance.maintag;
     }
 
-    public void setMaintag(String maintag) {
+    public static void setMaintag(String maintag) {
         instance.maintag = maintag;
     }
 

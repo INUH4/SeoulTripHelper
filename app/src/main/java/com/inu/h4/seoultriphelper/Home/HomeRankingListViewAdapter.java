@@ -8,15 +8,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.inu.h4.seoultriphelper.DataBase.SIGHT1000ForDetailSight;
 import com.inu.h4.seoultriphelper.Detail.SightDetailFragment;
-import com.inu.h4.seoultriphelper.InnerDBHelper;
 import com.inu.h4.seoultriphelper.R;
 import java.util.ArrayList;
 
@@ -75,7 +71,7 @@ public class HomeRankingListViewAdapter extends BaseAdapter {
                     Bundle bundle = new Bundle();
                     bundle.putInt("placeId", listViewItem.getPlaceid());
                     sightDetailFragment.setArguments(bundle);
-                    fragment.getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container, sightDetailFragment).addToBackStack(null).commit();
+                    fragment.getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container, sightDetailFragment).addToBackStack("page_home").commit();
                 }
             });
             // 아이템 내 각 위젯에 데이터 반영

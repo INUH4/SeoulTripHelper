@@ -6,7 +6,6 @@ import android.widget.Button;
 import android.net.Uri;
 
 public class HomeRankingListViewItem {
-    private int image;
     private int placeid;
     private int week_recommend;
     private int month_recommend;
@@ -18,12 +17,6 @@ public class HomeRankingListViewItem {
 
     public int getPlaceid(){ return placeid;}
     public void setPlaceid(int placeid){this.placeid = placeid;}
-    public int getImage() {
-        return image;
-    }
-    public void setImage(int image) {
-        this.image = image;
-    }
     public int getRanking() {
         return ranking;
     }

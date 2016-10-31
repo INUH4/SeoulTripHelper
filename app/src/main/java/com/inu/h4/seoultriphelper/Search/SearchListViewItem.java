@@ -5,15 +5,12 @@ package com.inu.h4.seoultriphelper.Search;
  */
 
 public class SearchListViewItem {
-    private int image;
+    private int placeId;
     private String name;
 
-    public int getImage() {
-        return image;
-    }
-    public void setImage(int image) {
-        this.image = image;
-    }
+    public int getPlaceId() { return placeId; }
+    public void setPlaceId(int placeId) { this.placeId = placeId; }
+
     public String getName() {
         return name;
     }

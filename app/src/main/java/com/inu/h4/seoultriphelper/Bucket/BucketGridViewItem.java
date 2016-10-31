@@ -1,7 +1,6 @@
 package com.inu.h4.seoultriphelper.Bucket;
 
 import android.graphics.Bitmap;
-import android.widget.Button;
 
 /**
  * Created by yuk on 2016-09-27.

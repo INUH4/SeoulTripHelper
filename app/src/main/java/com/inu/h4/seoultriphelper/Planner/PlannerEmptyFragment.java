@@ -9,7 +9,6 @@ import android.widget.Button;
 
 import com.inu.h4.seoultriphelper.Bucket.BucketEmptyFragment;
 import com.inu.h4.seoultriphelper.Bucket.BucketExistFragment;
-import com.inu.h4.seoultriphelper.SearchFragment;
 import com.inu.h4.seoultriphelper.R;
 
 public class PlannerEmptyFragment extends Fragment {
@@ -30,14 +29,6 @@ public class PlannerEmptyFragment extends Fragment {
                 }
                 if (fragment != null)
                     getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment).addToBackStack(null).commit();
-            }
-        });
-
-        SubmitSearchButton = (Button) getView().findViewById(R.id.btn_submit_search);
-        SubmitSearchButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container, new SearchFragment()).addToBackStack(null).commit();
             }
         });
 

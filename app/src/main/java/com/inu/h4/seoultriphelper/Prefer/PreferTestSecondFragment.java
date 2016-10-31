@@ -8,8 +8,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ListView;
 
-import com.inu.h4.seoultriphelper.DataRepository;
-import com.inu.h4.seoultriphelper.InnerDBHelper;
 import com.inu.h4.seoultriphelper.InnerDBHelper2;
 import com.inu.h4.seoultriphelper.R;
 import java.io.BufferedReader;

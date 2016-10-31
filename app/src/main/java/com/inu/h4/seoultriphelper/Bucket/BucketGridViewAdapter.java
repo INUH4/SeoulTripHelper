@@ -3,7 +3,6 @@ package com.inu.h4.seoultriphelper.Bucket;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,8 +17,6 @@ import com.inu.h4.seoultriphelper.InnerDBHelper;
 import com.inu.h4.seoultriphelper.R;
 
 import java.util.ArrayList;
-
-import static android.R.attr.fragment;
 
 public class BucketGridViewAdapter extends BaseAdapter {
     BucketGridViewAdapter adapter = this;

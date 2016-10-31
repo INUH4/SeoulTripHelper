@@ -9,7 +9,11 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ListView;
 
+import com.inu.h4.seoultriphelper.DataBase.TAG1000ARRAY;
+import com.inu.h4.seoultriphelper.DataBase.TAG1100ARRAY;
+import com.inu.h4.seoultriphelper.DataBase.TAG1200ARRAY;
 import com.inu.h4.seoultriphelper.R;
 
 import java.util.ArrayList;
@@ -19,23 +23,35 @@ import java.util.ArrayList;
  */
 
 public class TagSelectMenuFragment extends Fragment {
+    // 태그 그룹 관련
+    private ListView mListView;
+    private TagGroupListViewAdapter adapter;
+//    private TagGroup[] tagGroups;
+    private ArrayList<String> subtags;
 
-    private ArrayList<String> categories;
-    private TagGroup mTagGroup;
+    // 버튼 객체
     private Button btnConfirm, btnCancle;
-    private SelectedTagInstance instance;
+
+    // 데이터 저장용
+//    private SelectedTagInstance instance;
+    private TAG1000ARRAY tag1000array;
+    private TAG1100ARRAY tag1100array;
+    private TAG1200ARRAY tag1200array;
 
     final private View.OnClickListener mOnClick = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             getActivity().findViewById(R.id.tag_select_menu_container).setVisibility(View.GONE);
-            getActivity().findViewById(R.id.additional_menu).setVisibility(View.GONE);
-            getActivity().findViewById(R.id.btn_tag4_hidden).setVisibility(View.GONE);
-            getActivity().findViewById(R.id.btn_tag4).setVisibility(View.VISIBLE);
+            getActivity().findViewById(R.id.hidden_tag_row).setVisibility(View.GONE);
 
-            if(v.getId() == R.id.btn_tag_confirm) { // 체크된 목록을 저장함.
-                instance.setSubtag(mTagGroup.getCheckedTagList());
-            }
+//            if(v.getId() == R.id.btn_tag_confirm) { // 체크된 목록을 저장함.
+//                instance.setSubtag(mTagGroup.getCheckedTagList());
+//            }
+
+//            Fragment fragment = getParentFragment();
+//            Bundle bundle = new Bundle();
+//            bundle.putInt("placeId", SearchListViewItem.getPlaceId());
+//            sightDetailFragment.setArguments(bundle);
 
             ((TagMainFragment)getParentFragment()).setOnChildButtonClick();
             getActivity().findViewById(R.id.tag_content_listview).setOnTouchListener(clickable);
@@ -51,7 +67,7 @@ public class TagSelectMenuFragment extends Fragment {
             return false;
         }
     };
-    // 온터치 리스너의 반환값에 따라서 동작을 제어할 수 있음.
+    // 온터치 리스너가 true를 반환하면 뷰의 동작을 제한할 수 있음.
     final private View.OnTouchListener nonClickable = new View.OnTouchListener() {
         @Override
         public boolean onTouch(View v, MotionEvent event) {
@@ -70,29 +86,44 @@ public class TagSelectMenuFragment extends Fragment {
                              Bundle savedInstanceState) {
         Log.d("LOG/TAG_SELECT", "onCreateView()");
         View layout = inflater.inflate(R.layout.tag_select_menu, container, false);
-        instance = SelectedTagInstance.getInstance();
+//        instance.getInstance(); // 현재 선택한 태그 싱글턴 객체 불러오기
+        tag1000array = TAG1000ARRAY.getInstance();
+        tag1100array = TAG1100ARRAY.getInstance();
+        tag1200array = TAG1200ARRAY.getInstance();
 
-        // 리스트 뷰를 만져도 동작하지 않음.
+        int tagGroupSize = tag1000array.getData().size(); // 태그 그룹의 갯수
+        int tagSize = tag1100array.getData().size(); // 태그 전체의 갯수
+//        tagGroups = new TagGroup[tagGroupSize];
+
+        // 리스트 뷰를 만져도 동작하지 않게끔 함.
         getActivity().findViewById(R.id.tag_content_listview).setOnTouchListener(nonClickable);
 
         // 확인, 취소버튼 설정
         btnConfirm = (Button) layout.findViewById(R.id.btn_tag_confirm);
         btnCancle = (Button) layout.findViewById(R.id.btn_tag_cancle);
 
-        // 임시 데이터 설정
-        categories = new ArrayList<>();
-        categories.add("subtag1");
-        categories.add("subtag2");
-        categories.add("subtag3");
-        categories.add("subtag4");
-        categories.add("subtag5");
-
         btnConfirm.setOnClickListener(mOnClick);
         btnCancle.setOnClickListener(mOnClick);
 
-        // 임시 데이터를 태그 그룹에 삽입하여 띄움
-        mTagGroup = (TagGroup) layout.findViewById(R.id.tag_group);
-        mTagGroup.setTags(categories); // 태그 초기화 및 띄우기
+        mListView = (ListView) layout.findViewById(R.id.tag_group_listview);
+        adapter = new TagGroupListViewAdapter();
+
+        for(int i = 0; i < tagGroupSize; i++) {
+            TagGroupListViewItem item = new TagGroupListViewItem(getActivity());
+
+            subtags = new ArrayList<>();
+            for(int j = 0; j < tagSize; j++) { // 현재 태그에 속한 서브태그 분류작업
+                if(Integer.parseInt(tag1100array.getData().get(j).getData(2)) == (i + 1)) {
+                    subtags.add(tag1100array.getData().get(j).getData(1));
+                }
+            }
+
+            item.setAttribute(subtags);
+            item.setGroupName(tag1000array.getData().get(i).getData(1));
+            adapter.addItem(item);
+        }
+
+        mListView.setAdapter(adapter);
 
         return layout;
     }

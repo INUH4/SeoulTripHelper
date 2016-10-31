@@ -62,8 +62,7 @@
             android:layout_height="match_parent"
             android:id="@+id/detail_subimage_layout"
             android:layout_marginBottom="10dp"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/detail_border">
+            android:layout_marginTop="10dp">
         </LinearLayout>
     </HorizontalScrollView>
 
@@ -179,10 +178,7 @@
         android:layout_width="match_parent"
         android:layout_height="200dp"
         android:id="@+id/detail_map_layout"
-        android:layout_marginLeft="50dp"
-        android:layout_marginRight="50dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
+        android:layout_margin="20dp"
         android:background="@drawable/detail_border">
 
     </RelativeLayout>

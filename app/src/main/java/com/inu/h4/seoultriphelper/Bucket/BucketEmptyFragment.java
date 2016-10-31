@@ -7,30 +7,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-import com.inu.h4.seoultriphelper.SearchFragment;
 import com.inu.h4.seoultriphelper.R;
 
 public class BucketEmptyFragment extends Fragment {
-    Button AddBucketWithSearchButton;
-    @Override
-    public void onStart() {
-        super.onStart();
-
-        AddBucketWithSearchButton = (Button) getActivity().findViewById(R.id.bt_bucket);
-        AddBucketWithSearchButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container, new SearchFragment()).addToBackStack(null).commit();
-            }
-        });
-    }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         getActivity().setTitle("버킷리스트");
 
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.bucket_empty, container, false);
     }
 }

@@ -25,8 +25,11 @@ import com.inu.h4.seoultriphelper.DataBase.SelectDB_REVIEW1000;
 import com.inu.h4.seoultriphelper.DataBase.SIGHT1000ForDetailSight;
 import com.inu.h4.seoultriphelper.DataBase.SIGHT1100ForDetailImage;
 import com.inu.h4.seoultriphelper.InnerDBHelper;
+import com.inu.h4.seoultriphelper.Planner.PlannerDB;
+import com.inu.h4.seoultriphelper.Planner.PlannerInsertDialog;
 import com.inu.h4.seoultriphelper.R;
 
+import net.daum.mf.map.api.MapPOIItem;
 import net.daum.mf.map.api.MapPoint;
 import net.daum.mf.map.api.MapView;
 
@@ -46,21 +49,21 @@ public class SightDetailFragment extends Fragment implements View.OnClickListene
 
     int placeId;
     SightDetailReviewDialog dialog;
+    PlannerInsertDialog InsertDialog;
 
     static int pos;        // 메인이미지의 index를 저장.
     static ImageView mainImage;
     static LinearLayout mLayout;
     static RatingBar avgRatingBar;
-
-    MapView mapView;
+    static MapView mapView;
     static View header;
-
     static TextView sightName, sightInfo, sightRecommendCount, avgCurrentPoint;
 
-    final String API_KEY = "9b534daa5413298e965b0542249e5456";
+    final String API_KEY = "753615f093d763e50b6a87a0a0f25f05";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        final PlannerDB plannerDB = new PlannerDB(getActivity(), "planner.db", null, 1);
         SIGHT1100ForDetailImage.synk = SIGHT1100ForDetailImage.START;
         pos = 0;
 
@@ -116,7 +119,8 @@ public class SightDetailFragment extends Fragment implements View.OnClickListene
             putPlannerButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
+                    InsertDialog = new PlannerInsertDialog(getContext(), item.getSightName(), plannerDB);
+                    InsertDialog.show();
                 }
             });
 
@@ -126,6 +130,7 @@ public class SightDetailFragment extends Fragment implements View.OnClickListene
                 @Override
                 public void onClick(View v) {
                     SIGHT1000ForDetailSight.incrementDetailRecommendCount(String.valueOf(placeId), item);
+                    Toast.makeText(getContext(), "추천했습니다!", Toast.LENGTH_SHORT).show();
                 }
             });
 
@@ -134,7 +139,8 @@ public class SightDetailFragment extends Fragment implements View.OnClickListene
             avgCurrentPoint = (TextView) header.findViewById(R.id.detail_avg_current_point);
 
             // 지도를 위한 MapView 초기화.
-            initMapView();
+            mapView = new MapView(getActivity());
+            mapView.setDaumMapApiKey(API_KEY);
 
             RelativeLayout mapViewContainer = (RelativeLayout) header.findViewById(R.id.detail_map_layout);
             mapViewContainer.addView(mapView);
@@ -190,13 +196,23 @@ public class SightDetailFragment extends Fragment implements View.OnClickListene
         }
         mainImage.setImageBitmap(imageBitmaps.get(pos));
     }
-    public void initMapView() {
-        mapView = new MapView(getActivity());
-        mapView.setDaumMapApiKey(API_KEY);
+    public static void initMapView() {
 
-        //중심점 및 줌 레벨 변경
-        //mapView.setMapCenterPoint(MapPoint.mapPointWithGeoCoord((double)37.53737528, (double)127.00557633), true);
-        //mapView.setZoomLevel(7,true);
+        // 받아온 위도, 경도를 이용해서 mapView에 출력
+        mapView.setMapCenterPointAndZoomLevel(MapPoint.mapPointWithGeoCoord(item.getSightX(), item.getSightY()), 7, true);
+        mapView.zoomIn(true);
+        mapView.zoomOut(true);
+
+        // 지도에 마커 추가
+        MapPOIItem marker = new MapPOIItem();
+        marker.setItemName("Default Marker");
+        marker.setTag(0);
+        marker.setMapPoint(MapPoint.mapPointWithGeoCoord(item.getSightX(), item.getSightY()));
+        marker.setMarkerType(MapPOIItem.MarkerType.BluePin); // 기본으로 제공하는 BluePin 마커 모양.
+        marker.setSelectedMarkerType(MapPOIItem.MarkerType.RedPin); // 마커를 클릭했을때, 기본으로 제공하는 RedPin 마커 모양.
+
+        mapView.addPOIItem(marker);
+
     }
 
     // 받아온 리뷰 목록을 화면에 띄움.
@@ -223,6 +239,9 @@ public class SightDetailFragment extends Fragment implements View.OnClickListene
         sightName.setText(item.getSightName());
         sightRecommendCount.setText(String.valueOf(item.getRecommendCount()));
         sightInfo.setText(item.getSightInfo());
+
+        // MapView 세팅.
+        initMapView();
 
         layout.setVisibility(View.VISIBLE);
     }

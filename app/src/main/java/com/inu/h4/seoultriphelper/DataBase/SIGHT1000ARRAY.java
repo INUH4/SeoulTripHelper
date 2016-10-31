@@ -3,6 +3,7 @@ package com.inu.h4.seoultriphelper.DataBase;
 import android.util.Log;
 
 import com.inu.h4.seoultriphelper.Home.HomeRankingListViewItem;
+import com.inu.h4.seoultriphelper.Tag.TagContentItem;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -64,6 +65,12 @@ public class SIGHT1000ARRAY {
         }
 
         //Log.d("LOG/SIGHT1000ARRAYM", item.getSightName());
+    }
+
+    public static void getDataForTag(TagContentItem item, int i){
+        item.setPlaceId(Integer.parseInt(sight1000Array.get(i).getData(0)));
+        item.setSightName(sight1000Array.get(i).getData(1));
+        item.setRecommend(Integer.parseInt(sight1000Array.get(i).getData(3)));
     }
 
     public static void Monthsorting(){

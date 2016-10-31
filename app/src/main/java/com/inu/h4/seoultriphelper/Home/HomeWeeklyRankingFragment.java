@@ -28,6 +28,7 @@ public class HomeWeeklyRankingFragment extends Fragment {
     private ArrayList<HomeRankingListViewItem> data;
     private static HomeRankingListViewAdapter adapter;
     private static int synk;
+    private static int checker;
 
     private static final String SERVER_IP = "http://52.42.208.72/";
 
@@ -41,6 +42,7 @@ public class HomeWeeklyRankingFragment extends Fragment {
     public void onStop() {
         super.onStop();
         synk = 0;
+        checker = 0;
     }
 
     @Override
@@ -48,6 +50,7 @@ public class HomeWeeklyRankingFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         Log.d("LOG/WEEK", "onCreateView()");
+        checker = 0;
 
         View layout = inflater.inflate(R.layout.home_weekly_ranking, container, false);
         adapter = new HomeRankingListViewAdapter(this,1);
@@ -70,44 +73,43 @@ public class HomeWeeklyRankingFragment extends Fragment {
                 //OnScrollListener.SCROLL_STATE_IDLE은 스크롤이 이동하다가 멈추었을때 발생되는 스크롤 상태입니다.
                 //즉 스크롤이 바닦에 닿아 멈춘 상태에 처리를 하겠다는 뜻
                 if(scrollState == AbsListView.OnScrollListener.SCROLL_STATE_IDLE && lastItemVisibleFlag) {
+                    if (synk == 2) {
+                        synk = 1;
+                        Log.d("LOG/WEEK", String.valueOf(SIGHT1000ARRAY.sight1000Array.size()));
+                        if (HomeFragment.weekFragmentRowCount + 4 <= SIGHT1000ARRAY.sight1000Array.size()) {
+                            HomeFragment.weekFragmentRowCount += 4;
 
-                    Log.d("LOG/WEEK", String.valueOf(SIGHT1000ARRAY.sight1000Array.size()));
-                    if(HomeFragment.weekFragmentRowCount + 4 <= SIGHT1000ARRAY.sight1000Array.size()) {
-                        HomeFragment.weekFragmentRowCount += 4;
+                            Log.d("LOG/WEEK", String.valueOf(adapter.listViewItemList.size()));
+                            SIGHT1000ARRAY.Weeksorting();
+                            for (int i = HomeFragment.weekFragmentRowCount - 4; i < HomeFragment.weekFragmentRowCount; i++) {
+                                HomeRankingListViewItem item = new HomeRankingListViewItem();
+                                //Log.d("LOG/MONTH", "beforeGetData");
+                                SIGHT1000ARRAY.getWeekArrayData(item, i);
+                                LoadBitmapfromUrl(SIGHT1000ARRAY.sight1000Array.get(i).getData(8), item);
+                                //Log.d("LOG/MONTH", "GetData : " + item.getSightName());
+                                data.add(item);
+                                adapter.addItem(data.get(i));
+                            }
+                        } else if (SIGHT1000ARRAY.sight1000Array.size() != HomeFragment.weekFragmentRowCount) {
+                            int sub = SIGHT1000ARRAY.sight1000Array.size() - HomeFragment.weekFragmentRowCount;
+                            HomeFragment.weekFragmentRowCount = SIGHT1000ARRAY.sight1000Array.size();
 
-                        Log.d("LOG/WEEK", String.valueOf(adapter.listViewItemList.size()));
-                        SIGHT1000ARRAY.Weeksorting();
-                        for (int i = HomeFragment.weekFragmentRowCount - 4; i < HomeFragment.weekFragmentRowCount; i++) {
-                            HomeRankingListViewItem item = new HomeRankingListViewItem();
-                            //Log.d("LOG/MONTH", "beforeGetData");
-                            SIGHT1000ARRAY.getWeekArrayData(item, i);
-                            LoadBitmapfromUrl(SIGHT1000ARRAY.sight1000Array.get(i).getData(8), item);
-                            //Log.d("LOG/MONTH", "GetData : " + item.getSightName());
-                            data.add(item);
-                            adapter.addItem(data.get(i));
-                        }
-                    }
-                    else if (SIGHT1000ARRAY.sight1000Array.size() != HomeFragment.weekFragmentRowCount) {
-                        int sub = SIGHT1000ARRAY.sight1000Array.size() - HomeFragment.weekFragmentRowCount;
-                        HomeFragment.weekFragmentRowCount = SIGHT1000ARRAY.sight1000Array.size();
-
-                        Log.d("LOG/WEEK", String.valueOf(adapter.listViewItemList.size()));
-                        SIGHT1000ARRAY.Weeksorting();
-                        for (int i = HomeFragment.weekFragmentRowCount; i < HomeFragment.weekFragmentRowCount + sub; i++) {
-                            HomeRankingListViewItem item = new HomeRankingListViewItem();
-                            //Log.d("LOG/MONTH", "beforeGetData");
-                            SIGHT1000ARRAY.getWeekArrayData(item, i);
-                            LoadBitmapfromUrl(SIGHT1000ARRAY.sight1000Array.get(i).getData(8), item);
-                            //Log.d("LOG/MONTH", "GetData : " + item.getSightName());
-                            data.add(item);
-                            adapter.addItem(data.get(i));
+                            Log.d("LOG/WEEK", String.valueOf(adapter.listViewItemList.size()));
+                            SIGHT1000ARRAY.Weeksorting();
+                            for (int i = HomeFragment.weekFragmentRowCount; i < HomeFragment.weekFragmentRowCount + sub; i++) {
+                                HomeRankingListViewItem item = new HomeRankingListViewItem();
+                                //Log.d("LOG/MONTH", "beforeGetData");
+                                SIGHT1000ARRAY.getWeekArrayData(item, i);
+                                LoadBitmapfromUrl(SIGHT1000ARRAY.sight1000Array.get(i).getData(8), item);
+                                //Log.d("LOG/MONTH", "GetData : " + item.getSightName());
+                                data.add(item);
+                                adapter.addItem(data.get(i));
+                            }
                         }
                     }
                 }
             }
         });
-
-        synk = 1;
 
         getData();
         refresh();
@@ -116,6 +118,7 @@ public class HomeWeeklyRankingFragment extends Fragment {
     }
 
     public void getData(){
+        synk = 1;
         data = new ArrayList<>();
         HomeRankingListViewItem item;
         SIGHT1000ARRAY.Weeksorting();
@@ -160,6 +163,10 @@ public class HomeWeeklyRankingFragment extends Fragment {
 
                         e.printStackTrace();
                     }
+
+                    checker++;
+                    if(checker == HomeFragment.weekFragmentRowCount)
+                        synk = 2;
                     Log.d("LOG/WEEK", "Get Home Bitmap! " + uri);
 
                     return bitmap;

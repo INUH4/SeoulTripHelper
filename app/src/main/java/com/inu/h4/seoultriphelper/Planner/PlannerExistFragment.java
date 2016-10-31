@@ -6,26 +6,47 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ListView;
 
 import com.inu.h4.seoultriphelper.R;
 
-public class PlannerExistFragment extends Fragment {
-    Button tempButton;
-    @Override
-    public void onStart() {
-        super.onStart();
+import java.util.ArrayList;
 
-        tempButton = (Button) getActivity().findViewById(R.id.btn_temp);
-        tempButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container, new PlannerDetailFragment()).addToBackStack(null).commit();
-            }
-        });
-    }
+public class PlannerExistFragment extends Fragment {
+
+    PlannerDB plannerDB;
+    private ListView listView;
+    private ArrayList<PlannerListViewItem> data;
+    private PlannerListViewAdapter adapter;
+
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        getActivity().setTitle("여행 플래너");
-        return inflater.inflate(R.layout.planner, container, false);
+    public void onStart(){
+        super.onStart();
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState){
+        plannerDB = new PlannerDB(getActivity(), "planner.db", null, 1);
+        View layout = inflater.inflate(R.layout.planner, container, false);
+        adapter = new PlannerListViewAdapter(this, plannerDB);
+
+        listView = (ListView) layout.findViewById(R.id.PlannerListView);
+        listView.setAdapter(adapter);
+        listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+
+        getData();
+        refresh();
+
+        return layout;
+    }
+
+    public void getData(){
+        plannerDB = new PlannerDB(getActivity(), "planner.db", null, 1);
+        plannerDB.DBSelect(data, adapter);
+    }
+
+    public void refresh(){
+        adapter.notifyDataSetChanged();
     }
 }
